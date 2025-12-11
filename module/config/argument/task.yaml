@@ -109,7 +109,12 @@ Event:
       - Hospital
       - StopCondition
       - Emotion
-
+    Coalition:
+      - Scheduler
+      - Campaign
+      - Coalition
+      - StopCondition
+      - Emotion
     MaritimeEscort:
       - Scheduler
       - MaritimeEscort
