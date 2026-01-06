@@ -96,14 +96,6 @@
       "OpsiCrossMonth"
     ]
   },
-  "Island": {
-    "menu": "collapse",
-    "page": "setting",
-    "tasks": [
-      "IslandInfo",
-      "IslandSeasonTask"
-    ]
-  },
   "Tool": {
     "menu": "collapse",
     "page": "tool",
