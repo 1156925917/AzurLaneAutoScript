@@ -144,16 +144,14 @@ class EquipmentCodeHandler(StorageHandler):
         self.codes.export_to_config()
 
     def equip_preview_empty(self):
-        if self.appear(EQUIPMENT_CODE_EQUIP_5_LOCKED):
-            max_index = 5
-        else:
-            max_index = 6
-        for index in range(max_index):
-            if not self.appear(globals()['EQUIPMENT_CODE_EQUIP_{index}'.format(index=index)], offset=(5, 5)):
-                logger.info(f'EQUIPMENT_CODE_EQUIP_{index} is not empty')
+        """Return True if all equipment slots are empty (no icon detected)"""
+        max_index = 5 if self.appear(EQUIPMENT_CODE_EQUIP_5_LOCKED) else 6
+        for i in range(max_index):
+            if self.appear(globals()[f'EQUIPMENT_CODE_EQUIP_{i}'], offset=(5, 5)):
+                logger.info(f'EQUIPMENT_CODE_EQUIP_{i} detected → preview NOT empty')
                 return False
-                
-        logger.info(f'EQUIPMENT_CODE_EQUIP_{index} is not empty')
+    
+        logger.info('All equipment slots empty')
         return True
     
     def clear_equip_preview(self, skip_first_screenshot=True):
