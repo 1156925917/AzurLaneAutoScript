@@ -166,6 +166,10 @@ class GemsFarming(CampaignRun, Dock, FleetEquipment, GemsEquipmentHandler):
         return 'equip' in self.config.GemsFarming_ChangeFlagship
 
     @property
+    def change_vanguard_equip(self):
+        return 'equip' in self.config.GemsFarming_ChangeVanguard
+
+    @property
     def change_vanguard(self):
         return 'ship' in self.config.GemsFarming_ChangeVanguard
 
