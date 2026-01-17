@@ -194,9 +194,10 @@ class EquipmentCodeHandler(StorageHandler):
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(EQUIPMENT_CODE_ENTER, offset=(5, 5), interval=1):
-                logger.info('点击 装备码入口')
-                continue
+            for _ in range(3):
+                if self.appear_then_click(EQUIPMENT_CODE_ENTER, offset=(5, 5), interval=1):
+                    logger.info('点击 装备码入口')
+                    # continue
 
             # End
             if not self.equip_preview_empty():
@@ -205,6 +206,7 @@ class EquipmentCodeHandler(StorageHandler):
             else:
                 check_counter += 1
                 if check_counter >= 5:
+                    logger.info(f'counter {check_counter}')
                     logger.error('Gear code load failed, retrying.')
                     return False
 
