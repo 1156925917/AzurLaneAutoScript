@@ -150,8 +150,10 @@ class EquipmentCodeHandler(StorageHandler):
             max_index = 6
         for index in range(max_index):
             if not self.appear(globals()['EQUIPMENT_CODE_EQUIP_{index}'.format(index=index)], offset=(5, 5)):
+                logger.info(f'EQUIPMENT_CODE_EQUIP_{index} is not empty')
                 return False
-        
+                
+        logger.info(f'EQUIPMENT_CODE_EQUIP_{index} is not empty')
         return True
     
     def clear_equip_preview(self, skip_first_screenshot=True):
