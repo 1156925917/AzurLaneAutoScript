@@ -106,7 +106,7 @@ class EquipmentCodeHandler(StorageHandler):
     #     """
     #     self.ui_back(check_button=EQUIPMENT_CODE_ENTRANCE)
 
-    def current_ship(self):
+    def current_ship(self, **kwargs):
         # Will be overridden in subclasses.
         pass
 
@@ -144,14 +144,14 @@ class EquipmentCodeHandler(StorageHandler):
         self.codes.export_to_config()
 
     def equip_preview_empty(self):
-        """Return True if all equipment slots are empty (no icon detected)"""
-        max_index = 5 if self.appear(EQUIPMENT_CODE_EQUIP_5_LOCKED) else 6
-        for i in range(max_index):
-            if self.appear(globals()[f'EQUIPMENT_CODE_EQUIP_{i}'], offset=(5, 5)):
-                logger.info(f'EQUIPMENT_CODE_EQUIP_{i} detected → preview NOT empty')
+        if self.appear(EQUIPMENT_CODE_EQUIP_5_LOCKED):
+            max_index = 5
+        else:
+            max_index = 6
+        for index in range(max_index):
+            if not self.appear(globals()['EQUIPMENT_CODE_EQUIP_{index}'.format(index=index)], offset=(5, 5)):
                 return False
-    
-        logger.info('All equipment slots empty')
+        
         return True
     
     def clear_equip_preview(self, skip_first_screenshot=True):
@@ -181,7 +181,9 @@ class EquipmentCodeHandler(StorageHandler):
                 continue
 
             # End
+            logger.info('有没有end？')
             if self.device.ime_shown():
+                logger.info('break，结束')
                 break
 
     def confirm_equip_code(self, skip_first_screenshot=False):
@@ -193,6 +195,7 @@ class EquipmentCodeHandler(StorageHandler):
                 self.device.screenshot()
 
             if self.appear_then_click(EQUIPMENT_CODE_ENTER, offset=(5, 5), interval=1):
+                logger.info('点击 装备码入口')
                 continue
 
             # End
