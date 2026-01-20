@@ -155,7 +155,8 @@ class GemsFarming(CampaignRun, Dock, FleetEquipment, GemsEquipmentHandler):
 
     @property
     def emotion_lower_bound(self):
-        return 4 + self.campaign._map_battle * 2
+        # return 4 + self.campaign._map_battle * 2
+        return 50
 
     @property
     def change_flagship(self):
