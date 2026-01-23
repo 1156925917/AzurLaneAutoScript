@@ -377,7 +377,6 @@
       "ServerUpdate": "00:00"
     },
     "GemsFarming": {
-      "ChangeFlagship": "ship",
       "CommonCV": "any",
       "ChangeVanguard": "ship",
       "CommonDD": "any",
@@ -703,7 +702,7 @@
       "AmbushEvade": true
     },
     "Coalition": {
-      "Mode": "area1-normal",
+      "Mode": "hard",
       "Fleet": "single"
     },
     "StopCondition": {
@@ -758,7 +757,7 @@
     },
     "Campaign": {
       "Name": "D3",
-      "Event": "war_archives_20220915_cn",
+      "Event": "war_archives_20221222_cn",
       "Mode": "normal",
       "UseClearMode": true,
       "UseFleetLock": true,
@@ -1274,7 +1273,7 @@
       "AmbushEvade": true
     },
     "Coalition": {
-      "Mode": "area1-normal",
+      "Mode": "sp",
       "Fleet": "single"
     },
     "StopCondition": {
