@@ -106,7 +106,7 @@ class EquipmentCodeHandler(StorageHandler):
     #     """
     #     self.ui_back(check_button=EQUIPMENT_CODE_ENTRANCE)
 
-    def current_ship(self):
+    def current_ship(self, **kwargs):
         # Will be overridden in subclasses.
         pass
 
@@ -181,7 +181,9 @@ class EquipmentCodeHandler(StorageHandler):
                 continue
 
             # End
+            logger.info('有没有end？')
             if self.device.ime_shown():
+                logger.info('break，结束')
                 break
 
     def confirm_equip_code(self, skip_first_screenshot=False):
@@ -192,8 +194,10 @@ class EquipmentCodeHandler(StorageHandler):
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(EQUIPMENT_CODE_ENTER, offset=(5, 5), interval=1):
-                continue
+            for _ in range(3):
+                if self.appear_then_click(EQUIPMENT_CODE_ENTER, offset=(5, 5), interval=1):
+                    logger.info('点击 装备码入口')
+                    # continue
 
             # End
             if not self.equip_preview_empty():
@@ -202,6 +206,7 @@ class EquipmentCodeHandler(StorageHandler):
             else:
                 check_counter += 1
                 if check_counter >= 5:
+                    logger.info(f'counter {check_counter}')
                     logger.error('Gear code load failed, retrying.')
                     return False
 

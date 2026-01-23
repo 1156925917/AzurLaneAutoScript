@@ -238,7 +238,7 @@ class PQInteract(UI):
         """
         # Click target ship girl for 1st stage sequence
         logger.hr(f'Interact Start', level=2)
-        click_timer = Timer(1.5, count=3).start()
+        click_timer = Timer(10, count=3).start()
         skip_first_screenshot = True
         while 1:
             if skip_first_screenshot:
@@ -251,7 +251,9 @@ class PQInteract(UI):
                 break
 
             if click_timer.reached():
+                self.device.sleep(5.0)
                 self.device.click(PRIVATE_QUARTERS_ROOM_TARGET_CLICK_AREA)
+                self.device.sleep(5.0)
                 click_timer.reset()
 
         # Repeat 2nd and 3rd stage sequence 3 times
@@ -271,6 +273,7 @@ class PQInteract(UI):
                     break
 
                 if self.appear_then_click(PRIVATE_QUARTERS_INTERACT, offset=(0, 60), interval=1):
+                    self.device.sleep(5.0)
                     continue
 
             skip_first_screenshot = True
@@ -285,7 +288,9 @@ class PQInteract(UI):
                     break
 
                 if self.appear(PRIVATE_QUARTERS_INTERACT_CHECK, offset=(20, 20), interval=1):
+                    self.device.sleep(5.0)
                     self.device.click(PRIVATE_QUARTERS_ROOM_BACK)
+                    self.device.sleep(5.0)
                     continue
 
         logger.hr(f'Interact End', level=2)

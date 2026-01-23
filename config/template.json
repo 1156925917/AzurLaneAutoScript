@@ -377,6 +377,7 @@
       "ServerUpdate": "00:00"
     },
     "GemsFarming": {
+      "ChangeFlagship": "ship",
       "CommonCV": "any",
       "ChangeVanguard": "ship",
       "CommonDD": "any",
@@ -1986,6 +1987,30 @@
       "Enable": false,
       "NextRun": "2020-01-01 00:00:00",
       "Command": "OpsiCrossMonth",
+      "SuccessInterval": 0,
+      "FailureInterval": 120,
+      "ServerUpdate": "00:00"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
+  "IslandInfo": {
+    "IslandSeasonTask": {
+      "TaskDict": null
+    },
+    "IslandTechnology": {
+      "TechnologyStatus": null
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
+  "IslandSeasonTask": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "IslandSeasonTask",
       "SuccessInterval": 0,
       "FailureInterval": 120,
       "ServerUpdate": "00:00"

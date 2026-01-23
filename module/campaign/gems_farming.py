@@ -156,6 +156,7 @@ class GemsFarming(CampaignRun, Dock, FleetEquipment, GemsEquipmentHandler):
     @property
     def emotion_lower_bound(self):
         return 4 + self.campaign._map_battle * 2
+        # return 50
 
     @property
     def change_flagship(self):
@@ -164,6 +165,10 @@ class GemsFarming(CampaignRun, Dock, FleetEquipment, GemsEquipmentHandler):
     @property
     def change_flagship_equip(self):
         return 'equip' in self.config.GemsFarming_ChangeFlagship
+
+    @property
+    def change_vanguard_equip(self):
+        return 'equip' in self.config.GemsFarming_ChangeVanguard
 
     @property
     def change_vanguard(self):
@@ -183,7 +188,12 @@ class GemsFarming(CampaignRun, Dock, FleetEquipment, GemsEquipmentHandler):
         Returns:
             bool: True if flagship changed.
         """
+        if self.config.GemsFarming_CommonCV == 'any':
+            index_list = range(3, 5)
+        else:
+            index_list = range(0, 5)
         logger.hr('Change flagship', level=1)
+        logger.attr('ChangeFlagship', self.config.GemsFarming_ChangeFlagship)
         self.fleet_enter(self.fleet_to_attack)
         if self.change_flagship_equip:
             logger.hr('Unmount flagship equipments', level=2)
@@ -460,7 +470,7 @@ class GemsFarming(CampaignRun, Dock, FleetEquipment, GemsEquipmentHandler):
 
     def triggered_stop_condition(self, oil_check=True):
         # Lv32 limit
-        if self.campaign.config.LV32_TRIGGERED:
+        if self.change_flagship and self.campaign.config.LV32_TRIGGERED:
             self._trigger_lv32 = True
             logger.hr('TRIGGERED LV32 LIMIT')
             return True
@@ -508,7 +518,9 @@ class GemsFarming(CampaignRun, Dock, FleetEquipment, GemsEquipmentHandler):
 
             # End
             if self._trigger_lv32 or self._trigger_emotion:
-                success = self.flagship_change()
+                success = True
+                if self.change_flagship:
+                    success = self.flagship_change()
                 if self.change_vanguard:
                     success = success and self.vanguard_change()
 
