@@ -3067,21 +3067,23 @@
         "type": "state",
         "value": "campaign_main",
         "option": [
+          "raid_20240328",
           "raid_20250116"
         ],
         "option_cn": [
-          "raid_20250116"
+          "raid_20240328"
         ],
         "option_en": [
-          "raid_20250116"
+          "raid_20240328"
         ],
         "option_jp": [
-          "raid_20250116"
+          "raid_20240328"
         ],
         "option_tw": [
           "raid_20250116"
         ],
         "option_bold": [
+          "raid_20240328",
           "raid_20250116"
         ]
       },
@@ -3466,7 +3468,6 @@
         "type": "state",
         "value": "campaign_main",
         "option": [
-          "coalition_20251120",
           "coalition_20260122"
         ],
         "option_cn": [
@@ -3479,10 +3480,9 @@
           "coalition_20260122"
         ],
         "option_tw": [
-          "coalition_20251120"
+          "coalition_20260122"
         ],
         "option_bold": [
-          "coalition_20251120",
           "coalition_20260122"
         ]
       },
@@ -3806,9 +3806,11 @@
           "war_archives_20220728_cn",
           "war_archives_20220915_cn",
           "war_archives_20221222_cn",
+          "war_archives_20230223_cn",
           "war_archives_20231026_cn"
         ],
         "option_cn": [
+          "war_archives_20230223_cn",
           "war_archives_20221222_cn",
           "war_archives_20220915_cn",
           "war_archives_20231026_cn",
@@ -3854,6 +3856,7 @@
           "war_archives_20181020_en"
         ],
         "option_en": [
+          "war_archives_20230223_cn",
           "war_archives_20221222_cn",
           "war_archives_20220915_cn",
           "war_archives_20231026_cn",
@@ -3899,6 +3902,7 @@
           "war_archives_20181020_en"
         ],
         "option_jp": [
+          "war_archives_20230223_cn",
           "war_archives_20221222_cn",
           "war_archives_20220915_cn",
           "war_archives_20231026_cn",
@@ -3944,6 +3948,7 @@
           "war_archives_20181020_en"
         ],
         "option_tw": [
+          "war_archives_20230223_cn",
           "war_archives_20221222_cn",
           "war_archives_20220915_cn",
           "war_archives_20231026_cn",
@@ -6422,21 +6427,23 @@
         "type": "state",
         "value": "campaign_main",
         "option": [
+          "raid_20240328",
           "raid_20250116"
         ],
         "option_cn": [
-          "raid_20250116"
+          "raid_20240328"
         ],
         "option_en": [
-          "raid_20250116"
+          "raid_20240328"
         ],
         "option_jp": [
-          "raid_20250116"
+          "raid_20240328"
         ],
         "option_tw": [
           "raid_20250116"
         ],
         "option_bold": [
+          "raid_20240328",
           "raid_20250116"
         ]
       },
@@ -6649,7 +6656,6 @@
         "type": "state",
         "value": "campaign_main",
         "option": [
-          "coalition_20251120",
           "coalition_20260122"
         ],
         "option_cn": [
@@ -6662,10 +6668,9 @@
           "coalition_20260122"
         ],
         "option_tw": [
-          "coalition_20251120"
+          "coalition_20260122"
         ],
         "option_bold": [
-          "coalition_20251120",
           "coalition_20260122"
         ]
       },
