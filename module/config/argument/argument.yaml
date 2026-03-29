@@ -126,6 +126,7 @@ EmulatorInfo:
       LDPlayer3,
       LDPlayer4,
       LDPlayer9,
+      LDPlayer14,
       MuMuPlayer,
       MuMuPlayerX,
       MuMuPlayer12,
@@ -431,6 +432,7 @@ ControlExpOverflow:
 AddNewStudent:
   Enable: false
   Favorite: true
+  MinLevel: 50
 Research:
   UseCube:
     value: only_05_hour
