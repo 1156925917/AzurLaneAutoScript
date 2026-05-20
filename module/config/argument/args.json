@@ -1864,6 +1864,7 @@
         "value": "campaign_main",
         "option": [
           "event_20201126_cn",
+          "event_20221222_cn",
           "event_20250424_cn",
           "event_20260417_cn"
         ],
@@ -1883,11 +1884,11 @@
           "event_20260417_cn"
         ],
         "option_tw": [
-          "event_20201126_cn",
-          "event_20260417_cn"
+          "event_20221222_cn"
         ],
         "option_bold": [
           "event_20201126_cn",
+          "event_20221222_cn",
           "event_20250424_cn",
           "event_20260417_cn"
         ]
@@ -2279,6 +2280,7 @@
         "value": "campaign_main",
         "option": [
           "event_20201126_cn",
+          "event_20221222_cn",
           "event_20250424_cn",
           "event_20260417_cn"
         ],
@@ -2298,11 +2300,11 @@
           "event_20260417_cn"
         ],
         "option_tw": [
-          "event_20201126_cn",
-          "event_20260417_cn"
+          "event_20221222_cn"
         ],
         "option_bold": [
           "event_20201126_cn",
+          "event_20221222_cn",
           "event_20250424_cn",
           "event_20260417_cn"
         ]
@@ -2685,6 +2687,7 @@
         "value": "campaign_main",
         "option": [
           "event_20201126_cn",
+          "event_20221222_cn",
           "event_20250424_cn",
           "event_20260417_cn"
         ],
@@ -2704,11 +2707,11 @@
           "event_20260417_cn"
         ],
         "option_tw": [
-          "event_20201126_cn",
-          "event_20260417_cn"
+          "event_20221222_cn"
         ],
         "option_bold": [
           "event_20201126_cn",
+          "event_20221222_cn",
           "event_20250424_cn",
           "event_20260417_cn"
         ]
@@ -4431,6 +4434,7 @@
         "value": "campaign_main",
         "option": [
           "event_20201126_cn",
+          "event_20221222_cn",
           "event_20250424_cn",
           "event_20260417_cn"
         ],
@@ -4450,11 +4454,11 @@
           "event_20260417_cn"
         ],
         "option_tw": [
-          "event_20201126_cn",
-          "event_20260417_cn"
+          "event_20221222_cn"
         ],
         "option_bold": [
           "event_20201126_cn",
+          "event_20221222_cn",
           "event_20250424_cn",
           "event_20260417_cn"
         ]
@@ -4854,6 +4858,7 @@
         "value": "campaign_main",
         "option": [
           "event_20201126_cn",
+          "event_20221222_cn",
           "event_20250424_cn",
           "event_20260417_cn"
         ],
@@ -4873,11 +4878,11 @@
           "event_20260417_cn"
         ],
         "option_tw": [
-          "event_20201126_cn",
-          "event_20260417_cn"
+          "event_20221222_cn"
         ],
         "option_bold": [
           "event_20201126_cn",
+          "event_20221222_cn",
           "event_20250424_cn",
           "event_20260417_cn"
         ]
@@ -5277,6 +5282,7 @@
         "value": "campaign_main",
         "option": [
           "event_20201126_cn",
+          "event_20221222_cn",
           "event_20250424_cn",
           "event_20260417_cn"
         ],
@@ -5296,11 +5302,11 @@
           "event_20260417_cn"
         ],
         "option_tw": [
-          "event_20201126_cn",
-          "event_20260417_cn"
+          "event_20221222_cn"
         ],
         "option_bold": [
           "event_20201126_cn",
+          "event_20221222_cn",
           "event_20250424_cn",
           "event_20260417_cn"
         ]
@@ -5700,6 +5706,7 @@
         "value": "campaign_main",
         "option": [
           "event_20201126_cn",
+          "event_20221222_cn",
           "event_20250424_cn",
           "event_20260417_cn"
         ],
@@ -5719,11 +5726,11 @@
           "event_20260417_cn"
         ],
         "option_tw": [
-          "event_20201126_cn",
-          "event_20260417_cn"
+          "event_20221222_cn"
         ],
         "option_bold": [
           "event_20201126_cn",
+          "event_20221222_cn",
           "event_20250424_cn",
           "event_20260417_cn"
         ]
@@ -6113,6 +6120,7 @@
         "value": "campaign_main",
         "option": [
           "event_20201126_cn",
+          "event_20221222_cn",
           "event_20250424_cn",
           "event_20260417_cn"
         ],
@@ -6132,11 +6140,11 @@
           "event_20260417_cn"
         ],
         "option_tw": [
-          "event_20201126_cn",
-          "event_20260417_cn"
+          "event_20221222_cn"
         ],
         "option_bold": [
           "event_20201126_cn",
+          "event_20221222_cn",
           "event_20250424_cn",
           "event_20260417_cn"
         ]
