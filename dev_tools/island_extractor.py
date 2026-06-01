@@ -42,7 +42,7 @@ class IslandItemExtractor:
 
         data = LOADER.load('sharecfg/island_item_data_template.lua', keyword='pg.base.island_item_data_template')
         for index, item in data.items():
-            if not isinstance(index, int) or 0 < index < 1000 or index > 100000:
+            if not isinstance(index, int) or 1 < index < 1000 or index > 100000:
                 continue
 
             self.item[item['id']] = IslandItem(item).encode()
@@ -61,7 +61,7 @@ class IslandItemExtractor:
         data = LOADER.load('sharecfg/island_item_data_template.lua', keyword='pg.base.island_item_data_template')
         out = {}
         for index, item in data.items():
-            if not isinstance(index, int) or 0 < index < 1000 or index > 100000:
+            if not isinstance(index, int) or 1 < index < 1000 or index > 100000:
                 continue
             out[item['id']] = item['name']
 
@@ -111,17 +111,22 @@ class IslandRecipe:
         # self.name = recipe['name']
         self.workload = recipe['workload']
         self.commission_cost = recipe['commission_cost']
-        # self.production_limit = recipe['production_limit']
+        self.production_limit = recipe['production_limit']
         self.commission_product = recipe['commission_product']
         self.second_product_display = recipe['second_product_display']
 
     def encode(self):
         data = {
             self.id: {
-                # 'name': self.name,
+                'name': {
+                    'cn': '',
+                    'en': '',
+                    'jp': '',
+                    # 'tw': '',
+                },
                 'workload': self.workload,
                 'commission_cost': unpack_ingredient_dic(self.commission_cost),
-                # 'production_limit': self.production_limit,
+                'production_limit': self.production_limit,
                 'commission_product': unpack_ingredient_dic(self.commission_product),
                 'second_product_display': unpack_ingredient_dic(self.second_product_display),
             }
@@ -146,6 +151,30 @@ class IslandRecipeExtractor:
                 #       item['production_limit'],
                 #       item['commission_product'],
                 #       item['second_product_display'])
+        for index, name in self.extract_item_name('zh-CN').items():
+            if index in self.recipe:
+                self.recipe[index]['name']['cn'] = name
+        for index, name in self.extract_item_name('en-US').items():
+            if index in self.recipe:
+                self.recipe[index]['name']['en'] = name
+        for index, name in self.extract_item_name('ja-JP').items():
+            if index in self.recipe:
+                self.recipe[index]['name']['jp'] = name
+        # for index, name in self.extract_item_name('zh-TW').items():
+        #     if index in self.recipe:
+        #         self.recipe[index]['name']['tw'] = name
+
+    def extract_item_name(self, server):
+        LOADER.server = server
+        data = LOADER.load('sharecfg/island_formula.lua')
+        out = {}
+        for index, item in data.items():
+            if not isinstance(index, int) or not (index // 10000 < 700 or index // 10000 >= 990):
+                continue
+            if item['attribute'] in [1, 2, 3, 4, 6]:
+                out[item['id']] = item['name']
+
+        return out
 
     def encode(self):
         lines = []
@@ -176,7 +205,7 @@ class IslandProduction:
     def __init__(self, slot):
         """
         In the file 'sharecfg/island_production_slot.lua':
-        type: 1 = agriculture, 2 = mineral, 3 = animal, 4 = restaurant, 6 = industry
+        attribute: 1 = agriculture, 2 = mineral, 3 = animal, 4 = restaurant, 6 = industry
         place: slot position
         exclusion_slot: id of slots that are exclusive to this slot, not necessary for our implementation
         formula: applicable recipes
@@ -239,37 +268,282 @@ def island_time_to_sql_time(island_time):
 
 
 
-class IslandSeason:
-    def __init__(self, season):
+# class IslandSeason:
+#     def __init__(self, season):
+#         """
+#         In the file 'sharecfg/island_season.lua':
+#         id: serial of this season
+#         time: time range of this season
+#         task_list: list of tasks in this season
+#         """
+#         # self.id = season['id']
+#         self.start_time = island_time_to_sql_time(season['time'][0])
+#         self.end_time = island_time_to_sql_time(season['time'][1])
+#         self.task_list = [task for _, task in season['task_list'].items()]
+
+#     def encode(self):
+#         data = {
+#             'start_time': self.start_time,
+#             'end_time': self.end_time,
+#             'task_list': self.task_list,
+#         }
+#         return data
+
+# class IslandSeasonExtractor:
+#     def __init__(self):
+#         self.season = {}
+#         data = LOADER.load('sharecfg/island_season.lua')
+#         for index, item in data.items():
+#             if not isinstance(index, int):
+#                 continue
+#             # print(item['task_list'].values())
+#             self.season[item['id']] = IslandSeason(item).encode()
+#         # print(self.season)
+
+#     def encode(self):
+#         lines = []
+#         lines.append('DIC_ISLAND_SEASON = {')
+#         for index, season in self.season.items():
+#             lines.append(f'    {index}: {season},')
+#         lines.append('}')
+#         return lines
+
+#     def write(self, file):
+#         print(f'writing {file}')
+#         with open(file, 'w', encoding='utf-8') as f:
+#             for text in self.encode():
+#                 f.write(text + '\n')
+
+#     def get_latest_season_index(self):
+#         return list(self.season.keys())[-1]
+class Activity:
+    def __init__(self, activity):
         """
-        In the file 'sharecfg/island_season.lua':
-        id: serial of this season
-        time: time range of this season
-        task_list: list of tasks in this season
+        In the file 'sharecfg/activity_template.lua':
+        id: serial of this activity
+        type:
+            5001: Specialties, Pearl Trade
+            5002: Order
+            5003: Wild Gather
+            5004: Recipe
+            800:
+        config_data: config data of this activity
         """
-        # self.id = season['id']
-        self.start_time = island_time_to_sql_time(season['time'][0])
-        self.end_time = island_time_to_sql_time(season['time'][1])
-        self.task_list = [task for _, task in season['task_list'].items()]
+        self.id = activity['id']
+        self.type = activity['type']
+        self.config_data = [config for _, config in activity['config_data'].items()]
 
     def encode(self):
         data = {
-            'start_time': self.start_time,
-            'end_time': self.end_time,
-            'task_list': self.task_list,
+            'type': self.type,
+            'start_time': {
+                'cn': '',
+                'en': '',
+                'jp': '',
+                # 'tw': '',
+            },
+            'end_time': {
+                'cn': '',
+                'en': '',
+                'jp': '',
+                # 'tw': '',
+            },
+            'config_data': self.config_data,
         }
         return data
 
-class IslandSeasonExtractor:
+
+class IslandActivityExtractor:
     def __init__(self):
+        self.activity = {}
+        data = LOADER.load('sharecfg/island_activity_template.lua')
+        for index, item in data.items():
+            if not isinstance(index, int) or index < 990000:
+                continue
+            self.activity[index] = None
+        data = LOADER.load('sharecfg/activity_template.lua')
+        for index, item in data.items():
+            if not isinstance(index, int) or not index in self.activity:
+                continue
+            self.activity[index] = Activity(item).encode()
+        for index, item in self.extract_item_name('zh-CN').items():
+            if item['time'] == 'always':
+                self.activity[index]['start_time']['cn'] = None
+                self.activity[index]['end_time']['cn'] = None
+            elif isinstance(item['time'], dict) and item['time'][0] == 'timer':
+                try:
+                    self.activity[index]['start_time']['cn'] = island_time_to_sql_time(item['time'][1])
+                    self.activity[index]['end_time']['cn'] = island_time_to_sql_time(item['time'][2])
+                except KeyError as e:
+                    print(self.activity[index])
+                    raise e
+        for index, item in self.extract_item_name('en-US').items():
+            if item['time'] == 'always':
+                self.activity[index]['start_time']['en'] = None
+                self.activity[index]['end_time']['en'] = None
+            elif isinstance(item['time'], dict) and item['time'][0] == 'timer':
+                self.activity[index]['start_time']['en'] = island_time_to_sql_time(item['time'][1])
+                self.activity[index]['end_time']['en'] = island_time_to_sql_time(item['time'][2])
+        for index, item in self.extract_item_name('ja-JP').items():
+            if item['time'] == 'always':
+                self.activity[index]['start_time']['jp'] = None
+                self.activity[index]['end_time']['jp'] = None
+            elif isinstance(item['time'], dict) and item['time'][0] == 'timer':
+                self.activity[index]['start_time']['jp'] = island_time_to_sql_time(item['time'][1])
+                self.activity[index]['end_time']['jp'] = island_time_to_sql_time(item['time'][2])
+        # for index, item in self.extract_item_name('zh-TW').items():
+        #     if item['time'] == 'always':
+        #         self.activity[index]['start_time']['tw'] = None
+        #         self.activity[index]['end_time']['tw'] = None
+        #     elif isinstance(item['time'], dict) and item['time'][0] == 'timer':
+        #         self.activity[index]['start_time']['tw'] = island_time_to_sql_time(item['time'][1])
+        #         self.activity[index]['end_time']['tw'] = island_time_to_sql_time(item['time'][2])
+
+    def extract_item_name(self, server):
+        LOADER.server = server
+        data = LOADER.load('sharecfg/activity_template.lua')
+        out = {}
+        for index, item in data.items():
+            if not isinstance(index, int) or not index in self.activity:
+                continue
+            out[item['id']] = item
+        return out
+    
+    def encode(self):
+        lines = []
+        lines.append('DIC_ISLAND_ACTIVITY = {')
+        for index, activity in self.activity.items():
+            lines.append(f'    {index}: {activity},')
+        lines.append('}')
+        return lines
+    
+    def write(self, file):
+        print(f'writing {file}')
+        with open(file, 'w', encoding='utf-8') as f:
+            for text in self.encode():
+                f.write(text + '\n')
+
+
+
+class IslandWildGatherExtractor:
+    def __init__(self):
+        item_id_to_count = {
+            2606: 1,
+            4001: 4,
+            4002: 8,
+            4003: 12,
+            4004: 3,
+            4015: 4,
+            4016: 8,
+            4017: 12,
+            4018: 4,
+            4029: 8,
+            4030: 8,
+            4031: 4,
+            4032: 8,
+        }
+        self.gather = {}
+        data = LOADER.load('sharecfg/island_wild_gather.lua')
+        for index, item in data.items():
+            if not isinstance(index, int):
+                continue
+            item_id = int(item['icon'].split('_')[-1])
+            self.gather[index] = {
+                'activity_id': item['activity_id'],
+                'product': {item_id: item_id_to_count[item_id]},
+            }
+
+    def encode(self):
+        lines = []
+        lines.append('DIC_ISLAND_WILD_GATHER = {')
+        for index, gather in self.gather.items():
+            lines.append(f'    {index}: {gather},')
+        lines.append('}')
+        return lines
+        
+
+
+class IslandProductionMiningExtractor:
+    def __init__(self):
+        self.mining = {}
+        for index in range(40101, 40110):
+            self.mining[index] = {2700: 8}
+    
+    def encode(self):
+        lines = []
+        lines.append('DIC_ISLAND_PRODUCTION_MINING = {')
+        for index, mining in self.mining.items():
+            lines.append(f'    {index}: {mining},')
+        lines.append('}')
+        return lines
+
+
+class IslandProductionLoggingExtractor:
+    def __init__(self):
+        self.logging = {}
+        for index in range(40201, 40210):
+            self.logging[index] = {2800: 8}
+    
+    def encode(self):
+        lines = []
+        lines.append('DIC_ISLAND_PRODUCTION_LOGGING = {')
+        for index, logging in self.logging.items():
+            lines.append(f'    {index}: {logging},')
+        lines.append('}')
+        return lines
+
+class IslandSeasonExtractor:
+    def __init__(self, activity_dict=None):
         self.season = {}
         data = LOADER.load('sharecfg/island_season.lua')
         for index, item in data.items():
             if not isinstance(index, int):
                 continue
-            # print(item['task_list'].values())
-            self.season[item['id']] = IslandSeason(item).encode()
-        # print(self.season)
+            self.season[item['id']] = {
+                'start_time': {
+                    'cn': '',
+                    'en': '',
+                    'jp': '',
+                    # 'tw': '',
+                },
+                'end_time': {
+                    'cn': '',
+                    'en': '',
+                    'jp': '',
+                    # 'tw': '',
+                },
+                'task_list': [task for _, task in item['task_list'].items()],
+            }
+        for index, item in self.extract_item_name('zh-CN').items():
+            self.season[index]['start_time']['cn'] = island_time_to_sql_time(item['time'][0])
+            self.season[index]['end_time']['cn'] = island_time_to_sql_time(item['time'][1])
+        for index, item in self.extract_item_name('en-US').items():
+            self.season[index]['start_time']['en'] = island_time_to_sql_time(item['time'][0])
+            self.season[index]['end_time']['en'] = island_time_to_sql_time(item['time'][1])
+        for index, item in self.extract_item_name('ja-JP').items():
+            self.season[index]['start_time']['jp'] = island_time_to_sql_time(item['time'][0])
+            self.season[index]['end_time']['jp'] = island_time_to_sql_time(item['time'][1])
+        # for index, item in self.extract_item_name('zh-TW').items():
+        #     self.season[index]['start_time']['tw'] = island_time_to_sql_time(item['time'][0])
+        #     self.season[index]['end_time']['tw'] = island_time_to_sql_time(item['time'][1])
+        if activity_dict is None:
+            print('activity_dict is None, skipping season-activity matching')
+            return
+        for index, season in self.season.items():
+            for activity_id, activity in activity_dict.items():
+                if season['start_time']['cn'] is not None and season['end_time']['cn'] is not None and activity['start_time']['cn'] is not None and activity['end_time']['cn'] is not None:
+                    if season['start_time']['cn'] == activity['start_time']['cn'] and season['end_time']['cn'] == activity['end_time']['cn']:
+                        season.setdefault('activity', []).append(activity_id)
+
+    def extract_item_name(self, server):
+        LOADER.server = server
+        data = LOADER.load('sharecfg/island_season.lua')
+        out = {}
+        for index, item in data.items():
+            if not isinstance(index, int):
+                continue
+            out[item['id']] = item
+        return out
 
     def encode(self):
         lines = []
@@ -278,56 +552,203 @@ class IslandSeasonExtractor:
             lines.append(f'    {index}: {season},')
         lines.append('}')
         return lines
+    
 
-    def write(self, file):
-        print(f'writing {file}')
-        with open(file, 'w', encoding='utf-8') as f:
-            for text in self.encode():
-                f.write(text + '\n')
-
-    def get_latest_season_index(self):
-        return list(self.season.keys())[-1]
-
-
-
-class IslandShopItemExtractor(IslandSeasonExtractor):
+class IslandTaskExtractor:
     def __init__(self):
-        super().__init__()
+        self.task = {}
+        target_id_to_task_id = {}
+        data = LOADER.load('sharecfg/island_task.lua')
+        for index, item in data.items():
+            if not isinstance(index, int):
+                continue
+            self.task[item['id']] = {
+                'name': {
+                    'cn': '',
+                    'en': '',
+                    'jp': '',
+                    # 'tw': '',
+                },
+                'target_id': item['target_id'][0],
+                'target': {},
+                'start_time': {
+                    'cn': None,
+                    'en': None,
+                    'jp': None,
+                    # 'tw': None,
+                },
+                'end_time': {
+                    'cn': None,
+                    'en': None,
+                    'jp': None,
+                    # 'tw': None,
+                },
+            }
+            target_id_to_task_id[item['target_id'][0]] = item['id']
+        for index, item in self.extract_item('zh-CN').items():
+            self.task[index]['name']['cn'] = item['name']
+            time_dict = item['unlock_time']
+            if time_dict == 'stop':
+                self.task[index]['start_time']['cn'] = None
+                self.task[index]['end_time']['cn'] = None
+            elif time_dict == 'always':
+                self.task[index]['start_time']['cn'] = 'always'
+                self.task[index]['end_time']['cn'] = 'always'
+            else:
+                self.task[index]['start_time']['cn'] = island_time_to_sql_time(time_dict[0])
+                self.task[index]['end_time']['cn'] = island_time_to_sql_time(time_dict[1])
+        for index, item in self.extract_item('en-US').items():
+            self.task[index]['name']['en'] = item['name']
+            time_dict = item['unlock_time']
+            if time_dict == 'stop':
+                self.task[index]['start_time']['en'] = None
+                self.task[index]['end_time']['en'] = None
+            elif time_dict == 'always':
+                self.task[index]['start_time']['en'] = 'always'
+                self.task[index]['end_time']['en'] = 'always'
+            else:
+                self.task[index]['start_time']['en'] = island_time_to_sql_time(time_dict[0])
+                self.task[index]['end_time']['en'] = island_time_to_sql_time(time_dict[1])
+        for index, item in self.extract_item('ja-JP').items():
+            self.task[index]['name']['jp'] = item['name']
+            time_dict = item['unlock_time']
+            if time_dict == 'stop':
+                self.task[index]['start_time']['jp'] = None
+                self.task[index]['end_time']['jp'] = None
+            elif time_dict == 'always':
+                self.task[index]['start_time']['jp'] = 'always'
+                self.task[index]['end_time']['jp'] = 'always'
+            else:
+                self.task[index]['start_time']['jp'] = island_time_to_sql_time(time_dict[0])
+                self.task[index]['end_time']['jp'] = island_time_to_sql_time(time_dict[1])
+        # for index, item in self.extract_item('zh-TW').items():
+        #     self.task[index]['name']['tw'] = item['name']
+        #     time_dict = item['unlock_time']
+        #     if time_dict == 'stop':
+        #         self.task[index]['start_time']['tw'] = None
+        #         self.task[index]['end_time']['tw'] = None
+        #     elif time_dict == 'always':
+        #         self.task[index]['start_time']['tw'] = 'always'
+        #         self.task[index]['end_time']['tw'] = 'always'
+        #     else:
+        #         self.task[index]['start_time']['tw'] = island_time_to_sql_time(time_dict[0])
+        #         self.task[index]['end_time']['tw'] = island_time_to_sql_time(time_dict[1])
+        
+        data = LOADER.load('sharecfg/island_task_target.lua')
+        for index, item in data.items():
+            if not isinstance(index, int) or not item['id'] in target_id_to_task_id:
+                continue
+            task_id = target_id_to_task_id[item['id']]
+            if isinstance(item['target_param'], dict):
+                self.task[task_id]['target'] = {item['target_param'][0]: item['target_num']}
+
+    def extract_item(self, server):
+        LOADER.server = server
+        data = LOADER.load('sharecfg/island_task.lua')
+        out = {}
+        for index, item in data.items():
+            if not isinstance(index, int) or not item['id'] in self.task.keys():
+                continue
+            out[item['id']] = item
+
+        return out
+    
+    def encode(self):
+        lines = []
+        lines.append('DIC_ISLAND_TASK = {')
+        for index, task in self.task.items():
+            lines.append(f'    {index}: {task},')
+        lines.append('}')
+        return lines
+
+
+class IslandShopItemExtractor:
+    def __init__(self):
         self.item = {}
         data = LOADER.load('sharecfg/island_shop_goods.lua', keyword='pg.base.island_shop_goods')
-        from datetime import datetime
-        latest_season_index = self.get_latest_season_index()
-        latest_season_start_time = datetime.fromisoformat(self.season[latest_season_index]['start_time']).date()
         for index, item in data.items():
             if not isinstance(index, int) or index < 100000 or index >= 412000:
                 continue
-            if item['time'] != 'always':
-
-                item_deadline = datetime.fromisoformat(island_time_to_sql_time(item['time'][1])).date()
-
-                if item_deadline <= latest_season_start_time:
-                    continue
             self.item[index] = {
+                'name': {
+                    'cn': '',
+                    'en': '',
+                    'jp': '',
+                    # 'tw': '',
+                },
                 'resource_consume': {item['resource_consume'][1]: item['resource_consume'][2]},
                 'items': {
                     itm[1]: itm[2] for _, itm in item['items'].items()
                 },
+                'start_time': {
+                    'cn': None,
+                    'en': None,
+                    'jp': None,
+                    # 'tw': None,
+                },
+                'end_time': {
+                    'cn': None,
+                    'en': None,
+                    'jp': None,
+                    # 'tw': None,
+                }
             }
+        
+        for index, item in self.extract_item('zh-CN').items():
+            self.item[index]['name']['cn'] = item['goods_name']
+            time_dict = item['time']
+            if time_dict == 'always':
+                self.item[index]['start_time']['cn'] = 'always'
+                self.item[index]['end_time']['cn'] = 'always'
+            else:
+                self.item[index]['start_time']['cn'] = island_time_to_sql_time(time_dict[0])
+                self.item[index]['end_time']['cn'] = island_time_to_sql_time(time_dict[1])
+        for index, item in self.extract_item('en-US').items():
+            self.item[index]['name']['en'] = item['goods_name']
+            time_dict = item['time']
+            if time_dict == 'always':
+                self.item[index]['start_time']['en'] = 'always'
+                self.item[index]['end_time']['en'] = 'always'
+            else:
+                self.item[index]['start_time']['en'] = island_time_to_sql_time(time_dict[0])
+                self.item[index]['end_time']['en'] = island_time_to_sql_time(time_dict[1])
+        for index, item in self.extract_item('ja-JP').items():
+            self.item[index]['name']['jp'] = item['goods_name']
+            time_dict = item['time']
+            if time_dict == 'always':
+                self.item[index]['start_time']['jp'] = 'always'
+                self.item[index]['end_time']['jp'] = 'always'
+            else:
+                self.item[index]['start_time']['jp'] = island_time_to_sql_time(time_dict[0])
+                self.item[index]['end_time']['jp'] = island_time_to_sql_time(time_dict[1])
+        # for index, item in self.extract_item('zh-TW').items():
+        #     self.item[index]['name']['tw'] = item['goods_name']
+        #     time_dict = item['time']
+        #     if time_dict == 'always':
+        #         self.item[index]['start_time']['tw'] = 'always'
+        #         self.item[index]['end_time']['tw'] = 'always'
+        #     else:
+        #         self.item[index]['start_time']['tw'] = island_time_to_sql_time(time_dict[0])
+        #         self.item[index]['end_time']['tw'] = island_time_to
+    def extract_item(self, server):
+        LOADER.server = server
+        data = LOADER.load('sharecfg/island_shop_goods.lua', keyword='pg.base.island_shop_goods')
+        out = {}
+        for index, item in data.items():
+            if not isinstance(index, int) or index < 100000 or index >= 412000:
+                continue
+            out[index] = item
 
+        return out
 
     def encode(self):
         lines = []
-        lines.append('DIC_ISLAND_SHOP_ITEM = {')
+        lines.append('DIC_ISLAND_SHOP_RECIPE = {')
         for index, item in self.item.items():
             lines.append(f'    {index}: {item},')
         lines.append('}')
         return lines
 
-    def write(self, file):
-        print(f'writing {file}')
-        with open(file, 'w', encoding='utf-8') as f:
-            for text in self.encode():
-                f.write(text + '\n')
 
 
 class IslandExchangeRecipeExtractor:
@@ -337,16 +758,12 @@ class IslandExchangeRecipeExtractor:
         for index, item in data.items():
             if not isinstance(index, int):
                 continue
-            try:
-                self.item[index] = {
-                    'resource_consume': {item['origin_item']: 1},
-                    'items': {
-                        item['target_item']: item['target_num']
-                    },
-                }
-            except Exception:
-                print(index, item)
-                raise
+            self.item[index] = {
+                'resource_consume': {item['origin_item']: 1},
+                'items': {
+                    item['target_item']: item['target_num']
+                },
+            }
 
     def encode(self):
         lines = []
@@ -357,56 +774,122 @@ class IslandExchangeRecipeExtractor:
         return lines
 
 
-class IslandSeasonalTaskExtractor(IslandSeasonExtractor):
+# class IslandSeasonalTaskExtractor(IslandSeasonExtractor):
+#     def __init__(self):
+#         super().__init__()
+#         self.target_id_to_task_id = {}
+#         current_season = self.get_latest_season_index()
+#         self.task_list = self.season[current_season]['task_list']
+#         print(self.task_list)
+#         self.task = {}
+#         data = LOADER.load('sharecfg/island_task.lua', keyword='pg.base.island_task')
+#         for index, item in data.items():
+#             if not isinstance(index, int):
+#                 continue
+#             if item['id'] not in self.task_list:
+#                 continue
+#             self.task[item['id']] = {
+#                 'name': {
+#                     'cn': '',
+#                     'en': '',
+#                     'jp': '',
+#                     # 'tw': '',
+#                 },
+#                 'target_id': item['target_id'][0],
+#             }
+#             self.target_id_to_task_id[item['target_id'][0]] = item['id']
+#         for index, name in self.extract_item_name('zh-CN').items():
+#             self.task[index]['name']['cn'] = name
+#         for index, name in self.extract_item_name('en-US').items():
+#             self.task[index]['name']['en'] = name
+#         for index, name in self.extract_item_name('ja-JP').items():
+#             self.task[index]['name']['jp'] = name
+#         # for index, name in self.extract_item_name('zh-TW').items():
+#         #     self.item[index]['name']['tw'] = name
+#         data = LOADER.load('sharecfg/island_task_target.lua', keyword='pg.base.island_task_target')
+#         for index, item in data.items():
+#             if not isinstance(index, int):
+#                 continue
+#             if item['id'] not in self.target_id_to_task_id:
+#                 continue
+#             task_id = self.target_id_to_task_id[item['id']]
+#             if isinstance(item['target_param'], dict):
+#                 self.task[task_id]['target'] = {item['target_param'][0]: item['target_num']}
+#             else:
+#                 self.task[task_id]['target'] = {}
+
+#     def extract_item_name(self, server):
+#         LOADER.server = server
+#         data = LOADER.load('sharecfg/island_task.lua', keyword='pg.base.island_task')
+#         out = {}
+#         for index, item in data.items():
+#             if not isinstance(index, int) or not item['id'] in self.task.keys():
+#                 continue
+#             out[item['id']] = item['name']
+
+#         return out
+
+#     def encode(self):
+#         lines = []
+#         lines.append('DIC_ISLAND_SEASONAL_TASK = {')
+#         for index, task in self.task.items():
+#             lines.append(f'    {index}: {task},')
+#         lines.append('}')
+#         return lines
+
+#     def write(self, file):
+#         print(f'writing {file}')
+#         with open(file, 'w', encoding='utf-8') as f:
+#             for text in self.encode():
+#                 f.write(text + '\n')
+
+
+
+
+
+class IslandProductionCommission:
     def __init__(self):
-        super().__init__()
-        self.target_id_to_task_id = {}
-        current_season = self.get_latest_season_index()
-        self.task_list = self.season[current_season]['task_list']
-        print(self.task_list)
-        self.task = {}
-        data = LOADER.load('sharecfg/island_task.lua', keyword='pg.base.island_task')
+        self.commission = {}
+        data = LOADER.load('sharecfg/island_production_commission.lua')
         for index, item in data.items():
             if not isinstance(index, int):
                 continue
-            if item['id'] not in self.task_list:
+            self.commission[index] = item['slot']
+
+
+
+class IslandProductionPlaceExtractor(IslandProductionCommission):
+    def __init__(self):
+        super().__init__()
+        self.place = {}
+        data = LOADER.load('sharecfg/island_production_place.lua')
+        for index, item in data.items():
+            if not isinstance(index, int):
                 continue
-            self.task[item['id']] = {
+            self.place[index] = {
                 'name': {
                     'cn': '',
                     'en': '',
                     'jp': '',
                     # 'tw': '',
                 },
-                'target_id': item['target_id'][0],
+                'slot': [self.commission[slot_id] for slot_id in item['commission_slot'].values()]
             }
-            self.target_id_to_task_id[item['target_id'][0]] = item['id']
-        for index, name in self.extract_item_name('zh-CN').items():
-            self.task[index]['name']['cn'] = name
-        for index, name in self.extract_item_name('en-US').items():
-            self.task[index]['name']['en'] = name
-        for index, name in self.extract_item_name('ja-JP').items():
-            self.task[index]['name']['jp'] = name
-        # for index, name in self.extract_item_name('zh-TW').items():
+        for index, name in self.extract_place_name('zh-CN').items():
+            self.place[index]['name']['cn'] = name
+        for index, name in self.extract_place_name('en-US').items():
+            self.place[index]['name']['en'] = name
+        for index, name in self.extract_place_name('ja-JP').items():
+            self.place[index]['name']['jp'] = name
+        # for index, name in self.extract_place_name('zh-TW').items():
         #     self.item[index]['name']['tw'] = name
-        data = LOADER.load('sharecfg/island_task_target.lua', keyword='pg.base.island_task_target')
-        for index, item in data.items():
-            if not isinstance(index, int):
-                continue
-            if item['id'] not in self.target_id_to_task_id:
-                continue
-            task_id = self.target_id_to_task_id[item['id']]
-            if isinstance(item['target_param'], dict):
-                self.task[task_id]['target'] = {item['target_param'][0]: item['target_num']}
-            else:
-                self.task[task_id]['target'] = {}
 
-    def extract_item_name(self, server):
+    def extract_place_name(self, server):
         LOADER.server = server
-        data = LOADER.load('sharecfg/island_task.lua', keyword='pg.base.island_task')
+        data = LOADER.load('sharecfg/island_production_place.lua')
         out = {}
         for index, item in data.items():
-            if not isinstance(index, int) or not item['id'] in self.task.keys():
+            if not isinstance(index, int):
                 continue
             out[item['id']] = item['name']
 
@@ -414,9 +897,9 @@ class IslandSeasonalTaskExtractor(IslandSeasonExtractor):
 
     def encode(self):
         lines = []
-        lines.append('DIC_ISLAND_SEASONAL_TASK = {')
-        for index, task in self.task.items():
-            lines.append(f'    {index}: {task},')
+        lines.append('DIC_ISLAND_PRODUCTION_PLACE = {')
+        for index, place in self.place.items():
+            lines.append(f'    {index}: {place},')
         lines.append('}')
         return lines
 
@@ -441,7 +924,7 @@ class IslandRestaurantExtractor:
 
     def encode(self):
         lines = []
-        lines.append('DIC_ISLAND_RESTAURANT_RECIPE = {')
+        lines.append('DIC_ISLAND_RESTAURANT_MENU_TO_RECIPE = {')
         for index, restaurant in self.restaurant.items():
             lines.append(f'    {index}: {restaurant},')
         lines.append('}')
@@ -496,6 +979,9 @@ class IslandTechnologyExtractor:
         # for index, name in self.extract_item_name('zh-TW').items():
         #     self.item[index]['name']['tw'] = name
 
+        # sort by id
+        self.item = dict(sorted(self.item.items(), key=lambda x: x[0]))
+
     def extract_item_name(self, server):
         LOADER.server = server
         data = LOADER.load('sharecfg/island_technology_template.lua', keyword='pg.base.island_technology_template')
@@ -531,41 +1017,6 @@ if __name__ == '__main__':
     lines.append('# This file was automatically generated by dev_tools/island_extractor.py')
     lines.append("# Don't modify it manually.")
     lines.append('')
-    lines.append('DIC_ISLAND_PASSIVE_RECIPE = {')
-    lines.append('    1: {"refresh_times": ["03:00"], "product": {2606: 1}},')
-    lines.append('    2: {"refresh_times": ["03:00"], "product": {2606: 1}},')
-    lines.append('    3: {"refresh_times": ["03:00"], "product": {2606: 1}},')
-    lines.append('    4: {"refresh_times": ["03:00"], "product": {2606: 1}},')
-    lines.append('    5: {"refresh_times": ["03:00"], "product": {2606: 1}},')
-    lines.append('    6: {"refresh_times": ["03:00"], "product": {2606: 1}},')
-    lines.append('    1009: {"refresh_times": ["03:00"], "product": {4015: 4}},')
-    lines.append('    1010: {"refresh_times": ["03:00"], "product": {4015: 4}},')
-    lines.append('    1011: {"refresh_times": ["03:00"], "product": {4016: 8}},')
-    lines.append('    1012: {"refresh_times": ["03:00"], "product": {4016: 8}},')
-    lines.append('    1013: {"refresh_times": ["03:00"], "product": {4017: 12}},')
-    lines.append('    1014: {"refresh_times": ["03:00"], "product": {4017: 12}},')
-    lines.append('    1015: {"refresh_times": ["03:00"], "product": {4018: 4}},')
-    lines.append('    1016: {"refresh_times": ["03:00"], "product": {4018: 4}},')
-    lines.append('    40101: {"refresh_times": ["03:00", "18:00"], "product": {2700: 8}},')
-    lines.append('    40102: {"refresh_times": ["03:00", "18:00"], "product": {2700: 8}},')
-    lines.append('    40103: {"refresh_times": ["03:00", "18:00"], "product": {2700: 8}},')
-    lines.append('    40104: {"refresh_times": ["03:00", "18:00"], "product": {2700: 8}},')
-    lines.append('    40105: {"refresh_times": ["03:00", "18:00"], "product": {2700: 8}},')
-    lines.append('    40106: {"refresh_times": ["03:00", "18:00"], "product": {2700: 8}},')
-    lines.append('    40107: {"refresh_times": ["03:00", "18:00"], "product": {2700: 8}},')
-    lines.append('    40108: {"refresh_times": ["03:00", "18:00"], "product": {2700: 8}},')
-    lines.append('    40109: {"refresh_times": ["03:00", "18:00"], "product": {2700: 8}},')
-    lines.append('    40201: {"refresh_times": ["03:00", "18:00"], "product": {2800: 8}},')
-    lines.append('    40202: {"refresh_times": ["03:00", "18:00"], "product": {2800: 8}},')
-    lines.append('    40203: {"refresh_times": ["03:00", "18:00"], "product": {2800: 8}},')
-    lines.append('    40204: {"refresh_times": ["03:00", "18:00"], "product": {2800: 8}},')
-    lines.append('    40205: {"refresh_times": ["03:00", "18:00"], "product": {2800: 8}},')
-    lines.append('    40206: {"refresh_times": ["03:00", "18:00"], "product": {2800: 8}},')
-    lines.append('    40207: {"refresh_times": ["03:00", "18:00"], "product": {2800: 8}},')
-    lines.append('    40208: {"refresh_times": ["04:00", "18:00"], "product": {2800: 8}},')
-    lines.append('    40209: {"refresh_times": ["04:00", "18:00"], "product": {2800: 8}},')
-    lines.append('}')
-    lines.append('')
 
     lines += IslandItemExtractor().encode()
     lines.append('')
@@ -573,17 +1024,28 @@ if __name__ == '__main__':
     lines.append('')
     lines += IslandProductionExtractor().encode()
     lines.append('')
+    activity_extractor = IslandActivityExtractor()
+    lines += activity_extractor.encode()
+    lines.append('')
+    lines += IslandWildGatherExtractor().encode()
+    lines.append('')
+    lines += IslandProductionMiningExtractor().encode()
+    lines.append('')
+    lines += IslandProductionLoggingExtractor().encode()
+    lines.append('')
+    lines += IslandSeasonExtractor(activity_extractor.activity).encode()
+    lines.append('')
     lines += IslandShopItemExtractor().encode()
     lines.append('')
     lines += IslandExchangeRecipeExtractor().encode()
     lines.append('')
-    lines += IslandSeasonExtractor().encode()
-    lines.append('')
-    lines += IslandSeasonalTaskExtractor().encode()
+    lines += IslandTaskExtractor().encode()
     lines.append('')
     lines += IslandRestaurantExtractor().encode()
     lines.append('')
     lines += IslandTechnologyExtractor().encode()
+    lines.append('')
+    lines += IslandProductionPlaceExtractor().encode()
     with open(save, 'w', encoding='utf-8') as f:
         for text in lines:
             f.write(text + '\n')

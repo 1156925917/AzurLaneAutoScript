@@ -9566,29 +9566,7 @@
       }
     }
   },
-  "IslandInfo": {
-    "IslandSeasonTask": {
-      "TaskDict": {
-        "type": "textarea",
-        "value": ""
-      }
-    },
-    "IslandTechnology": {
-      "TechnologyStatus": {
-        "type": "textarea",
-        "value": ""
-      }
-    },
-    "Storage": {
-      "Storage": {
-        "type": "storage",
-        "value": {},
-        "valuetype": "ignore",
-        "display": "disabled"
-      }
-    }
-  },
-  "IslandSeasonTask": {
+  "IslandProduction": {
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
@@ -9605,7 +9583,7 @@
       },
       "Command": {
         "type": "input",
-        "value": "IslandSeasonTask",
+        "value": "IslandProduction",
         "display": "hide"
       },
       "SuccessInterval": {
@@ -9622,6 +9600,270 @@
         "type": "input",
         "value": "00:00",
         "display": "hide"
+      }
+    },
+    "IslandProduction": {
+      "MinStockItems": {
+        "type": "textarea",
+        "value": ""
+      },
+      "AccumulatingItems": {
+        "type": "textarea",
+        "value": ""
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
+  },
+  "IslandFreebie": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
+      },
+      "NextRun": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "input",
+        "value": "IslandFreebie",
+        "display": "hide"
+      },
+      "SuccessInterval": {
+        "type": "input",
+        "value": 0,
+        "display": "hide"
+      },
+      "FailureInterval": {
+        "type": "input",
+        "value": 120,
+        "display": "hide"
+      },
+      "ServerUpdate": {
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
+      }
+    },
+    "IslandFreebie": {
+      "Share": {
+        "type": "checkbox",
+        "value": true
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
+  },
+  "IslandCollect": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
+      },
+      "NextRun": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "input",
+        "value": "IslandCollect",
+        "display": "hide"
+      },
+      "SuccessInterval": {
+        "type": "input",
+        "value": 0,
+        "display": "hide"
+      },
+      "FailureInterval": {
+        "type": "input",
+        "value": 120,
+        "display": "hide"
+      },
+      "ServerUpdate": {
+        "type": "input",
+        "value": "03:00, 18:00",
+        "display": "hide"
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
+  },
+  "IslandRestaurant": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
+      },
+      "NextRun": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "input",
+        "value": "IslandRestaurant",
+        "display": "hide"
+      },
+      "SuccessInterval": {
+        "type": "input",
+        "value": 0,
+        "display": "hide"
+      },
+      "FailureInterval": {
+        "type": "input",
+        "value": 120,
+        "display": "hide"
+      },
+      "ServerUpdate": {
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
+      }
+    },
+    "IslandRestaurant": {
+      "KoiGrade": {
+        "type": "select",
+        "value": "bronze",
+        "option": [
+          "bronze",
+          "silver",
+          "gold",
+          "diamond"
+        ]
+      },
+      "KoiWaitress": {
+        "type": "select",
+        "value": "any",
+        "option": [
+          "none",
+          "any",
+          "zhaohe",
+          "any+any",
+          "zhaohe+any"
+        ]
+      },
+      "BearGrade": {
+        "type": "select",
+        "value": "bronze",
+        "option": [
+          "bronze",
+          "silver",
+          "gold",
+          "diamond"
+        ]
+      },
+      "BearWaitress": {
+        "type": "select",
+        "value": "any",
+        "option": [
+          "none",
+          "any",
+          "chaijun",
+          "any+any",
+          "chaijun+any"
+        ]
+      },
+      "EateryGrade": {
+        "type": "select",
+        "value": "bronze",
+        "option": [
+          "bronze",
+          "silver",
+          "gold",
+          "diamond"
+        ]
+      },
+      "EateryWaitress": {
+        "type": "select",
+        "value": "any",
+        "option": [
+          "none",
+          "any",
+          "hailunna",
+          "ougen",
+          "any+any",
+          "hailunna+any",
+          "ougen+any",
+          "hailunna+ougen"
+        ]
+      },
+      "GrillGrade": {
+        "type": "select",
+        "value": "bronze",
+        "option": [
+          "bronze",
+          "silver",
+          "gold",
+          "diamond"
+        ]
+      },
+      "GrillWaitress": {
+        "type": "select",
+        "value": "any",
+        "option": [
+          "none",
+          "any",
+          "aogusite",
+          "ougen",
+          "any+any",
+          "aogusite+any",
+          "ougen+any",
+          "aogusite+ougen"
+        ]
+      },
+      "CafeGrade": {
+        "type": "select",
+        "value": "bronze",
+        "option": [
+          "bronze",
+          "silver",
+          "gold",
+          "diamond"
+        ]
+      },
+      "CafeWaitress": {
+        "type": "select",
+        "value": "any",
+        "option": [
+          "none",
+          "any",
+          "chaijun",
+          "any+any",
+          "chaijun+any"
+        ]
       }
     },
     "Storage": {
@@ -9679,6 +9921,49 @@
         ],
         "option_bold": [
           true
+        ]
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
+  },
+  "IslandProductionPlanner": {
+    "IslandProductionPlanner": {
+      "DailyProfitLowerLimit": {
+        "type": "input",
+        "value": 50000
+      },
+      "FieldsEfficiency": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          0.04,
+          0.12
+        ]
+      },
+      "OrchardEfficiency": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          0.04,
+          0.12
+        ]
+      },
+      "NurseryEfficiency": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          0.04,
+          0.12
         ]
       }
     },

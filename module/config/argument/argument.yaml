@@ -804,14 +804,47 @@ OpsiHazard1Leveling:
     option: [ 0, 44, 22 ]
 
 # =================== Island ====================
-IslandSeasonTask:
-  TaskDict:
+IslandFreebie:
+  Share: true
+IslandProduction:
+  MinStockItems:
     type: textarea
     value: |-
-IslandTechnology:
-  TechnologyStatus:
+  AccumulatingItems:
     type: textarea
     value: |-
+IslandRestaurant:
+  KoiGrade:
+    value: bronze
+    option: [ bronze, silver, gold, diamond ]
+  KoiWaitress:
+    value: any
+    option: [ none, any, zhaohe, any+any, zhaohe+any ]
+  BearGrade:
+    value: bronze
+    option: [ bronze, silver, gold, diamond ]
+  BearWaitress:
+    value: any
+    option: [ none, any, chaijun, any+any, chaijun+any ]
+  EateryGrade:  
+    value: bronze
+    option: [ bronze, silver, gold, diamond ]
+  EateryWaitress:
+    value: any
+    option: [ none, any, hailunna, ougen, any+any, hailunna+any, ougen+any, hailunna+ougen ]
+  GrillGrade:
+    value: bronze
+    option: [ bronze, silver, gold, diamond ]
+  GrillWaitress:
+    value: any
+    option: [ none, any, aogusite, ougen, any+any, aogusite+any, ougen+any, aogusite+ougen ]
+  CafeGrade:
+    value: bronze
+    option: [ bronze, silver, gold, diamond ]
+  CafeWaitress:
+    value: any
+    option: [ none, any, chaijun, any+any, chaijun+any ]
+
 
 # ==================== Tools ====================
 
@@ -825,6 +858,17 @@ EventStory:
     type: checkbox
     value: false
     option: [ true, false ]
+IslandProductionPlanner:
+  DailyProfitLowerLimit: 50000
+  FieldsEfficiency:
+    value: 0
+    option: [ 0, 0.04, 0.12 ]
+  OrchardEfficiency:
+    value: 0
+    option: [ 0, 0.04, 0.12 ]
+  NurseryEfficiency:
+    value: 0
+    option: [ 0, 0.04, 0.12 ]
 Benchmark:
   DeviceType:
     value: emulator

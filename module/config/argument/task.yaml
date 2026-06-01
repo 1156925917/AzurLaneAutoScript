@@ -339,12 +339,17 @@ Island:
   menu: 'collapse'
   page: 'setting'
   tasks:
-    IslandInfo:
-      - IslandSeasonTask
-      - IslandTechnology
-    IslandSeasonTask:
+    IslandProduction:
       - Scheduler
-
+      - IslandProduction
+    IslandFreebie:
+      - Scheduler
+      - IslandFreebie
+    IslandCollect:
+      - Scheduler
+    IslandRestaurant:
+      - Scheduler
+      - IslandRestaurant
 
 # ==================== Tool ====================
 
@@ -358,6 +363,8 @@ Tool:
       - OpsiDaemon
     EventStory:
       - EventStory
+    IslandProductionPlanner:
+      - IslandProductionPlanner
     Benchmark:
       - Benchmark
     AzurLaneUncensored:

@@ -1996,25 +1996,72 @@
       "Storage": {}
     }
   },
-  "IslandInfo": {
-    "IslandSeasonTask": {
-      "TaskDict": null
+  "IslandProduction": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "IslandProduction",
+      "SuccessInterval": 0,
+      "FailureInterval": 120,
+      "ServerUpdate": "00:00"
     },
-    "IslandTechnology": {
-      "TechnologyStatus": null
+    "IslandProduction": {
+      "MinStockItems": null,
+      "AccumulatingItems": null
     },
     "Storage": {
       "Storage": {}
     }
   },
-  "IslandSeasonTask": {
+  "IslandFreebie": {
     "Scheduler": {
       "Enable": false,
       "NextRun": "2020-01-01 00:00:00",
-      "Command": "IslandSeasonTask",
+      "Command": "IslandFreebie",
       "SuccessInterval": 0,
       "FailureInterval": 120,
       "ServerUpdate": "00:00"
+    },
+    "IslandFreebie": {
+      "Share": true
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
+  "IslandCollect": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "IslandCollect",
+      "SuccessInterval": 0,
+      "FailureInterval": 120,
+      "ServerUpdate": "03:00, 18:00"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
+  "IslandRestaurant": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "IslandRestaurant",
+      "SuccessInterval": 0,
+      "FailureInterval": 120,
+      "ServerUpdate": "00:00"
+    },
+    "IslandRestaurant": {
+      "KoiGrade": "bronze",
+      "KoiWaitress": "any",
+      "BearGrade": "bronze",
+      "BearWaitress": "any",
+      "EateryGrade": "bronze",
+      "EateryWaitress": "any",
+      "GrillGrade": "bronze",
+      "GrillWaitress": "any",
+      "CafeGrade": "bronze",
+      "CafeWaitress": "any"
     },
     "Storage": {
       "Storage": {}
@@ -2040,6 +2087,17 @@
   "EventStory": {
     "EventStory": {
       "SkipBattle": true
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
+  "IslandProductionPlanner": {
+    "IslandProductionPlanner": {
+      "DailyProfitLowerLimit": 50000,
+      "FieldsEfficiency": 0,
+      "OrchardEfficiency": 0,
+      "NurseryEfficiency": 0
     },
     "Storage": {
       "Storage": {}

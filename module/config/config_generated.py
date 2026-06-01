@@ -501,11 +501,24 @@ class GeneratedConfig:
     # Group `OpsiHazard1Leveling`
     OpsiHazard1Leveling_TargetZone = 0  # 0, 44, 22
 
-    # Group `IslandSeasonTask`
-    IslandSeasonTask_TaskDict = None
+    # Group `IslandFreebie`
+    IslandFreebie_Share = True
 
-    # Group `IslandTechnology`
-    IslandTechnology_TechnologyStatus = None
+    # Group `IslandProduction`
+    IslandProduction_MinStockItems = None
+    IslandProduction_AccumulatingItems = None
+
+    # Group `IslandRestaurant`
+    IslandRestaurant_KoiGrade = 'bronze'  # bronze, silver, gold, diamond
+    IslandRestaurant_KoiWaitress = 'any'  # none, any, zhaohe, any+any, zhaohe+any
+    IslandRestaurant_BearGrade = 'bronze'  # bronze, silver, gold, diamond
+    IslandRestaurant_BearWaitress = 'any'  # none, any, chaijun, any+any, chaijun+any
+    IslandRestaurant_EateryGrade = 'bronze'  # bronze, silver, gold, diamond
+    IslandRestaurant_EateryWaitress = 'any'  # none, any, hailunna, ougen, any+any, hailunna+any, ougen+any, hailunna+ougen
+    IslandRestaurant_GrillGrade = 'bronze'  # bronze, silver, gold, diamond
+    IslandRestaurant_GrillWaitress = 'any'  # none, any, aogusite, ougen, any+any, aogusite+any, ougen+any, aogusite+ougen
+    IslandRestaurant_CafeGrade = 'bronze'  # bronze, silver, gold, diamond
+    IslandRestaurant_CafeWaitress = 'any'  # none, any, chaijun, any+any, chaijun+any
 
     # Group `Daemon`
     Daemon_EnterMap = True
@@ -516,6 +529,12 @@ class GeneratedConfig:
 
     # Group `EventStory`
     EventStory_SkipBattle = False  # True, False
+
+    # Group `IslandProductionPlanner`
+    IslandProductionPlanner_DailyProfitLowerLimit = 50000
+    IslandProductionPlanner_FieldsEfficiency = 0  # 0, 0.04, 0.12
+    IslandProductionPlanner_OrchardEfficiency = 0  # 0, 0.04, 0.12
+    IslandProductionPlanner_NurseryEfficiency = 0  # 0, 0.04, 0.12
 
     # Group `Benchmark`
     Benchmark_DeviceType = 'emulator'  # emulator, plone_cloud_with_adb, phone_cloud_without_adb, android_phone, android_phone_vmos
