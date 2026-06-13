@@ -8,13 +8,21 @@ from module.combat.assets import GET_ITEMS_1
 from module.island.assets import *
 from module.ui.navbar import Navbar
 from module.ui.ui import UI
+from module.ui_white.assets import BACK_ARROW_WHITE
 
 
 class IslandUI(UI):
-    def ui_additional(self, get_ship=True):
-        return super().ui_additional(get_ship=False)
+    def ui_back(self, check_button, appear_button=None, offset=(30, 30), retry_wait=10, skip_first_screenshot=False):
+        return self.ui_click(
+            click_button=BACK_ARROW_WHITE,
+            check_button=check_button,
+            appear_button=appear_button,
+            offset=offset,
+            retry_wait=retry_wait,
+            skip_first_screenshot=skip_first_screenshot,
+        )
 
-    def has_white_band(self, threshold=1000):
+    def has_white_band(self, threshold=1200):
         min_y = 405
         max_y = 560
         image = self.image_crop((0, min_y, 1280, max_y), copy=False)
@@ -92,7 +100,7 @@ class IslandUI(UI):
 
     def island_manage_side_navbar_ensure(self, upper=1, skip_first_screenshot=True):
         """
-        Args: 
+        Args:
             upper (int):
                 1 for production,
                 2 for restaurant,
