@@ -70,6 +70,9 @@ class Page:
     def __str__(self):
         return self.name
 
+    def is_island(self):
+        return self.name == 'page_island' or self.name.startswith('page_island_')
+
     def link(self, button, destination):
         self.links[destination] = button
 
