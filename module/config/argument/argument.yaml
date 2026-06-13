@@ -2,59 +2,6 @@
 # Define arguments.
 # --------------------
 
-# ==================== Dashboard ====================
-Oil:
-  Value: 0
-  Limit: 0
-  Color: ^000000
-  Record: 2020-01-01 00:00:00
-Coin:
-  Value: 0
-  Limit: 0
-  Color: ^FFAA33
-  Record: 2020-01-01 00:00:00
-Gem:
-  Value: 0
-  Color: ^FF3333
-  Record: 2020-01-01 00:00:00
-Pt:
-  Value: 0
-  Color: ^00BFFF
-  Record: 2020-01-01 00:00:00
-YellowCoin:
-  Value: 0
-  Color: ^FF8800
-  Record: 2020-01-01 00:00:00
-PurpleCoin:
-  Value: 0
-  Color: ^7700BB
-  Record: 2020-01-01 00:00:00
-ActionPoint:
-  Value: 0
-  Total: 0
-  Color: ^0000FF
-  Record: 2020-01-01 00:00:00
-Merit:
-  Value: 0
-  Color: ^FFFF00
-  Record: 2020-01-01 00:00:00
-Cube:
-  Value: 0
-  Color: ^33FFFF
-  Record: 2020-01-01 00:00:00
-Core:
-  Value: 0
-  Color: ^AAAAAA
-  Record: 2020-01-01 00:00:00
-Medal:
-  Value: 0
-  Color: ^FFDD00
-  Record: 2020-01-01 00:00:00
-GuildCoin:
-  Value: 0
-  Color: ^AAAAAA
-  Record: 2020-01-01 00:00:00
-
 # ==================== Alas ====================
 
 Scheduler:
@@ -93,10 +40,6 @@ Emulator:
       aScreenCap,
       aScreenCap_nc,
       DroidCast,
-      DroidCast_webp,
-      DroidCast_jpeg,
-      DroidCast_jpeg_98,
-      DroidCast_jpeg_96,
       DroidCast_raw,
       nemu_ipc,
       ldopengl,
@@ -323,30 +266,16 @@ C124LargeLeveling:
     value: 3
     option: [ 3, 4, 5 ]
 GemsFarming:
-  ChangeFlagship:
-    value: ship
-    option: [ ship, ship_equip ]
   CommonCV:
     value: any
     option: [ any, langley, bogue, ranger, hermes ]
   ChangeVanguard:
     value: ship
-    option: [ disabled, ship, ship_equip ]
+    option: [ disabled, ship ]
   CommonDD:
     value: any
     option: [ any, favourite, aulick_or_foote , cassin_or_downes, z20_or_z21 ]
   CommissionLimit: true
-EquipmentCode:
-  ExportToConfig: true
-  Config:
-    type: textarea
-    mode: yaml
-    value: |-
-      DD: null
-      bogue: null
-      hermes: null
-      langley: null
-      ranger: null
 
 # ==================== Event ====================
 
@@ -377,8 +306,8 @@ MaritimeEscort:
   Enable: true
 Coalition:
   Mode:
-    value: tc3
-    option: [ tc1, tc2, tc3, sp, ex ]
+    value: hard
+    option: [ easy, normal, hard, sp ]
   Fleet:
     value: single
     option: [ single, multi ]
@@ -447,12 +376,9 @@ Research:
     option: [ always_use, only_05_hour, only_no_project, do_not_use ]
   AllowDelay: true
   PresetFilter:
-    value: series_9_blueprint_ta152
+    value: series_8_blueprint_305
     option:
       - custom
-      - series_9_blueprint_ta152
-      - series_9_blueprint_only
-      - series_9_ta152_only
       - series_8_blueprint_305
       - series_8_blueprint_only
       - series_8_305_only
@@ -476,12 +402,12 @@ Research:
       - series_2_blueprint_only
       - series_2_457_only
   CustomFilter: |-
-    S9-DR0.5 > S9-PRY0.5 > S9-Q0.5 > S9-H0.5 > Q0.5 > S9-DR2.5
-    > S9-G1.5 > S9-Q1 > S9-DR5 > 0.5 > S9-G4 > S9-Q2 > S9-PRY2.5 > reset
-    > S9-DR8 > Q1 > 1 > S9-E-315 > S9-G2.5 > G1.5 > 1.5 > S9-E-031
-    > S9-Q4 > Q2 > E2 > 2 > DR2.5 > PRY2.5 > G2.5 > 2.5 > S9-PRY5
-    > S9-PRY8 > Q4 > G4 > 4 > S9-C6 > DR5 > PRY5 > 5 > C6 > 6 > S9-C8
-    > S9-C12 > DR8 > PRY8 > C8 > 8 > C12 > 12
+    S8-DR0.5 > S8-PRY0.5 > S8-Q0.5 > S8-H0.5 > Q0.5 > S8-DR2.5
+    > S8-G1.5 > S8-Q1 > S8-DR5 > 0.5 > S8-G4 > S8-Q2 > S8-PRY2.5 > reset
+    > S8-DR8 > Q1 > 1 > S8-E-315 > S8-G2.5 > G1.5 > 1.5 > S8-E-031
+    > S8-Q4 > Q2 > E2 > 2 > DR2.5 > PRY2.5 > G2.5 > 2.5 > S8-PRY5
+    > S8-PRY8 > Q4 > G4 > 4 > S8-C6 > DR5 > PRY5 > 5 > C6 > 6 > S8-C8
+    > S8-C12 > DR8 > PRY8 > C8 > 8 > C12 > 12
 Dorm:
   Collect: true
   Feed: true
@@ -496,7 +422,6 @@ BuyFurniture:
 Meowfficer:
   BuyAmount: 1
   FortChoreMeowfficer: true
-  OverflowCoins: -1
 MeowfficerTrain:
   Enable: false
   Mode:
@@ -665,7 +590,7 @@ PrivateQuarters:
     TargetInteract: true
     TargetShip:
       value: anchorage
-      option: [ anchorage, noshiro, sirius, new_jersey, taihou, aegir, nakhimov ]
+      option: [ anchorage, noshiro, sirius, new_jersey, taihou, aegir ]
 # ==================== Daily ====================
 
 Daily:
@@ -810,8 +735,7 @@ OpsiHazard1Leveling:
     option: [ 0, 44, 22 ]
 
 # =================== Island ====================
-IslandFreebie:
-  Share: true
+
 IslandProduction:
   HardFloorItems:
     type: textarea
@@ -833,14 +757,10 @@ IslandProduction:
     type: textarea
     value: |-
       {}
-  MinStockItems:
-    type: textarea
-    value: |-
-  AccumulatingItems:
-    type: textarea
-    value: |-
 IslandOrder:
   StuckSeasonOrderId: 0
+IslandFreebie:
+  Share: true
 IslandRestaurant:
   KoiGrade:
     value: bronze
@@ -896,7 +816,7 @@ IslandSeasonTask:
   TaskTarget:
     type: textarea
     value: |-
-
+      {}
 
 # ==================== Tools ====================
 
@@ -911,7 +831,9 @@ EventStory:
     value: false
     option: [ true, false ]
 IslandProductionPlanner:
+  RescanIslandTechnology: false
   DailyProfitLowerLimit: 50000
+  DailyBufferSafetyMargin: 0
   FieldsEfficiency:
     value: 0
     option: [ 0, 0.04, 0.12 ]

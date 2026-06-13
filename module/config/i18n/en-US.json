@@ -70,10 +70,6 @@
       "name": "Event General",
       "help": ""
     },
-    "Coalition": {
-      "name": "Frostfall",
-      "help": ""
-    },
     "Event": {
       "name": "Event",
       "help": ""
@@ -88,6 +84,10 @@
     },
     "Hospital": {
       "name": "Valley Hospital",
+      "help": ""
+    },
+    "Coalition": {
+      "name": "Light & Shadow Fashion Shoot",
       "help": ""
     },
     "MaritimeEscort": {
@@ -123,7 +123,7 @@
       "help": ""
     },
     "CoalitionSp": {
-      "name": "Frostfall SP",
+      "name": "Light & Shadow Fashion Shoot SP",
       "help": ""
     },
     "Commission": {
@@ -274,7 +274,11 @@
       "name": "Daily Gathering",
       "help": "Use management panel to gather season specialities and coal/wood.\nWill use multiple characters with least levels until stamina requirement is fulfilled."
     },
-    "IslandRestaurant": {
+    "IslandSeasonTask": {
+      "name": "Island Season Task",
+      "help": ""
+    },
+    "IslandBusiness": {
       "name": "Restaurant Management",
       "help": ""
     },
@@ -305,234 +309,6 @@
     "GameManager": {
       "name": "Game Manager(WIP)",
       "help": ""
-    }
-  },
-  "Oil": {
-    "_info": {
-      "name": "Oil._info.name",
-      "help": "Oil._info.help"
-    },
-    "Value": {
-      "name": "Oil.Value.name",
-      "help": "Oil.Value.help"
-    },
-    "Limit": {
-      "name": "Oil.Limit.name",
-      "help": "Oil.Limit.help"
-    },
-    "Color": {
-      "name": "Oil.Color.name",
-      "help": "Oil.Color.help"
-    },
-    "Record": {
-      "name": "Oil.Record.name",
-      "help": "Oil.Record.help"
-    }
-  },
-  "Coin": {
-    "_info": {
-      "name": "Coin._info.name",
-      "help": "Coin._info.help"
-    },
-    "Value": {
-      "name": "Coin.Value.name",
-      "help": "Coin.Value.help"
-    },
-    "Limit": {
-      "name": "Coin.Limit.name",
-      "help": "Coin.Limit.help"
-    },
-    "Color": {
-      "name": "Coin.Color.name",
-      "help": "Coin.Color.help"
-    },
-    "Record": {
-      "name": "Coin.Record.name",
-      "help": "Coin.Record.help"
-    }
-  },
-  "Gem": {
-    "_info": {
-      "name": "Gem._info.name",
-      "help": "Gem._info.help"
-    },
-    "Value": {
-      "name": "Gem.Value.name",
-      "help": "Gem.Value.help"
-    },
-    "Color": {
-      "name": "Gem.Color.name",
-      "help": "Gem.Color.help"
-    },
-    "Record": {
-      "name": "Gem.Record.name",
-      "help": "Gem.Record.help"
-    }
-  },
-  "Pt": {
-    "_info": {
-      "name": "Pt._info.name",
-      "help": "Pt._info.help"
-    },
-    "Value": {
-      "name": "Pt.Value.name",
-      "help": "Pt.Value.help"
-    },
-    "Color": {
-      "name": "Pt.Color.name",
-      "help": "Pt.Color.help"
-    },
-    "Record": {
-      "name": "Pt.Record.name",
-      "help": "Pt.Record.help"
-    }
-  },
-  "YellowCoin": {
-    "_info": {
-      "name": "YellowCoin._info.name",
-      "help": "YellowCoin._info.help"
-    },
-    "Value": {
-      "name": "YellowCoin.Value.name",
-      "help": "YellowCoin.Value.help"
-    },
-    "Color": {
-      "name": "YellowCoin.Color.name",
-      "help": "YellowCoin.Color.help"
-    },
-    "Record": {
-      "name": "YellowCoin.Record.name",
-      "help": "YellowCoin.Record.help"
-    }
-  },
-  "PurpleCoin": {
-    "_info": {
-      "name": "PurpleCoin._info.name",
-      "help": "PurpleCoin._info.help"
-    },
-    "Value": {
-      "name": "PurpleCoin.Value.name",
-      "help": "PurpleCoin.Value.help"
-    },
-    "Color": {
-      "name": "PurpleCoin.Color.name",
-      "help": "PurpleCoin.Color.help"
-    },
-    "Record": {
-      "name": "PurpleCoin.Record.name",
-      "help": "PurpleCoin.Record.help"
-    }
-  },
-  "ActionPoint": {
-    "_info": {
-      "name": "ActionPoint._info.name",
-      "help": "ActionPoint._info.help"
-    },
-    "Value": {
-      "name": "ActionPoint.Value.name",
-      "help": "ActionPoint.Value.help"
-    },
-    "Total": {
-      "name": "ActionPoint.Total.name",
-      "help": "ActionPoint.Total.help"
-    },
-    "Color": {
-      "name": "ActionPoint.Color.name",
-      "help": "ActionPoint.Color.help"
-    },
-    "Record": {
-      "name": "ActionPoint.Record.name",
-      "help": "ActionPoint.Record.help"
-    }
-  },
-  "Merit": {
-    "_info": {
-      "name": "Merit._info.name",
-      "help": "Merit._info.help"
-    },
-    "Value": {
-      "name": "Merit.Value.name",
-      "help": "Merit.Value.help"
-    },
-    "Color": {
-      "name": "Merit.Color.name",
-      "help": "Merit.Color.help"
-    },
-    "Record": {
-      "name": "Merit.Record.name",
-      "help": "Merit.Record.help"
-    }
-  },
-  "Cube": {
-    "_info": {
-      "name": "Cube._info.name",
-      "help": "Cube._info.help"
-    },
-    "Value": {
-      "name": "Cube.Value.name",
-      "help": "Cube.Value.help"
-    },
-    "Color": {
-      "name": "Cube.Color.name",
-      "help": "Cube.Color.help"
-    },
-    "Record": {
-      "name": "Cube.Record.name",
-      "help": "Cube.Record.help"
-    }
-  },
-  "Core": {
-    "_info": {
-      "name": "Core._info.name",
-      "help": "Core._info.help"
-    },
-    "Value": {
-      "name": "Core.Value.name",
-      "help": "Core.Value.help"
-    },
-    "Color": {
-      "name": "Core.Color.name",
-      "help": "Core.Color.help"
-    },
-    "Record": {
-      "name": "Core.Record.name",
-      "help": "Core.Record.help"
-    }
-  },
-  "Medal": {
-    "_info": {
-      "name": "Medal._info.name",
-      "help": "Medal._info.help"
-    },
-    "Value": {
-      "name": "Medal.Value.name",
-      "help": "Medal.Value.help"
-    },
-    "Color": {
-      "name": "Medal.Color.name",
-      "help": "Medal.Color.help"
-    },
-    "Record": {
-      "name": "Medal.Record.name",
-      "help": "Medal.Record.help"
-    }
-  },
-  "GuildCoin": {
-    "_info": {
-      "name": "GuildCoin._info.name",
-      "help": "GuildCoin._info.help"
-    },
-    "Value": {
-      "name": "GuildCoin.Value.name",
-      "help": "GuildCoin.Value.help"
-    },
-    "Color": {
-      "name": "GuildCoin.Color.name",
-      "help": "GuildCoin.Color.help"
-    },
-    "Record": {
-      "name": "GuildCoin.Record.name",
-      "help": "GuildCoin.Record.help"
     }
   },
   "Scheduler": {
@@ -687,10 +463,6 @@
       "aScreenCap": "aScreenCap",
       "aScreenCap_nc": "aScreenCap_nc",
       "DroidCast": "DroidCast",
-      "DroidCast_webp": "DroidCast_webp",
-      "DroidCast_jpeg": "DroidCast_jpeg",
-      "DroidCast_jpeg_98": "DroidCast_jpeg_98",
-      "DroidCast_jpeg_96": "DroidCast_jpeg_96",
       "DroidCast_raw": "DroidCast_raw",
       "nemu_ipc": "nemu_ipc",
       "ldopengl": "ldopengl"
@@ -1012,7 +784,7 @@
       "event_20231221_cn": "Light-Chasing Sea of Stars Rerun",
       "event_20240229_cn": "Snowrealm Peregrination Rerun",
       "event_20240425_cn": "Heart-Linking Harmony",
-      "event_20240521_cn": "Light of the Martyrium Rerun",
+      "event_20240521_cn": "Light of the Martyrium",
       "event_20240725_cn": "Interlude of Illusions",
       "event_20240815_cn": "Windborne Steel Wings",
       "event_20240829_cn": "Whence Flowers Bear No Fruit",
@@ -1032,7 +804,6 @@
       "event_20260326_cn": "The Vagabond’s Recruitment Plan",
       "event_20260417_cn": "Vacation Lane – Beachside Brilliance",
       "event_20260520_cn": "Alliance Before the Hagiobull",
-      "event_20260625_cn": "Miracle by Midnight",
       "raid_20200624": "Air Raid Drills with Essex Rerun",
       "raid_20210708": "Cross Wave rerun",
       "raid_20220127": "Mystery Investigation",
@@ -1088,10 +859,8 @@
       "war_archives_20220915_cn": "archives Violet Tempest Blooming Lycoris",
       "war_archives_20221222_cn": "archives Parallel Superimposition",
       "war_archives_20230223_cn": "archives Revelations of Dust",
-      "war_archives_20230525_cn": "archives Confluence of Nothingness",
       "war_archives_20230803_cn": "archives Anthem of Remembrance",
-      "war_archives_20231026_cn": "archives Tempesta and the Fountain of Youth",
-      "war_archives_20240725_cn": "archives Interlude of Illusions"
+      "war_archives_20231026_cn": "archives Tempesta and the Fountain of Youth"
     },
     "Mode": {
       "name": "Level Mode",
@@ -1459,12 +1228,6 @@
       "name": "Commission Farming Settings",
       "help": "Warning: This task allows players to get a small amount of gems, but not an efficient way to farm.\nPlayers who have recently started Azur Lane are easily superstitious about 0LB and low oil consumption, while being ignorant about character leveling.\nRunning this function will only make you feel fulfilled however in reality your account will not actually progress very much.\nThe main purpose of this task is to get extra cubes for players with a formed lineup. Please rationally treat gems as a by-product.\n\nFleet 1 is expected to consist of 1 0LB CV/CVL and 1 0LB Vanguard, Fleet 2 is expected to consist of support ships such as New Jersey or Shinano to provide external battle assistance.\nFor information about the drop mechanism/rate of urgent commissions, you can refer to <https://bbs.nga.cn/read.php?tid=27134956> (in Chinese Simplified)"
     },
-    "ChangeFlagship": {
-      "name": "Change Flagship",
-      "help": "Change flagship if flagship level >= 32 or either flagship or vanguard are emotion exhausted. If you choose not to change, your fleet will ignore the low emotion warning and continue combat.\nSwitch out to new common CV/CVL whose level is in range of 1 to 31, after current has reached level 32+. Meanwhile, abandoned flagships will be retired. Any common CV/CVL whose level is 2+ will be regarded as targets. Do confirm that your own ships which is not a target has been locked\n\nThe flagship's equipment is replaced when being switched out by first recording the current setup\nOnly populated equipment slots will be replaced. If the CV/CVL preference has been configured, all 5 slots will be populated otherwise only the auxiliary slots will be populated.",
-      "ship": "Change Ship",
-      "ship_equip": "Change Ship + Gears"
-    },
     "CommonCV": {
       "name": "Flagship Common CV/CVL Preference",
       "help": "",
@@ -1478,8 +1241,7 @@
       "name": "Change Vanguard",
       "help": "Change vanguard if flagship or vanguard are emotion exhausted. If you choose not to change, your fleet will ignore the low emotion warning and continue combat.\nSwitch out to new level 100(70) common vanguard from eagle or ironblood after current flagship has reached level 32+ (Only CN players'0 limit break ship can reach level 100)",
       "disabled": "Don't Change",
-      "ship": "Change Ship",
-      "ship_equip": "Change Ship + Gears"
+      "ship": "Change Ship"
     },
     "CommonDD": {
       "name": "Flagship Common DD Preference",
@@ -1493,20 +1255,6 @@
     "CommissionLimit": {
       "name": "Prevent Too Many Urgent Commissions",
       "help": "When running 7x24, prevent having a lot of urgent commissions and not being able to complete daily commissions. It is recommended to select only short-terms and high-yields in the commission filter"
-    }
-  },
-  "EquipmentCode": {
-    "_info": {
-      "name": "Gear Code",
-      "help": ""
-    },
-    "ExportToConfig": {
-      "name": "Export to config",
-      "help": "Only exports if corresponding key has no value. Delete specific row to trigger later update."
-    },
-    "Config": {
-      "name": "Gear code config",
-      "help": "Format is yaml"
     }
   },
   "EventGeneral": {
@@ -1614,11 +1362,10 @@
     "Mode": {
       "name": "Mode",
       "help": "SP needs to use event daily SP to run",
-      "tc1": "tc1",
-      "tc2": "tc2",
-      "tc3": "tc3",
-      "sp": "sp",
-      "ex": "ex"
+      "easy": "easy",
+      "normal": "normal",
+      "hard": "hard",
+      "sp": "sp"
     },
     "Fleet": {
       "name": "Fleet",
@@ -1706,7 +1453,7 @@
       "help": ""
     },
     "Favorite": {
-      "name": "Only Favorite Ships",
+      "name": "Use Favorite Filter",
       "help": "During student selection apply the favorite filter\nThereby, giving priority to certain ship girls\nApply the favorite status to a ship girl in-game"
     },
     "MinLevel": {
@@ -1751,9 +1498,6 @@
       "name": "Preset Filter Select",
       "help": "See research drops rates and spawn rates in https://azur-stats.lyoko.io/. People without a basic knowledge of these are recommended to use pre-optimized presets instead of writing custom filters",
       "custom": "custom",
-      "series_9_blueprint_ta152": "Series 9 Blueprints+Ta152",
-      "series_9_blueprint_only": "Series 9 Blueprints Only",
-      "series_9_ta152_only": "Series 9 Ta152 Only",
       "series_8_blueprint_305": "Series 8 Blueprints+305",
       "series_8_blueprint_only": "Series 8 Blueprints Only",
       "series_8_305_only": "Series 8 305 Only",
@@ -1832,10 +1576,6 @@
     "FortChoreMeowfficer": {
       "name": "Do Fort Chores",
       "help": "Completes all 3 chores; clean, feed, and play with meowfficer to get fort exp"
-    },
-    "OverflowCoins": {
-      "name": "Buy Boxes On Coin Overflow",
-      "help": "When coins are above this value, keep buying boxes until coins drop to it or boxes run out; -1 to disable"
     }
   },
   "MeowfficerTrain": {
@@ -2391,8 +2131,7 @@
       "sirius": "Sirius",
       "new_jersey": "New Jersey",
       "taihou": "Taihou",
-      "aegir": "Aegir",
-      "nakhimov": "Nakhimov"
+      "aegir": "Aegir"
     }
   },
   "Daily": {
@@ -2894,20 +2633,6 @@
       "help": ""
     }
   },
-  "IslandProduction": {
-    "_info": {
-      "name": "Island Production",
-      "help": ""
-    },
-    "MinStockItems": {
-      "name": "Minimum Stock Items",
-      "help": "Items that need to be produced when stock is low, and the stock level to maintain for each item\nAlas will prioritize producing these items when stock is low and will produce other items when idle\nThis can be automatically generated by Island Production Planner in Tools."
-    },
-    "AccumulatingItems": {
-      "name": "Accumulating Items",
-      "help": "Items whose exceeding production should be ignored, and the rate of stock level increasing for each item\nAlas will not view these items as overproduced and will produce them according to current stock divided by the rate when idle.\nThis can be automatically generated by Island Production Planner in Tools."
-    }
-  },
   "IslandRestaurant": {
     "_info": {
       "name": "Restaurant Management",
@@ -2926,9 +2651,13 @@
       "help": "None means not running this restaurant and Any means not restricting the choice of waitress, in which case the character with the highest manage level will be chosen\nIf a specific character is chosen but not available, the restaurant will fallback to Any instead of skipping the restaurant",
       "none": "None",
       "any": "Any",
-      "zhaohe": "Chao Ho",
+      "Chao_Ho": "Chao Ho",
       "any+any": "Any + Any",
-      "zhaohe+any": "Chao Ho + Any"
+      "Chao_Ho+any": "Chao Ho + Any"
+    },
+    "KoiMenu": {
+      "name": "Golden Koi Restaurant Menu",
+      "help": "Will only sell from these dishes.\nAutomatically generated by Island Production Planner in Tools."
     },
     "BearGrade": {
       "name": "Polar Bear Teahouse Grade",
@@ -2943,9 +2672,13 @@
       "help": "None means not running this restaurant and Any means not restricting the choice of waitress, in which case the character with the highest manage level will be chosen\nIf a specific character is chosen but not available, the restaurant will fallback to Any instead of skipping the restaurant",
       "none": "None",
       "any": "Any",
-      "chaijun": "HMS Cheshire",
+      "Cheshire": "HMS Cheshire",
       "any+any": "Any + Any",
-      "chaijun+any": "HMS Cheshire + Any"
+      "Cheshire+any": "HMS Cheshire + Any"
+    },
+    "BearMenu": {
+      "name": "Polar Bear Teahouse Menu",
+      "help": "Will only sell from these dishes.\nAutomatically generated by Island Production Planner in Tools."
     },
     "EateryGrade": {
       "name": "Manjuu Eatery Grade",
@@ -2960,12 +2693,16 @@
       "help": "None means not running this restaurant and Any means not restricting the choice of waitress, in which case the character with the highest manage level will be chosen\nIf a specific character is chosen but not available, the restaurant will fallback to Any instead of skipping the restaurant",
       "none": "None",
       "any": "Any",
-      "hailunna": "USS Helena",
-      "ougen": "KMS Prinz Eugen",
+      "Helena": "USS Helena",
+      "Prinz_Eugen": "KMS Prinz Eugen",
       "any+any": "Any + Any",
-      "hailunna+any": "USS Helena + Any",
-      "ougen+any": "KMS Prinz Eugen + Any",
-      "hailunna+ougen": "USS Helena + KMS Prinz Eugen"
+      "Helena+any": "USS Helena + Any",
+      "Prinz_Eugen+any": "KMS Prinz Eugen + Any",
+      "Helena+Prinz_Eugen": "USS Helena + KMS Prinz Eugen"
+    },
+    "EateryMenu": {
+      "name": "Manjuu Eatery Menu",
+      "help": "Will only sell from these dishes.\nAutomatically generated by Island Production Planner in Tools."
     },
     "GrillGrade": {
       "name": "Fin-'n'-Feather Grill Grade",
@@ -2980,12 +2717,16 @@
       "help": "",
       "none": "None",
       "any": "Any",
-      "aogusite": "KMS August von Parseval",
-      "ougen": "KMS Prinz Eugen",
+      "August_von_Parseval": "KMS August von Parseval",
+      "Prinz_Eugen": "KMS Prinz Eugen",
       "any+any": "Any + Any",
-      "aogusite+any": "KMS August von Parseval + Any",
-      "ougen+any": "KMS Prinz Eugen + Any",
-      "aogusite+ougen": "KMS August von Parseval + KMS Prinz Eugen"
+      "August_von_Parseval+any": "KMS August von Parseval + Any",
+      "Prinz_Eugen+any": "KMS Prinz Eugen + Any",
+      "August_von_Parseval+Prinz_Eugen": "KMS August von Parseval + KMS Prinz Eugen"
+    },
+    "GrillMenu": {
+      "name": "Fin-'n'-Feather Grill Menu",
+      "help": "Will only sell from these dishes.\nAutomatically generated by Island Production Planner in Tools."
     },
     "CafeGrade": {
       "name": "Café Manjuu Grade",
@@ -3000,9 +2741,23 @@
       "help": "",
       "none": "None",
       "any": "Any",
-      "chaijun": "HMS Cheshire",
+      "Cheshire": "HMS Cheshire",
       "any+any": "Any + Any",
-      "chaijun+any": "HMS Cheshire + Any"
+      "Cheshire+any": "HMS Cheshire + Any"
+    },
+    "CafeMenu": {
+      "name": "Café Manjuu Menu",
+      "help": "Will only sell from these dishes.\nAutomatically generated by Island Production Planner in Tools."
+    }
+  },
+  "IslandSeasonTask": {
+    "_info": {
+      "name": "Island Season Task",
+      "help": ""
+    },
+    "TaskTarget": {
+      "name": "Task Preserved Items",
+      "help": ""
     }
   },
   "Daemon": {
@@ -3044,11 +2799,19 @@
   "IslandProductionPlanner": {
     "_info": {
       "name": "Island Production Planner",
-      "help": "Will use linear programming to optimize the production plan for the island based on the parameters you set and generate the config for Island Production module.\nPlease set Island Restaurant config first."
+      "help": "Will use linear programming to optimize the production plan for the island based on the parameters you set and generate the config for Island Production module.\nPlease set Island Restaurant config and Island Production Preserved Items first.\nClear Task status to rerun Island Technology Scanner."
+    },
+    "RescanIslandTechnology": {
+      "name": "Rescan Island Technology this time",
+      "help": "Alas will rescan the island technology and update the config for Island Production module with the new technology levels\nThis is useful when you have just upgraded your island technology and want to update the production plan accordingly."
     },
     "DailyProfitLowerLimit": {
       "name": "Daily Profit Lower Limit",
       "help": "Negative value means accepting a daily loss, 0 means breaking even, and positive value means profit."
+    },
+    "DailyBufferSafetyMargin": {
+      "name": "Daily Buffer Safety Margin",
+      "help": "Multiplier margin applied to planner-generated daily buffer. 0.2 means exporting 120% of the calculated daily demand."
     },
     "FieldsEfficiency": {
       "name": "Faircrop Fields Efficiency",
@@ -3138,8 +2901,6 @@
       "Stop": "Stop",
       "ScrollON": "Auto Scroll ON",
       "ScrollOFF": "Auto Scroll OFF",
-      "DashboardON": "Fold",
-      "DashboardOFF": "Unfold",
       "ClearLog": "Clear Log",
       "Setting": "Setting",
       "CheckUpdate": "Check update",
@@ -3172,26 +2933,6 @@
     },
     "Overview": {
       "Scheduler": "Scheduler",
-      "Dashboard": "Gui.Overview.Dashboard",
-      "SecondsAgo": "Seconds ago",
-      "MinutesAgo": "Minutes ago",
-      "HoursAgo": "Hours ago",
-      "DaysAgo": "Days ago",
-      "MonthsAgo": "Months ago",
-      "YearsAgo": "Years ago",
-      "NoData": "No data",
-      "Oil": "Oil",
-      "Coin": "Coin",
-      "Gem": "Gem",
-      "Cube": "Cube",
-      "Pt": "Event Pt",
-      "YellowCoin": "Operation Supply Coin",
-      "PurpleCoin": "Special Item Token",
-      "ActionPoint": "Action Point",
-      "Merit": "Merit",
-      "Medal": "Medal",
-      "Core": "Core Data",
-      "GuildCoin": "Guild Coin",
       "Log": "Log",
       "Running": "Running",
       "Pending": "Pending",

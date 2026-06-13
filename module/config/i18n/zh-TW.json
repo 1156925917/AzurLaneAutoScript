@@ -70,10 +70,6 @@
       "name": "活動通用",
       "help": ""
     },
-    "Coalition": {
-      "name": "極地風暴",
-      "help": ""
-    },
     "Event": {
       "name": "活動圖",
       "help": ""
@@ -88,6 +84,10 @@
     },
     "Hospital": {
       "name": "深谷来信",
+      "help": ""
+    },
+    "Coalition": {
+      "name": "光影風尚-拍攝進行時",
       "help": ""
     },
     "MaritimeEscort": {
@@ -123,7 +123,7 @@
       "help": ""
     },
     "CoalitionSp": {
-      "name": "極地風暴SP",
+      "name": "光影風尚-拍攝進行時SP",
       "help": ""
     },
     "Commission": {
@@ -274,9 +274,13 @@
       "name": "每日採集",
       "help": "使用管理面板採集季節特產和煤炭/自然之木。\n將使用多個等級最低的角色直到滿足體力要求。"
     },
-    "IslandRestaurant": {
-      "name": "餐廳",
-      "help": "使用管理面板進行烹飪與送餐。\n將使用多個等級最低的角色直到滿足體力要求。"
+    "IslandSeasonTask": {
+      "name": "開發計劃",
+      "help": ""
+    },
+    "IslandBusiness": {
+      "name": "店鋪經營",
+      "help": ""
     },
     "Daemon": {
       "name": "半自動點擊",
@@ -291,8 +295,8 @@
       "help": ""
     },
     "IslandProductionPlanner": {
-      "name": "生產規劃",
-      "help": "規劃離島的生產安排與資源分配。"
+      "name": "離島生產規劃器",
+      "help": "將根據用戶設定的參數使用線性規劃優化離島的生產計劃，並生成離島生產模組的配置"
     },
     "Benchmark": {
       "name": "性能測試",
@@ -305,234 +309,6 @@
     "GameManager": {
       "name": "遊戲管理器(未完成)",
       "help": ""
-    }
-  },
-  "Oil": {
-    "_info": {
-      "name": "Oil._info.name",
-      "help": "Oil._info.help"
-    },
-    "Value": {
-      "name": "Oil.Value.name",
-      "help": "Oil.Value.help"
-    },
-    "Limit": {
-      "name": "Oil.Limit.name",
-      "help": "Oil.Limit.help"
-    },
-    "Color": {
-      "name": "Oil.Color.name",
-      "help": "Oil.Color.help"
-    },
-    "Record": {
-      "name": "Oil.Record.name",
-      "help": "Oil.Record.help"
-    }
-  },
-  "Coin": {
-    "_info": {
-      "name": "Coin._info.name",
-      "help": "Coin._info.help"
-    },
-    "Value": {
-      "name": "Coin.Value.name",
-      "help": "Coin.Value.help"
-    },
-    "Limit": {
-      "name": "Coin.Limit.name",
-      "help": "Coin.Limit.help"
-    },
-    "Color": {
-      "name": "Coin.Color.name",
-      "help": "Coin.Color.help"
-    },
-    "Record": {
-      "name": "Coin.Record.name",
-      "help": "Coin.Record.help"
-    }
-  },
-  "Gem": {
-    "_info": {
-      "name": "Gem._info.name",
-      "help": "Gem._info.help"
-    },
-    "Value": {
-      "name": "Gem.Value.name",
-      "help": "Gem.Value.help"
-    },
-    "Color": {
-      "name": "Gem.Color.name",
-      "help": "Gem.Color.help"
-    },
-    "Record": {
-      "name": "Gem.Record.name",
-      "help": "Gem.Record.help"
-    }
-  },
-  "Pt": {
-    "_info": {
-      "name": "Pt._info.name",
-      "help": "Pt._info.help"
-    },
-    "Value": {
-      "name": "Pt.Value.name",
-      "help": "Pt.Value.help"
-    },
-    "Color": {
-      "name": "Pt.Color.name",
-      "help": "Pt.Color.help"
-    },
-    "Record": {
-      "name": "Pt.Record.name",
-      "help": "Pt.Record.help"
-    }
-  },
-  "YellowCoin": {
-    "_info": {
-      "name": "YellowCoin._info.name",
-      "help": "YellowCoin._info.help"
-    },
-    "Value": {
-      "name": "YellowCoin.Value.name",
-      "help": "YellowCoin.Value.help"
-    },
-    "Color": {
-      "name": "YellowCoin.Color.name",
-      "help": "YellowCoin.Color.help"
-    },
-    "Record": {
-      "name": "YellowCoin.Record.name",
-      "help": "YellowCoin.Record.help"
-    }
-  },
-  "PurpleCoin": {
-    "_info": {
-      "name": "PurpleCoin._info.name",
-      "help": "PurpleCoin._info.help"
-    },
-    "Value": {
-      "name": "PurpleCoin.Value.name",
-      "help": "PurpleCoin.Value.help"
-    },
-    "Color": {
-      "name": "PurpleCoin.Color.name",
-      "help": "PurpleCoin.Color.help"
-    },
-    "Record": {
-      "name": "PurpleCoin.Record.name",
-      "help": "PurpleCoin.Record.help"
-    }
-  },
-  "ActionPoint": {
-    "_info": {
-      "name": "ActionPoint._info.name",
-      "help": "ActionPoint._info.help"
-    },
-    "Value": {
-      "name": "ActionPoint.Value.name",
-      "help": "ActionPoint.Value.help"
-    },
-    "Total": {
-      "name": "ActionPoint.Total.name",
-      "help": "ActionPoint.Total.help"
-    },
-    "Color": {
-      "name": "ActionPoint.Color.name",
-      "help": "ActionPoint.Color.help"
-    },
-    "Record": {
-      "name": "ActionPoint.Record.name",
-      "help": "ActionPoint.Record.help"
-    }
-  },
-  "Merit": {
-    "_info": {
-      "name": "Merit._info.name",
-      "help": "Merit._info.help"
-    },
-    "Value": {
-      "name": "Merit.Value.name",
-      "help": "Merit.Value.help"
-    },
-    "Color": {
-      "name": "Merit.Color.name",
-      "help": "Merit.Color.help"
-    },
-    "Record": {
-      "name": "Merit.Record.name",
-      "help": "Merit.Record.help"
-    }
-  },
-  "Cube": {
-    "_info": {
-      "name": "Cube._info.name",
-      "help": "Cube._info.help"
-    },
-    "Value": {
-      "name": "Cube.Value.name",
-      "help": "Cube.Value.help"
-    },
-    "Color": {
-      "name": "Cube.Color.name",
-      "help": "Cube.Color.help"
-    },
-    "Record": {
-      "name": "Cube.Record.name",
-      "help": "Cube.Record.help"
-    }
-  },
-  "Core": {
-    "_info": {
-      "name": "Core._info.name",
-      "help": "Core._info.help"
-    },
-    "Value": {
-      "name": "Core.Value.name",
-      "help": "Core.Value.help"
-    },
-    "Color": {
-      "name": "Core.Color.name",
-      "help": "Core.Color.help"
-    },
-    "Record": {
-      "name": "Core.Record.name",
-      "help": "Core.Record.help"
-    }
-  },
-  "Medal": {
-    "_info": {
-      "name": "Medal._info.name",
-      "help": "Medal._info.help"
-    },
-    "Value": {
-      "name": "Medal.Value.name",
-      "help": "Medal.Value.help"
-    },
-    "Color": {
-      "name": "Medal.Color.name",
-      "help": "Medal.Color.help"
-    },
-    "Record": {
-      "name": "Medal.Record.name",
-      "help": "Medal.Record.help"
-    }
-  },
-  "GuildCoin": {
-    "_info": {
-      "name": "GuildCoin._info.name",
-      "help": "GuildCoin._info.help"
-    },
-    "Value": {
-      "name": "GuildCoin.Value.name",
-      "help": "GuildCoin.Value.help"
-    },
-    "Color": {
-      "name": "GuildCoin.Color.name",
-      "help": "GuildCoin.Color.help"
-    },
-    "Record": {
-      "name": "GuildCoin.Record.name",
-      "help": "GuildCoin.Record.help"
     }
   },
   "Scheduler": {
@@ -687,10 +463,6 @@
       "aScreenCap": "aScreenCap",
       "aScreenCap_nc": "aScreenCap_nc",
       "DroidCast": "DroidCast",
-      "DroidCast_webp": "DroidCast_webp",
-      "DroidCast_jpeg": "DroidCast_jpeg",
-      "DroidCast_jpeg_98": "DroidCast_jpeg_98",
-      "DroidCast_jpeg_96": "DroidCast_jpeg_96",
       "DroidCast_raw": "DroidCast_raw",
       "nemu_ipc": "nemu_ipc",
       "ldopengl": "ldopengl"
@@ -1002,7 +774,7 @@
       "event_20220915_cn": "復刻紫絳槿嵐",
       "event_20221124_cn": "復刻鍊金術士與秘密遺跡群島",
       "event_20221222_cn": "復刻定向折疊",
-      "event_20230223_cn": "復刻湮燼塵墟",
+      "event_20230223_cn": "湮燼塵墟",
       "event_20230525_cn": "空相交會點",
       "event_20230803_cn": "奏響鳶尾之歌",
       "event_20230817_cn": "愚者的天平",
@@ -1032,7 +804,6 @@
       "event_20260326_cn": "漫遊者招募計劃",
       "event_20260417_cn": "假日航線閃耀海濱",
       "event_20260520_cn": "聖印前的同盟",
-      "event_20260625_cn": "美夢巡演奇秒夜",
       "raid_20200624": "特別演習埃塞克斯級(復刻)",
       "raid_20210708": "復刻穿越彼方的水線",
       "raid_20220127": "演習神秘事件調查",
@@ -1088,10 +859,8 @@
       "war_archives_20220915_cn": "檔案 紫絳槿嵐",
       "war_archives_20221222_cn": "檔案 定向折疊",
       "war_archives_20230223_cn": "檔案 湮燼塵墟",
-      "war_archives_20230525_cn": "檔案 空相交會點",
       "war_archives_20230803_cn": "檔案 奏響鳶尾之歌",
-      "war_archives_20231026_cn": "檔案 飓風與青春之泉",
-      "war_archives_20240725_cn": "檔案 幻夢間奏曲"
+      "war_archives_20231026_cn": "檔案 飓風與青春之泉"
     },
     "Mode": {
       "name": "地圖模式",
@@ -1459,12 +1228,6 @@
       "name": "刷緊急委託",
       "help": "警告：這個功能可以讓玩家獲取少量的鑽石，但不是一個能高效獲取鑽石的方法\n玩碧藍航線不久的玩家，很容易迷信零破和低耗等，而忽視了角色養成\n執行這個功能只會讓你自己感覺很充實，而你的帳號實際零提升\n這個功能的主要用途，是讓陣容成型的玩家獲取額外的魔方，請理性地把鑽石當作副產物\n\n這個功能將在旗艦32級之後更換旗艦\n關於緊急委託刷新機制，可閱讀 https://bbs.nga.cn/read.php?tid=27134956\n委託油耗比: A3 > A1 > 2-4 > 2-1，有活動圖時建議選活動圖，2-1會撿問號有更多物資\n一隊會完成所有的戰鬥，前排應當為百級零破驅逐帶輸出裝，後排應該為33級及以下白船零破航母\n二隊應提供跨隊支援（跨隊彈幕、跨隊輔助）"
     },
-    "ChangeFlagship": {
-      "name": "更換旗艦",
-      "help": "當旗艦等級>=32或紅臉時更換旗艦\n尋找等級在1-31之間的白皮航母，同時會在退役時選擇更換下來的旗艦。所有等級大於1級的白船航母均會被視為退役目標，請務必鎖定不是目標的船。換船時更換旗艦裝備，這通過記錄之前的裝備完成。\n\n換裝備只會更換正在裝備中的欄位，即使是白裝也會更換。如果指定了旗艦，則會更換全部5個裝備，未指定旗艦隻會更換設備。",
-      "ship": "更換艦船",
-      "ship_equip": "更換艦船 + 裝備"
-    },
     "CommonCV": {
       "name": "指定旗艦航母",
       "help": "",
@@ -1478,8 +1241,7 @@
       "name": "更換前排",
       "help": "當前排紅臉時更換前排，選擇不更換則會強制紅臉出擊\n換前排通過找一艘心情不低於10、等級70的白鷹或鐵血的白船驅逐完成，所以盡量保證有足夠多的驅逐。國服則為等級100的白鷹白船驅逐。",
       "disabled": "不更换",
-      "ship": "更換艦船",
-      "ship_equip": "更換艦船 + 裝備"
+      "ship": "更換艦船"
     },
     "CommonDD": {
       "name": "指定前排",
@@ -1493,20 +1255,6 @@
     "CommissionLimit": {
       "name": "防止緊急委託數量過多",
       "help": "在7x24運行時防止緊急委託數量過多做不完每日委託，建議在委託過濾器僅選擇短時長高收益委託"
-    }
-  },
-  "EquipmentCode": {
-    "_info": {
-      "name": "裝備碼",
-      "help": ""
-    },
-    "ExportToConfig": {
-      "name": "導出配置",
-      "help": "若原本對應欄位有值則不會更新，請透過刪除配置中對應欄位來觸發更新"
-    },
-    "Config": {
-      "name": "具體配置",
-      "help": "格式為yaml"
     }
   },
   "EventGeneral": {
@@ -1614,11 +1362,10 @@
     "Mode": {
       "name": "難度",
       "help": "SP圖需要使用活動每日SP運行",
-      "tc1": "tc1",
-      "tc2": "tc2",
-      "tc3": "tc3",
-      "sp": "sp",
-      "ex": "ex"
+      "easy": "easy",
+      "normal": "normal",
+      "hard": "hard",
+      "sp": "sp"
     },
     "Fleet": {
       "name": "出擊隊伍",
@@ -1706,7 +1453,7 @@
       "help": ""
     },
     "Favorite": {
-      "name": "僅選擇常用角色",
+      "name": "優先選擇常用",
       "help": ""
     },
     "MinLevel": {
@@ -1751,9 +1498,6 @@
       "name": "科研過濾器",
       "help": "科研掉落和項目刷新見 https://azur-stats.lyoko.io/，對這些沒有基本了解的人不建議編寫自定義過濾器，建議使用預優化科研過濾器",
       "custom": "自定義",
-      "series_9_blueprint_ta152": "九期 藍圖+Ta152",
-      "series_9_blueprint_only": "九期 僅藍圖",
-      "series_9_ta152_only": "九期 僅Ta152",
       "series_8_blueprint_305": "八期 藍圖+305",
       "series_8_blueprint_only": "八期 僅藍圖",
       "series_8_305_only": "八期 僅305",
@@ -1832,10 +1576,6 @@
     "FortChoreMeowfficer": {
       "name": "喵窩互動",
       "help": "清掃、餵食和逗貓"
-    },
-    "OverflowCoins": {
-      "name": "金幣溢出時購買貓箱",
-      "help": "當金幣高於此值時，繼續購買貓箱直至金幣降至此值或貓箱售罄；-1 關閉"
     }
   },
   "MeowfficerTrain": {
@@ -2391,8 +2131,7 @@
       "sirius": "天狼星",
       "new_jersey": "紐澤西",
       "taihou": "大鳳",
-      "aegir": "埃吉爾",
-      "nakhimov": "纳希莫夫"
+      "aegir": "埃吉爾"
     }
   },
   "Daily": {
@@ -2894,20 +2633,6 @@
       "help": ""
     }
   },
-  "IslandProduction": {
-    "_info": {
-      "name": "離島生產",
-      "help": ""
-    },
-    "MinStockItems": {
-      "name": "最低庫存物品",
-      "help": "需要在庫存低時生產的物品，以及每種物品要維持的庫存水平\nAlas 將在庫存低時優先生產這些物品，閒置時會生產其他物品\n可以透過工具中的離島生產規劃器自動生成"
-    },
-    "AccumulatingItems": {
-      "name": "累積物品",
-      "help": "超額生產應忽略的物品，以及每種物品庫存水平增加的比率\nAlas 不會將這些物品視為過度生產，閒置時將根據目前庫存除以比率來生產它們\n可以透過工具中的離島生產規劃器自動生成"
-    }
-  },
   "IslandRestaurant": {
     "_info": {
       "name": "餐廳管理",
@@ -2926,9 +2651,13 @@
       "help": "無表示不運營此餐廳，任意表示不限制服務員的選擇，此時將選擇管理等級最高的角色\n如果選擇的特定角色不可用，餐廳將回退到任意而不是跳過此餐廳",
       "none": "無",
       "any": "任意",
-      "zhaohe": "肇和",
+      "Chao_Ho": "肇和",
       "any+any": "任意 + 任意",
-      "zhaohe+any": "肇和 + 任意"
+      "Chao_Ho+any": "肇和 + 任意"
+    },
+    "KoiMenu": {
+      "name": "有魚餐館菜單",
+      "help": "只銷售菜單裡指定的菜品。\n通過工具中的離島生產規劃器自動生成"
     },
     "BearGrade": {
       "name": "白熊飲品等級",
@@ -2943,9 +2672,13 @@
       "help": "無表示不運營此餐廳，任意表示不限制服務員的選擇，此時將選擇管理等級最高的角色\n如果選擇的特定角色不可用，餐廳將回退到任意而不是跳過此餐廳",
       "none": "無",
       "any": "任意",
-      "chaijun": "柴郡",
+      "Cheshire": "柴郡",
       "any+any": "任意 + 任意",
-      "chaijun+any": "柴郡 + 任意"
+      "Cheshire+any": "柴郡 + 任意"
+    },
+    "BearMenu": {
+      "name": "白熊飲品菜單",
+      "help": "只銷售菜單裡指定的饮品。\n通過工具中的離島生產規劃器自動生成"
     },
     "EateryGrade": {
       "name": "啾啾簡餐等級",
@@ -2960,12 +2693,16 @@
       "help": "無表示不運營此餐廳，任意表示不限制服務員的選擇，此時將選擇管理等級最高的角色\n如果選擇的特定角色不可用，餐廳將回退到任意而不是跳過此餐廳",
       "none": "無",
       "any": "任意",
-      "hailunna": "海倫娜",
-      "ougen": "歐根親王",
+      "Helena": "海倫娜",
+      "Prinz_Eugen": "歐根親王",
       "any+any": "任意 + 任意",
-      "hailunna+any": "海倫娜 + 任意",
-      "ougen+any": "歐根親王 + 任意",
-      "hailunna+ougen": "海倫娜 + 歐根親王"
+      "Helena+any": "海倫娜 + 任意",
+      "Prinz_Eugen+any": "歐根親王 + 任意",
+      "Helena+Prinz_Eugen": "海倫娜 + 歐根親王"
+    },
+    "EateryMenu": {
+      "name": "啾啾簡餐菜單",
+      "help": "只銷售菜單裡指定的菜品。\n通過工具中的離島生產規劃器自動生成"
     },
     "GrillGrade": {
       "name": "烏魚烤肉等級",
@@ -2980,12 +2717,16 @@
       "help": "無表示不運營此餐廳，任意表示不限制服務員的選擇，此時將選擇管理等級最高的角色\n如果選擇的特定角色不可用，餐廳將回退到任意而不是跳過此餐廳",
       "none": "無",
       "any": "任意",
-      "aogusite": "奧古斯特·馮·帕塞瓦爾",
-      "ougen": "歐根親王",
+      "August_von_Parseval": "奧古斯特·馮·帕塞瓦爾",
+      "Prinz_Eugen": "歐根親王",
       "any+any": "任意 + 任意",
-      "aogusite+any": "奧古斯特·馮·帕塞瓦爾 + 任意",
-      "ougen+any": "歐根親王 + 任意",
-      "aogusite+ougen": "奧古斯特·馮·帕塞瓦爾 + 歐根親王"
+      "August_von_Parseval+any": "奧古斯特·馮·帕塞瓦爾 + 任意",
+      "Prinz_Eugen+any": "歐根親王 + 任意",
+      "August_von_Parseval+Prinz_Eugen": "奧古斯特·馮·帕塞瓦爾 + 歐根親王"
+    },
+    "GrillMenu": {
+      "name": "烏魚烤肉菜單",
+      "help": "只銷售菜單裡指定的菜品。\n通過工具中的離島生產規劃器自動生成"
     },
     "CafeGrade": {
       "name": "啾咖啡等級",
@@ -3000,9 +2741,23 @@
       "help": "無表示不運營此餐廳，任意表示不限制服務員的選擇，此時將選擇管理等級最高的角色\n如果選擇的特定角色不可用，餐廳將回退到任意而不是跳過此餐廳",
       "none": "無",
       "any": "任意",
-      "chaijun": "柴郡",
+      "Cheshire": "柴郡",
       "any+any": "任意 + 任意",
-      "chaijun+any": "柴郡 + 任意"
+      "Cheshire+any": "柴郡 + 任意"
+    },
+    "CafeMenu": {
+      "name": "啾咖啡菜單",
+      "help": "只銷售菜單裡指定的菜品。\n通過工具中的離島生產規劃器自動生成"
+    }
+  },
+  "IslandSeasonTask": {
+    "_info": {
+      "name": "開發計劃",
+      "help": ""
+    },
+    "TaskTarget": {
+      "name": "需求物品",
+      "help": ""
     }
   },
   "Daemon": {
@@ -3044,11 +2799,19 @@
   "IslandProductionPlanner": {
     "_info": {
       "name": "離島生產規劃器",
-      "help": "將使用線性規劃根據您設定的參數優化離島生產計畫，並為離島生產模組生成配置。\n需要先配置離島餐廳管理的參數。"
+      "help": "將使用線性規劃根據用戶設定的參數優化離島生產計畫，並為離島生產模組生成配置。\n需要先配置離島餐廳管理的參數及離島生產的追加需求物品。\n清除任務狀態以重新掃描離島科技樹。"
+    },
+    "RescanIslandTechnology": {
+      "name": "重新掃描離島科技樹",
+      "help": "如果你的離島科技樹有變動，請勾選此項以重新掃描離島科技樹並生成新的生產計畫\n如果不勾選，Alas將使用上次掃描的結果，可能會導致生產計畫不合理"
     },
     "DailyProfitLowerLimit": {
       "name": "每日利潤下限",
       "help": "負值表示接受每日虧損，0表示收支平衡，正值表示利潤"
+    },
+    "DailyBufferSafetyMargin": {
+      "name": "每日緩衝安全餘量",
+      "help": "套用於生產規劃器生成的每日緩衝的倍率餘量。0.2 表示匯出計算每日需求的 120%。"
     },
     "FieldsEfficiency": {
       "name": "豐壤農田效率",
@@ -3138,8 +2901,6 @@
       "Stop": "停止",
       "ScrollON": "自動滾動 開",
       "ScrollOFF": "自動滾動 關",
-      "DashboardON": "開",
-      "DashboardOFF": "關",
       "ClearLog": "清空日誌",
       "Setting": "設定",
       "CheckUpdate": "檢查更新",
@@ -3172,26 +2933,6 @@
     },
     "Overview": {
       "Scheduler": "調度器",
-      "Dashboard": "儀表盤",
-      "SecondsAgo": "秒前",
-      "MinutesAgo": "分鐘前",
-      "HoursAgo": "小時前",
-      "DaysAgo": "天前",
-      "MonthsAgo": "月前",
-      "YearsAgo": "年前",
-      "NoData": "無數據",
-      "Oil": "石油",
-      "Coin": "物資",
-      "Gem": "鑽石",
-      "Cube": "魔方",
-      "Pt": "活動PT",
-      "YellowCoin": "大世界黃幣",
-      "PurpleCoin": "大世界紫幣",
-      "ActionPoint": "行動力",
-      "Merit": "功勳",
-      "Medal": "勳章",
-      "Core": "覈心數據",
-      "GuildCoin": "艦隊幣",
       "Log": "日誌",
       "Running": "執行中",
       "Pending": "佇列中",

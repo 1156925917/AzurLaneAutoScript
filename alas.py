@@ -445,7 +445,7 @@ class AzurLaneAutoScript:
 
     def island_production_planner(self):
         from module.island_handler.production_planner import IslandProductionPlanner
-        IslandProductionPlanner(config=self.config).run()
+        IslandProductionPlanner(config=self.config, device=self.device, task="IslandProductionPlanner").run()
 
     def azur_lane_uncensored(self):
         from module.daemon.uncensored import AzurLaneUncensored
