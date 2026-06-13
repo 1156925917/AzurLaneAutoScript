@@ -103,6 +103,8 @@
       "IslandProduction",
       "IslandFreebie",
       "IslandCollect",
+      "IslandSeasonTask",
+      "IslandBusiness",
       "IslandRestaurant"
     ]
   },
