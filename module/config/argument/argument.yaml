@@ -839,6 +839,8 @@ IslandProduction:
   AccumulatingItems:
     type: textarea
     value: |-
+IslandOrder:
+  StuckSeasonOrderId: 0
 IslandRestaurant:
   KoiGrade:
     value: bronze
