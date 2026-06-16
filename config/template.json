@@ -2007,6 +2007,11 @@
       "ServerUpdate": "00:00"
     },
     "IslandProduction": {
+      "HardFloorItems": "{}",
+      "ReserveItems": "{}",
+      "RequestBufferItems": "{}",
+      "DailyBufferItems": "{}",
+      "IdleAccumulatingItems": "{}",
       "MinStockItems": null,
       "AccumulatingItems": null
     },

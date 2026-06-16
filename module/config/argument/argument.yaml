@@ -813,6 +813,26 @@ OpsiHazard1Leveling:
 IslandFreebie:
   Share: true
 IslandProduction:
+  HardFloorItems:
+    type: textarea
+    value: |-
+      {}
+  ReserveItems:
+    type: textarea
+    value: |-
+      {}
+  RequestBufferItems:
+    type: textarea
+    value: |-
+      {}
+  DailyBufferItems:
+    type: textarea
+    value: |-
+      {}
+  IdleAccumulatingItems:
+    type: textarea
+    value: |-
+      {}
   MinStockItems:
     type: textarea
     value: |-
