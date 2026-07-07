@@ -44,6 +44,7 @@ import module.webui.lang as lang
 from module.config.config import AzurLaneConfig, Function
 from module.config.deep import deep_get, deep_iter, deep_set
 from module.config.env import IS_ON_PHONE_CLOUD
+from module.config.server import to_server
 from module.config.utils import (
     alas_instance,
     alas_template,
@@ -62,7 +63,7 @@ from module.webui.base import Frame
 from module.webui.discord_presence import close_discord_rpc, init_discord_rpc
 from module.webui.fastapi import asgi_app
 from module.webui.lang import _t, t
-from module.webui.patch import patch_executor, patch_mimetype
+from module.webui.patch import fix_py37_subprocess_communicate, patch_executor, patch_mimetype
 from module.webui.pin import put_input, put_select
 from module.webui.process_manager import ProcessManager
 from module.webui.remote_access import RemoteAccess
@@ -95,6 +96,7 @@ from module.webui.widgets import (
 
 patch_executor()
 patch_mimetype()
+fix_py37_subprocess_communicate()
 task_handler = TaskHandler()
 
 
@@ -150,13 +152,18 @@ class AlasGUI(Frame):
     @use_scope("aside", clear=True)
     def set_aside(self) -> None:
         # TODO: update put_icon_buttons()
+
+        current_date = datetime.now().date()
+        if current_date.month == 4 and current_date.day == 1:
+            self.af_flag = True
+
         put_icon_buttons(
             Icon.DEVELOP,
             buttons=[{"label": t("Gui.Aside.Home"), "value": "Home", "color": "aside"}],
             onclick=[self.ui_develop],
         )
-        put_scope("aside_instance",[
-            put_scope(f"alas-instance-{i}",[])
+        put_scope("aside_instance", [
+            put_scope(f"alas-instance-{i}", [])
             for i, _ in enumerate(alas_instance())
         ])
         self.set_aside_status()
@@ -172,13 +179,11 @@ class AlasGUI(Frame):
             onclick=[lambda: go_app("manage", new_window=False)],
         )
 
-        current_date = datetime.now().date()
-        if current_date.month == 4 and current_date.day == 1:
-            self.af_flag = True
 
     @use_scope("aside_instance")
     def set_aside_status(self) -> None:
-        flag = True       
+        flag = True
+
         def update(name, seq):
             with use_scope(f"alas-instance-{seq}", clear=True):
                 icon_html = Icon.RUN
@@ -191,7 +196,7 @@ class AlasGUI(Frame):
                     onclick=self.ui_alas,
                 )
             return rendered_state
-        
+
         if not len(self.rendered_cache) or self.load_home:
             # Reload when add/delete new instance | first start app.py | go to HomePage (HomePage load call force reload)
             flag = False
@@ -214,7 +219,7 @@ class AlasGUI(Frame):
             # Redraw lost focus, now focus on aside button
             aside_name = get_localstorage("aside")
             self.active_button("aside", aside_name)
-        
+
         return
 
     @use_scope("header_status")
@@ -335,6 +340,7 @@ class AlasGUI(Frame):
     @use_scope("groups")
     def set_group(self, group, arg_dict, config, task):
         group_name = group[0]
+        server = to_server(deep_get(config, "Alas.Emulator.PackageName", "cn"))
 
         output_list: List[Output] = []
         for arg, arg_dict in deep_iter(arg_dict, depth=1):
@@ -365,7 +371,23 @@ class AlasGUI(Frame):
             # Default value
             output_kwargs["value"] = value
             # Options
-            output_kwargs["options"] = options = output_kwargs.pop("option", [])
+            options = output_kwargs.pop("option", [])
+            server_options = output_kwargs.get(f"option_{server}")
+            if output_kwargs["widget_type"] == "select" and isinstance(server_options, list) and server_options:
+                options = server_options
+            output_kwargs["options"] = options
+            if (
+                task == "GemsFarming"
+                and group_name == "Campaign"
+                and arg_name == "Event"
+                and output_kwargs["widget_type"] == "select"
+                and len(options) == 1
+            ):
+                continue
+            if output_kwargs["widget_type"] == "select" and len(options) == 1:
+                only_option = options[0]
+                if only_option in output_kwargs.get("option_bold", []):
+                    output_kwargs["widget_type"] = "state"
             # Options label
             options_label = []
             for opt in options:
@@ -1147,8 +1169,8 @@ class AlasGUI(Frame):
                     "--loading-border-fill--"
                 )
                 if (
-                    State.deploy_config.EnableRemoteAccess
-                    and State.deploy_config.Password
+                        State.deploy_config.EnableRemoteAccess
+                        and State.deploy_config.Password
                 ):
                     put_text(t("Gui.Remote.NotRunning"), scope="remote_state")
                 else:
@@ -1593,8 +1615,8 @@ def startup():
     if State.deploy_config.StartOcrServer:
         start_ocr_server_process(State.deploy_config.OcrServerPort)
     if (
-        State.deploy_config.EnableRemoteAccess
-        and State.deploy_config.Password is not None
+            State.deploy_config.EnableRemoteAccess
+            and State.deploy_config.Password is not None
     ):
         task_handler.add(RemoteAccess.keep_ssh_alive(), 60)
 

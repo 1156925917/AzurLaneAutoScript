@@ -9,7 +9,6 @@ from module.base.timer import Timer
 from module.base.utils import point_limit
 from module.config.utils import dict_to_kv
 from module.exception import MapWalkError
-from module.exercise.assets import QUIT_RECONFIRM
 from module.handler.assets import MAINTENANCE_ANNOUNCE
 from module.logger import logger
 from module.map.fleet import Fleet
@@ -21,7 +20,7 @@ from module.os.assets import FLEET_EMP_DEBUFF, MAP_EXIT, MAP_GOTO_GLOBE, STRONGH
 from module.os.camera import OSCamera
 from module.os.map_base import OSCampaignMap
 from module.os_ash.ash import OSAsh
-from module.os_combat.combat import Combat
+from module.os_combat.combat import Combat, BATTLE_PREPARATION, SIREN_PREPARATION
 from module.os_handler.assets import AUTO_SEARCH_REWARD, CLICK_SAFE_AREA, IN_MAP, PORT_ENTER
 from module.os_shop.assets import PORT_SUPPLY_CHECK
 from module.ui.assets import BACK_ARROW
@@ -63,7 +62,7 @@ class PercentageOcr(Ocr):
 
 
 FLEET_LOW_RESOLVE = Button(
-    area=(144, 148, 170, 175), color=(255, 44, 33), button=(144, 148, 170, 175),
+    area=(294, 76, 339, 121), color=(255, 44, 33), button=(294, 76, 339, 121),
     name='FLEET_LOW_RESOLVE')
 
 
@@ -238,12 +237,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         logger.hr('Wait until camera stable')
         record = None
         confirm_timer = Timer(0.6, count=2).start()
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
+        for _ in self.loop(skip_first=skip_first_screenshot):
             self.update_os()
             current = self.view.backend.homo_loca
             logger.attr('homo_loca', current)
@@ -289,12 +283,14 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         clicked_story = False
         stuck_timer = Timer(20, count=5).start()
         confirm_timer.reset()
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
 
+        def abyssal_expected_end():
+            # add handle_map_event() because OSCombat.combat_status() removes get_items
+            if self.handle_map_event(drop=drop):
+                return False
+            return self.is_in_map()
+
+        for _ in self.loop(skip_first=skip_first_screenshot):
             # Map event
             event = self.handle_map_event(drop=drop)
             if event:
@@ -358,7 +354,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             if self.combat_appear():
                 # Use ui_back() for testing, because there are too few abyssal loggers every month.
                 # self.ui_back(check_button=self.is_in_map)
-                self.combat(expected_end=self.is_in_map, fleet_index=self.fleet_show_index, save_get_items=drop)
+                self.combat(expected_end=abyssal_expected_end, fleet_index=self.fleet_show_index, save_get_items=drop)
                 confirm_timer.reset()
                 stuck_timer.reset()
                 result.add('event')
@@ -679,7 +675,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
             # Wait until arrived
             # Having new screenshots
-            self.wait_until_walk_stable(confirm_timer=Timer(1.5, count=4), walk_out_of_step=False, drop=drop)
+            self.wait_until_walk_stable(confirm_timer=Timer(4, count=6), walk_out_of_step=False, drop=drop)
 
     def get_boss_leave_button(self):
         for grid in self.view:
@@ -702,7 +698,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         button = Button(area=area, color=(), button=area, name='BOSS_LEAVE')
         return button
 
-    def boss_leave(self, skip_first_screenshot=True):
+    def boss_leave(self):
         """
         Pages:
             in: is_in_map(), or combat_appear()
@@ -711,15 +707,11 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         logger.hr('BOSS leave')
         # Update local view
         self.update_os()
+        self.predict()
 
         click_timer = Timer(3)
         pause_interval = Timer(0.5, count=1)
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
+        for _ in self.loop():
             # End
             if self.is_in_map():
                 self.predict_radar()
@@ -729,8 +721,13 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
             # Re-enter boss accidentally
             if pause_interval.reached():
-                if self.combat_appear():
-                    logger.info(f'combat_appear -> {BACK_ARROW}')
+                if self.appear(BATTLE_PREPARATION):
+                    logger.info(f'{BATTLE_PREPARATION} -> {BACK_ARROW}')
+                    self.device.click(BACK_ARROW)
+                    pause_interval.reset()
+                    continue
+                if self.appear(SIREN_PREPARATION, offset=(20, 20)):
+                    logger.info(f'{SIREN_PREPARATION} -> {BACK_ARROW}')
                     self.device.click(BACK_ARROW)
                     pause_interval.reset()
                     continue
@@ -744,7 +741,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 self.interval_reset(MAINTENANCE_ANNOUNCE)
                 pause_interval.reset()
                 continue
-            if self.appear_then_click(QUIT_RECONFIRM, offset=True, interval=5):
+            if self.handle_combat_quit_reconfirm():
                 self.interval_reset(MAINTENANCE_ANNOUNCE)
                 pause_interval.reset()
                 continue

@@ -124,6 +124,16 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             return PAUSE_ShadowPuppetry
         if PAUSE_MaidCafe.match_template_color(self.device.image, offset=(10, 10)):
             return PAUSE_MaidCafe
+        if PAUSE_Ancient.match_template_color(self.device.image, offset=(10, 10)):
+            return PAUSE_Ancient
+        if PAUSE_SpringInn.match_template_color(self.device.image, offset=(10, 10)):
+            return PAUSE_SpringInn
+        if PAUSE_ElvenVine.match_template_color(self.device.image, offset=(10, 10)):
+            return PAUSE_ElvenVine
+        if PAUSE_GildedReverie.match_template_color(self.device.image, offset=(10, 10)):
+            return PAUSE_GildedReverie
+        if PAUSE_AzureCore.match_template_color(self.device.image, offset=(10, 10)):
+            return PAUSE_AzureCore
         return False
 
     def handle_combat_quit(self, offset=(20, 20), interval=3):
@@ -174,6 +184,23 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         if QUIT_MaidCafe.match_luma(self.device.image, offset=offset):
             self.device.click(QUIT_MaidCafe)
             timer.reset()
+            return True
+        if QUIT_SpringInn.match_luma(self.device.image, offset=offset):
+            self.device.click(QUIT_SpringInn)
+            timer.reset()
+            return True
+        if QUIT_GildedReverie.match_luma(self.device.image, offset=offset):
+            self.device.click(QUIT_GildedReverie)
+            timer.reset()
+            return True
+        return False
+
+    def handle_combat_quit_reconfirm(self, interval=2):
+        # QUIT_RECONFIRM interval should shorter than QUIT,
+        # so multiple retries can be made during the interval of QUIT
+        if self.appear_then_click(QUIT_RECONFIRM, offset=(20, 20), interval=interval):
+            # reset QUIT timer to avoid duplicate QUIT clicks canceling QUIT_RECONFIRM
+            self.interval_reset(QUIT)
             return True
         return False
 

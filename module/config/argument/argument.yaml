@@ -122,6 +122,7 @@ EmulatorInfo:
       LDPlayer3,
       LDPlayer4,
       LDPlayer9,
+      LDPlayer14,
       MuMuPlayer,
       MuMuPlayerX,
       MuMuPlayer12,
@@ -228,7 +229,7 @@ Fleet:
     option: [ line_ahead, double_line, diamond ]
   Fleet1Mode:
     value: combat_auto
-    option: [ combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left ]
+    option: [ combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left, hide_in_upper_left ]
   Fleet1Step:
     value: 3
     option: [ 2, 3, 4, 5 ]
@@ -240,7 +241,7 @@ Fleet:
     option: [ line_ahead, double_line, diamond ]
   Fleet2Mode:
     value: combat_auto
-    option: [ combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left ]
+    option: [ combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left, hide_in_upper_left ]
   Fleet2Step:
     value: 2
     option: [ 2, 3, 4, 5 ]
@@ -269,7 +270,7 @@ Emotion:
     value: 2020-01-01 00:00:00
     display: disabled
   Fleet1Control:
-    value: prevent_yellow_face
+    value: prevent_green_face
     option: [ keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face ]
   Fleet1Recover:
     value: not_in_dormitory
@@ -280,7 +281,7 @@ Emotion:
     value: 2020-01-01 00:00:00
     display: disabled
   Fleet2Control:
-    value: prevent_yellow_face
+    value: prevent_green_face
     option: [ keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face ]
   Fleet2Recover:
     value: not_in_dormitory
@@ -358,8 +359,8 @@ MaritimeEscort:
   Enable: true
 Coalition:
   Mode:
-    value: area1-normal
-    option: [ area1-normal, area1-hard, area2-normal, area2-hard, area3-normal, area3-hard, area4-normal, area4-hard, area5-normal, area5-hard, area6-normal, area6-hard ]
+    value: tc3
+    option: [ tc1, tc2, tc3, sp, ex ]
   Fleet:
     value: single
     option: [ single, multi ]
@@ -414,7 +415,8 @@ ControlExpOverflow:
   T1Allow: 200
 AddNewStudent:
   Enable: false
-  Favorite: true
+  Favorite: false
+  MinLevel: 50
 Research:
   UseCube:
     value: only_05_hour
@@ -473,6 +475,7 @@ BuyFurniture:
 Meowfficer:
   BuyAmount: 1
   FortChoreMeowfficer: true
+  OverflowCoins: -1
 MeowfficerTrain:
   Enable: false
   Mode:
@@ -594,7 +597,7 @@ CoreShop:
 ShipyardDr:
   ResearchSeries:
     value: 2
-    option: [ 2, 3, 4 ]
+    option: [ 2, 3, 4, 5 ]
   ShipIndex:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6 ]
@@ -603,7 +606,7 @@ ShipyardDr:
 Shipyard:
   ResearchSeries:
     value: 1
-    option: [ 1, 2, 3, 4, 5 ]
+    option: [ 1, 2, 3, 4, 5, 6 ]
   ShipIndex:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6 ]
@@ -641,7 +644,7 @@ PrivateQuarters:
     TargetInteract: true
     TargetShip:
       value: anchorage
-      option: [ anchorage, noshiro, sirius, new_jersey, taihou, aegir ]
+      option: [ anchorage, noshiro, sirius, new_jersey, taihou, aegir, nakhimov ]
 # ==================== Daily ====================
 
 Daily:

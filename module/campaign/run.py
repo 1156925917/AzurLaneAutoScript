@@ -174,7 +174,7 @@ class CampaignRun(CampaignEvent, ShopStatus):
                 logger.info(f'Stage name {name} is from campaign_main')
                 folder = 'campaign_main'
             else:
-                folder = self.config.cross_get('Event.Campaign.Event')
+                folder = self.config.cross_get('GemsFarming.Campaign.Event')
                 if folder is not None:
                     logger.info(f'Stage name {name} is from event {folder}')
                 else:
@@ -223,7 +223,11 @@ class CampaignRun(CampaignEvent, ShopStatus):
             'event_20250724_cn',
             'event_20250814_cn',
             'event_20251023_cn',
+            'event_20260326_cn',
+            'event_20260625_cn',
+            'war_archives_20230525_cn',
             'war_archives_20231026_cn',
+            'war_archives_20240725_cn',
         ]:
             name = convert.get(name, name)
         # Convert between A/B/C/D and T/HT
@@ -258,7 +262,11 @@ class CampaignRun(CampaignEvent, ShopStatus):
             'event_20250724_cn',
             'event_20250814_cn',
             'event_20251023_cn',
+            'event_20260326_cn',
+            'event_20260625_cn',
+            'war_archives_20230525_cn',
             'war_archives_20231026_cn',
+            'war_archives_20240725_cn',
         ]:
             name = convert.get(name, name)
         else:
@@ -332,6 +340,9 @@ class CampaignRun(CampaignEvent, ShopStatus):
                 logger.info(
                     'In event_20240912_cn, MapAchievement=threat_safe_without_3_stars fallback to 100_percent_clear')
                 self.config.override(StopCondition_MapAchievement='100_percent_clear')
+        if folder == 'event_20260417_cn':
+            if name in ['vsp', ]:
+                name = 'sp'
         return name, folder
 
     def can_use_auto_search_continue(self):
