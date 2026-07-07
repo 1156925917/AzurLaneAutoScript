@@ -87,7 +87,7 @@
       "help": ""
     },
     "Coalition": {
-      "name": "光影风尚-拍摄进行时",
+      "name": "极地风暴",
       "help": ""
     },
     "MaritimeEscort": {
@@ -123,7 +123,7 @@
       "help": ""
     },
     "CoalitionSp": {
-      "name": "光影风尚-拍摄进行时SP",
+      "name": "极地风暴每日SP",
       "help": ""
     },
     "Commission": {
@@ -1596,10 +1596,11 @@
     "Mode": {
       "name": "难度",
       "help": "SP图需要使用活动每日SP运行",
-      "easy": "easy",
-      "normal": "normal",
-      "hard": "hard",
-      "sp": "sp"
+      "tc1": "tc1",
+      "tc2": "tc2",
+      "tc3": "tc3",
+      "sp": "sp",
+      "ex": "ex"
     },
     "Fleet": {
       "name": "出击队伍",
@@ -1810,6 +1811,10 @@
     "FortChoreMeowfficer": {
       "name": "喵窝互动",
       "help": "清扫、喂食和逗猫"
+    },
+    "OverflowCoins": {
+      "name": "金币溢出时购买猫箱",
+      "help": "当金币高于此值时，继续购买猫箱直至金币降至此值或猫箱售罄；-1 关闭"
     }
   },
   "MeowfficerTrain": {
