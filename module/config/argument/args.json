@@ -1,206 +1,4 @@
 {
-  "Dashboard": {
-    "Oil": {
-      "Value": {
-        "type": "input",
-        "value": 0
-      },
-      "Limit": {
-        "type": "input",
-        "value": 0
-      },
-      "Color": {
-        "type": "input",
-        "value": "^000000"
-      },
-      "Record": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      }
-    },
-    "Coin": {
-      "Value": {
-        "type": "input",
-        "value": 0
-      },
-      "Limit": {
-        "type": "input",
-        "value": 0
-      },
-      "Color": {
-        "type": "input",
-        "value": "^FFAA33"
-      },
-      "Record": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      }
-    },
-    "Gem": {
-      "Value": {
-        "type": "input",
-        "value": 0
-      },
-      "Color": {
-        "type": "input",
-        "value": "^FF3333"
-      },
-      "Record": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      }
-    },
-    "Pt": {
-      "Value": {
-        "type": "input",
-        "value": 0
-      },
-      "Color": {
-        "type": "input",
-        "value": "^00BFFF"
-      },
-      "Record": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      }
-    },
-    "Cube": {
-      "Value": {
-        "type": "input",
-        "value": 0
-      },
-      "Color": {
-        "type": "input",
-        "value": "^33FFFF"
-      },
-      "Record": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      }
-    },
-    "ActionPoint": {
-      "Value": {
-        "type": "input",
-        "value": 0
-      },
-      "Total": {
-        "type": "input",
-        "value": 0
-      },
-      "Color": {
-        "type": "input",
-        "value": "^0000FF"
-      },
-      "Record": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      }
-    },
-    "YellowCoin": {
-      "Value": {
-        "type": "input",
-        "value": 0
-      },
-      "Color": {
-        "type": "input",
-        "value": "^FF8800"
-      },
-      "Record": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      }
-    },
-    "PurpleCoin": {
-      "Value": {
-        "type": "input",
-        "value": 0
-      },
-      "Color": {
-        "type": "input",
-        "value": "^7700BB"
-      },
-      "Record": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      }
-    },
-    "Core": {
-      "Value": {
-        "type": "input",
-        "value": 0
-      },
-      "Color": {
-        "type": "input",
-        "value": "^AAAAAA"
-      },
-      "Record": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      }
-    },
-    "Medal": {
-      "Value": {
-        "type": "input",
-        "value": 0
-      },
-      "Color": {
-        "type": "input",
-        "value": "^FFDD00"
-      },
-      "Record": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      }
-    },
-    "Merit": {
-      "Value": {
-        "type": "input",
-        "value": 0
-      },
-      "Color": {
-        "type": "input",
-        "value": "^FFFF00"
-      },
-      "Record": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      }
-    },
-    "GuildCoin": {
-      "Value": {
-        "type": "input",
-        "value": 0
-      },
-      "Color": {
-        "type": "input",
-        "value": "^AAAAAA"
-      },
-      "Record": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      }
-    },
-    "Storage": {
-      "Storage": {
-        "type": "storage",
-        "value": {},
-        "valuetype": "ignore",
-        "display": "disabled"
-      }
-    }
-  },
   "Alas": {
     "Emulator": {
       "Serial": {
@@ -324,12 +122,7 @@
           "aScreenCap",
           "aScreenCap_nc",
           "DroidCast",
-          "DroidCast_webp",
-          "DroidCast_jpeg",
-          "DroidCast_jpeg_98",
-          "DroidCast_jpeg_96",
           "DroidCast_raw",
-          "DroidCast_lz4",
           "nemu_ipc",
           "ldopengl"
         ]
@@ -1845,14 +1638,20 @@
           "z20_or_z21"
         ]
       },
-      "EquipmentCode": {
-        "type": "textarea",
-        "value": "DD: null\nbogue: null\nhermes: null\nlangley: null\nranger: null",
-        "mode": "yaml"
-      },
       "CommissionLimit": {
         "type": "checkbox",
         "value": true
+      }
+    },
+    "EquipmentCode": {
+      "ExportToConfig": {
+        "type": "checkbox",
+        "value": true
+      },
+      "Config": {
+        "type": "textarea",
+        "value": "DD: null\nbogue: null\nhermes: null\nlangley: null\nranger: null",
+        "mode": "yaml"
       }
     },
     "Campaign": {
@@ -1864,7 +1663,6 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
-          "event_20230223_cn",
           "event_20260625_cn"
         ],
         "option_cn": [
@@ -1877,10 +1675,9 @@
           "event_20260625_cn"
         ],
         "option_tw": [
-          "event_20230223_cn"
+          "event_20260625_cn"
         ],
         "option_bold": [
-          "event_20230223_cn",
           "event_20260625_cn"
         ]
       },
@@ -2090,8 +1887,8 @@
           "use_open_ocean_support"
         ],
         "display": "hide"
-        }
-      },
+      }
+    },
     "Emotion": {
       "Mode": {
         "type": "select",
@@ -2141,13 +1938,14 @@
       },
       "Fleet2Value": {
         "type": "input",
-        "value": 119
+        "value": 119,
+        "display": "hide"
       },
       "Fleet2Record": {
         "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime",
-        "display": "disabled"
+        "display": "hide"
       },
       "Fleet2Control": {
         "type": "select",
@@ -2270,7 +2068,6 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
-          "event_20230223_cn",
           "event_20260625_cn"
         ],
         "option_cn": [
@@ -2283,10 +2080,9 @@
           "event_20260625_cn"
         ],
         "option_tw": [
-          "event_20230223_cn"
+          "event_20260625_cn"
         ],
         "option_bold": [
-          "event_20230223_cn",
           "event_20260625_cn"
         ]
       },
@@ -2667,7 +2463,6 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
-          "event_20230223_cn",
           "event_20260625_cn"
         ],
         "option_cn": [
@@ -2680,10 +2475,9 @@
           "event_20260625_cn"
         ],
         "option_tw": [
-          "event_20230223_cn"
+          "event_20260625_cn"
         ],
         "option_bold": [
-          "event_20230223_cn",
           "event_20260625_cn"
         ]
       },
@@ -4416,7 +4210,6 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
-          "event_20230223_cn",
           "event_20260625_cn"
         ],
         "option_cn": [
@@ -4429,10 +4222,9 @@
           "event_20260625_cn"
         ],
         "option_tw": [
-          "event_20230223_cn"
+          "event_20260625_cn"
         ],
         "option_bold": [
-          "event_20230223_cn",
           "event_20260625_cn"
         ]
       },
@@ -4830,7 +4622,6 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
-          "event_20230223_cn",
           "event_20260625_cn"
         ],
         "option_cn": [
@@ -4843,10 +4634,9 @@
           "event_20260625_cn"
         ],
         "option_tw": [
-          "event_20230223_cn"
+          "event_20260625_cn"
         ],
         "option_bold": [
-          "event_20230223_cn",
           "event_20260625_cn"
         ]
       },
@@ -5244,7 +5034,6 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
-          "event_20230223_cn",
           "event_20260625_cn"
         ],
         "option_cn": [
@@ -5257,10 +5046,9 @@
           "event_20260625_cn"
         ],
         "option_tw": [
-          "event_20230223_cn"
+          "event_20260625_cn"
         ],
         "option_bold": [
-          "event_20230223_cn",
           "event_20260625_cn"
         ]
       },
@@ -5658,7 +5446,6 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
-          "event_20230223_cn",
           "event_20260625_cn"
         ],
         "option_cn": [
@@ -5671,10 +5458,9 @@
           "event_20260625_cn"
         ],
         "option_tw": [
-          "event_20230223_cn"
+          "event_20260625_cn"
         ],
         "option_bold": [
-          "event_20230223_cn",
           "event_20260625_cn"
         ]
       },
@@ -6062,7 +5848,6 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
-          "event_20230223_cn",
           "event_20260625_cn"
         ],
         "option_cn": [
@@ -6075,10 +5860,9 @@
           "event_20260625_cn"
         ],
         "option_tw": [
-          "event_20230223_cn"
+          "event_20260625_cn"
         ],
         "option_bold": [
-          "event_20230223_cn",
           "event_20260625_cn"
         ]
       },
@@ -7146,9 +6930,12 @@
       },
       "PresetFilter": {
         "type": "select",
-        "value": "series_8_blueprint_305",
+        "value": "series_9_blueprint_ta152",
         "option": [
           "custom",
+          "series_9_blueprint_ta152",
+          "series_9_blueprint_only",
+          "series_9_ta152_only",
           "series_8_blueprint_305",
           "series_8_blueprint_only",
           "series_8_305_only",
@@ -7175,7 +6962,7 @@
       },
       "CustomFilter": {
         "type": "textarea",
-        "value": "S8-DR0.5 > S8-PRY0.5 > S8-Q0.5 > S8-H0.5 > Q0.5 > S8-DR2.5\n> S8-G1.5 > S8-Q1 > S8-DR5 > 0.5 > S8-G4 > S8-Q2 > S8-PRY2.5 > reset\n> S8-DR8 > Q1 > 1 > S8-E-315 > S8-G2.5 > G1.5 > 1.5 > S8-E-031\n> S8-Q4 > Q2 > E2 > 2 > DR2.5 > PRY2.5 > G2.5 > 2.5 > S8-PRY5\n> S8-PRY8 > Q4 > G4 > 4 > S8-C6 > DR5 > PRY5 > 5 > C6 > 6 > S8-C8\n> S8-C12 > DR8 > PRY8 > C8 > 8 > C12 > 12"
+        "value": "S9-DR0.5 > S9-PRY0.5 > S9-Q0.5 > S9-H0.5 > Q0.5 > S9-DR2.5\n> S9-G1.5 > S9-Q1 > S9-DR5 > 0.5 > S9-G4 > S9-Q2 > S9-PRY2.5 > reset\n> S9-DR8 > Q1 > 1 > S9-E-315 > S9-G2.5 > G1.5 > 1.5 > S9-E-031\n> S9-Q4 > Q2 > E2 > 2 > DR2.5 > PRY2.5 > G2.5 > 2.5 > S9-PRY5\n> S9-PRY8 > Q4 > G4 > 4 > S9-C6 > DR5 > PRY5 > 5 > C6 > 6 > S9-C8\n> S9-C12 > DR8 > PRY8 > C8 > 8 > C12 > 12"
       }
     },
     "Storage": {
@@ -9587,315 +9374,6 @@
       }
     }
   },
-  "IslandProduction": {
-    "Scheduler": {
-      "Enable": {
-        "type": "checkbox",
-        "value": false,
-        "option": [
-          true,
-          false
-        ]
-      },
-      "NextRun": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      },
-      "Command": {
-        "type": "input",
-        "value": "IslandProduction",
-        "display": "hide"
-      },
-      "SuccessInterval": {
-        "type": "input",
-        "value": 0,
-        "display": "hide"
-      },
-      "FailureInterval": {
-        "type": "input",
-        "value": 120,
-        "display": "hide"
-      },
-      "ServerUpdate": {
-        "type": "input",
-        "value": "00:00",
-        "display": "hide"
-      }
-    },
-    "IslandProduction": {
-      "MinStockItems": {
-        "type": "textarea",
-        "value": ""
-      },
-      "AccumulatingItems": {
-        "type": "textarea",
-        "value": ""
-      }
-    },
-    "Storage": {
-      "Storage": {
-        "type": "storage",
-        "value": {},
-        "valuetype": "ignore",
-        "display": "disabled"
-      }
-    }
-  },
-  "IslandFreebie": {
-    "Scheduler": {
-      "Enable": {
-        "type": "checkbox",
-        "value": false,
-        "option": [
-          true,
-          false
-        ]
-      },
-      "NextRun": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      },
-      "Command": {
-        "type": "input",
-        "value": "IslandFreebie",
-        "display": "hide"
-      },
-      "SuccessInterval": {
-        "type": "input",
-        "value": 0,
-        "display": "hide"
-      },
-      "FailureInterval": {
-        "type": "input",
-        "value": 120,
-        "display": "hide"
-      },
-      "ServerUpdate": {
-        "type": "input",
-        "value": "00:00",
-        "display": "hide"
-      }
-    },
-    "IslandFreebie": {
-      "Share": {
-        "type": "checkbox",
-        "value": true
-      }
-    },
-    "Storage": {
-      "Storage": {
-        "type": "storage",
-        "value": {},
-        "valuetype": "ignore",
-        "display": "disabled"
-      }
-    }
-  },
-  "IslandCollect": {
-    "Scheduler": {
-      "Enable": {
-        "type": "checkbox",
-        "value": false,
-        "option": [
-          true,
-          false
-        ]
-      },
-      "NextRun": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      },
-      "Command": {
-        "type": "input",
-        "value": "IslandCollect",
-        "display": "hide"
-      },
-      "SuccessInterval": {
-        "type": "input",
-        "value": 0,
-        "display": "hide"
-      },
-      "FailureInterval": {
-        "type": "input",
-        "value": 120,
-        "display": "hide"
-      },
-      "ServerUpdate": {
-        "type": "input",
-        "value": "03:00, 18:00",
-        "display": "hide"
-      }
-    },
-    "Storage": {
-      "Storage": {
-        "type": "storage",
-        "value": {},
-        "valuetype": "ignore",
-        "display": "disabled"
-      }
-    }
-  },
-  "IslandRestaurant": {
-    "Scheduler": {
-      "Enable": {
-        "type": "checkbox",
-        "value": false,
-        "option": [
-          true,
-          false
-        ]
-      },
-      "NextRun": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      },
-      "Command": {
-        "type": "input",
-        "value": "IslandRestaurant",
-        "display": "hide"
-      },
-      "SuccessInterval": {
-        "type": "input",
-        "value": 0,
-        "display": "hide"
-      },
-      "FailureInterval": {
-        "type": "input",
-        "value": 120,
-        "display": "hide"
-      },
-      "ServerUpdate": {
-        "type": "input",
-        "value": "00:00",
-        "display": "hide"
-      }
-    },
-    "IslandRestaurant": {
-      "KoiGrade": {
-        "type": "select",
-        "value": "bronze",
-        "option": [
-          "bronze",
-          "silver",
-          "gold",
-          "diamond"
-        ]
-      },
-      "KoiWaitress": {
-        "type": "select",
-        "value": "any",
-        "option": [
-          "none",
-          "any",
-          "zhaohe",
-          "any+any",
-          "zhaohe+any"
-        ]
-      },
-      "BearGrade": {
-        "type": "select",
-        "value": "bronze",
-        "option": [
-          "bronze",
-          "silver",
-          "gold",
-          "diamond"
-        ]
-      },
-      "BearWaitress": {
-        "type": "select",
-        "value": "any",
-        "option": [
-          "none",
-          "any",
-          "chaijun",
-          "any+any",
-          "chaijun+any"
-        ]
-      },
-      "EateryGrade": {
-        "type": "select",
-        "value": "bronze",
-        "option": [
-          "bronze",
-          "silver",
-          "gold",
-          "diamond"
-        ]
-      },
-      "EateryWaitress": {
-        "type": "select",
-        "value": "any",
-        "option": [
-          "none",
-          "any",
-          "hailunna",
-          "ougen",
-          "any+any",
-          "hailunna+any",
-          "ougen+any",
-          "hailunna+ougen"
-        ]
-      },
-      "GrillGrade": {
-        "type": "select",
-        "value": "bronze",
-        "option": [
-          "bronze",
-          "silver",
-          "gold",
-          "diamond"
-        ]
-      },
-      "GrillWaitress": {
-        "type": "select",
-        "value": "any",
-        "option": [
-          "none",
-          "any",
-          "aogusite",
-          "ougen",
-          "any+any",
-          "aogusite+any",
-          "ougen+any",
-          "aogusite+ougen"
-        ]
-      },
-      "CafeGrade": {
-        "type": "select",
-        "value": "bronze",
-        "option": [
-          "bronze",
-          "silver",
-          "gold",
-          "diamond"
-        ]
-      },
-      "CafeWaitress": {
-        "type": "select",
-        "value": "any",
-        "option": [
-          "none",
-          "any",
-          "chaijun",
-          "any+any",
-          "chaijun+any"
-        ]
-      }
-    },
-    "Storage": {
-      "Storage": {
-        "type": "storage",
-        "value": {},
-        "valuetype": "ignore",
-        "display": "disabled"
-      }
-    }
-  },
   "Daemon": {
     "Daemon": {
       "EnterMap": {
@@ -9942,49 +9420,6 @@
         ],
         "option_bold": [
           true
-        ]
-      }
-    },
-    "Storage": {
-      "Storage": {
-        "type": "storage",
-        "value": {},
-        "valuetype": "ignore",
-        "display": "disabled"
-      }
-    }
-  },
-  "IslandProductionPlanner": {
-    "IslandProductionPlanner": {
-      "DailyProfitLowerLimit": {
-        "type": "input",
-        "value": 50000
-      },
-      "FieldsEfficiency": {
-        "type": "select",
-        "value": 0,
-        "option": [
-          0,
-          0.04,
-          0.12
-        ]
-      },
-      "OrchardEfficiency": {
-        "type": "select",
-        "value": 0,
-        "option": [
-          0,
-          0.04,
-          0.12
-        ]
-      },
-      "NurseryEfficiency": {
-        "type": "select",
-        "value": 0,
-        "option": [
-          0,
-          0.04,
-          0.12
         ]
       }
     },

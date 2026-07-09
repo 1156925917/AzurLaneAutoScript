@@ -1451,6 +1451,12 @@
       "name": "GemsFarming._info.name",
       "help": "GemsFarming._info.help"
     },
+    "ChangeFlagship": {
+      "name": "GemsFarming.ChangeFlagship.name",
+      "help": "GemsFarming.ChangeFlagship.help",
+      "ship": "ship",
+      "ship_equip": "ship_equip"
+    },
     "CommonCV": {
       "name": "GemsFarming.CommonCV.name",
       "help": "GemsFarming.CommonCV.help",
@@ -1464,7 +1470,8 @@
       "name": "GemsFarming.ChangeVanguard.name",
       "help": "GemsFarming.ChangeVanguard.help",
       "disabled": "disabled",
-      "ship": "ship"
+      "ship": "ship",
+      "ship_equip": "ship_equip"
     },
     "CommonDD": {
       "name": "GemsFarming.CommonDD.name",
@@ -1482,6 +1489,20 @@
     "CommissionLimit": {
       "name": "GemsFarming.CommissionLimit.name",
       "help": "GemsFarming.CommissionLimit.help"
+    }
+  },
+  "EquipmentCode": {
+    "_info": {
+      "name": "EquipmentCode._info.name",
+      "help": "EquipmentCode._info.help"
+    },
+    "ExportToConfig": {
+      "name": "EquipmentCode.ExportToConfig.name",
+      "help": "EquipmentCode.ExportToConfig.help"
+    },
+    "Config": {
+      "name": "EquipmentCode.Config.name",
+      "help": "EquipmentCode.Config.help"
     }
   },
   "EventGeneral": {
@@ -1726,6 +1747,9 @@
       "name": "Research.PresetFilter.name",
       "help": "Research.PresetFilter.help",
       "custom": "custom",
+      "series_9_blueprint_ta152": "Series 9 Blueprints+Ta152",
+      "series_9_blueprint_only": "Series 9 Blueprints Only",
+      "series_9_ta152_only": "Series 9 Ta152 Only",
       "series_8_blueprint_305": "Series 8 Blueprints+305",
       "series_8_blueprint_only": "Series 8 Blueprints Only",
       "series_8_305_only": "Series 8 305 Only",
