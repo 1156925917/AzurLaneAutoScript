@@ -70,6 +70,10 @@
       "name": "Event General",
       "help": ""
     },
+    "Coalition": {
+      "name": "Frostfall",
+      "help": ""
+    },
     "Event": {
       "name": "Event",
       "help": ""
@@ -84,10 +88,6 @@
     },
     "Hospital": {
       "name": "Valley Hospital",
-      "help": ""
-    },
-    "Coalition": {
-      "name": "Frostfall",
       "help": ""
     },
     "MaritimeEscort": {
@@ -683,6 +683,10 @@
       "aScreenCap": "aScreenCap",
       "aScreenCap_nc": "aScreenCap_nc",
       "DroidCast": "DroidCast",
+      "DroidCast_webp": "DroidCast_webp",
+      "DroidCast_jpeg": "DroidCast_jpeg",
+      "DroidCast_jpeg_98": "DroidCast_jpeg_98",
+      "DroidCast_jpeg_96": "DroidCast_jpeg_96",
       "DroidCast_raw": "DroidCast_raw",
       "nemu_ipc": "nemu_ipc",
       "ldopengl": "ldopengl"
@@ -1481,10 +1485,6 @@
       "aulick_or_foote": "Aulick or Foote",
       "cassin_or_downes": "Cassin or Downes",
       "z20_or_z21": "Z20 or Z21"
-    },
-    "EquipmentCode": {
-      "name": "Gear Code",
-      "help": "Only works when 'Change Ship + Gears' is chosen.\nWhen substituting down CV/CVL/DD, if corresponding gear code is not provided, alas will export it\nWhen substituting up corresponding CV/CVL/DD, if corresponding gear code is not provided, alas will use exported gear code from previous ship; otherwise alas will use gear code in the config\nBluestacks users need to enable virtual keyboard first.\nSee https://support.bluestacks.com/hc/en-us/articles/360061968892-How-to-use-a-virtual-on-screen-keyboard-on-BlueStacks-5"
     },
     "CommissionLimit": {
       "name": "Prevent Too Many Urgent Commissions",

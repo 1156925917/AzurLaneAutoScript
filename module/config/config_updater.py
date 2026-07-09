@@ -2,7 +2,10 @@ import re
 import typing as t
 from copy import deepcopy
 
-from cached_property import cached_property
+try:
+    from cached_property import cached_property
+except ModuleNotFoundError:
+    from functools import cached_property
 
 from deploy.utils import DEPLOY_TEMPLATE, poor_yaml_read, poor_yaml_write
 from module.base.timer import timer
@@ -172,13 +175,22 @@ class ConfigGenerator:
         """
         # Construct args
         data = {}
-        # Add dashboard to args
-        dashboard_and_task = {**self.dashboard,**self.task}
-        for path, groups in deep_iter(dashboard_and_task, depth=3):
-            if 'tasks' not in path and 'Dashboard' not in path:
+
+        # Add dashboard-only arguments to args.
+        for task, groups in self.dashboard.items():
+            for group in groups:
+                if group not in self.argument:
+                    print(f'`{task}.{group}` is not related to any argument group')
+                    continue
+                deep_set(data, keys=[task, group], value=deepcopy(self.argument[group]))
+
+        # Add task arguments to args.
+        for path, groups in deep_iter(self.task, depth=3):
+            if 'tasks' not in path:
                 continue
-            task = path[2] if 'tasks' in path else path[0]
+            task = path[2]
             # Add storage to all task
+            groups = list(groups)
             groups.append('Storage')
             for group in groups:
                 if group not in self.argument:
@@ -829,7 +841,7 @@ class ConfigUpdater:
 
 
 if __name__ == '__main__':
-    """
+    r"""
     Process the whole config generation.
 
                  task.yaml -+----------------> menu.json

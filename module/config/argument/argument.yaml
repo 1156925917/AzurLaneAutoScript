@@ -335,7 +335,10 @@ GemsFarming:
   CommonDD:
     value: any
     option: [ any, favourite, aulick_or_foote , cassin_or_downes, z20_or_z21 ]
-  EquipmentCode:
+  CommissionLimit: true
+EquipmentCode:
+  ExportToConfig: true
+  Config:
     type: textarea
     mode: yaml
     value: |-
@@ -344,13 +347,6 @@ GemsFarming:
       hermes: null
       langley: null
       ranger: null
-  CommissionLimit: true
-EquipmentCode:
-  ExportToConfig: true
-  Config:
-    type: textarea
-    mode: yaml
-    value: |-
 
 # ==================== Event ====================
 
