@@ -374,6 +374,7 @@
       "ServerUpdate": "00:00"
     },
     "GemsFarming": {
+      "ChangeFlagship": "ship",
       "CommonCV": "any",
       "ChangeVanguard": "ship",
       "CommonDD": "any",
@@ -1403,7 +1404,8 @@
     },
     "Meowfficer": {
       "BuyAmount": 1,
-      "FortChoreMeowfficer": true
+      "FortChoreMeowfficer": true,
+      "OverflowCoins": -1
     },
     "MeowfficerTrain": {
       "Enable": false,

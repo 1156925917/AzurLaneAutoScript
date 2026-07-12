@@ -317,6 +317,10 @@
           "aScreenCap",
           "aScreenCap_nc",
           "DroidCast",
+          "DroidCast_webp",
+          "DroidCast_jpeg",
+          "DroidCast_jpeg_98",
+          "DroidCast_jpeg_96",
           "DroidCast_raw",
           "nemu_ipc",
           "ldopengl"
@@ -1794,6 +1798,14 @@
       }
     },
     "GemsFarming": {
+      "ChangeFlagship": {
+        "type": "select",
+        "value": "ship",
+        "option": [
+          "ship",
+          "ship_equip"
+        ]
+      },
       "CommonCV": {
         "type": "select",
         "value": "any",
@@ -1810,7 +1822,8 @@
         "value": "ship",
         "option": [
           "disabled",
-          "ship"
+          "ship",
+          "ship_equip"
         ]
       },
       "CommonDD": {
@@ -6733,7 +6746,8 @@
           "easy",
           "normal",
           "hard",
-          "sp"
+          "sp",
+          "ex"
         ],
         "display": "hide"
       },
@@ -7281,6 +7295,10 @@
       "FortChoreMeowfficer": {
         "type": "checkbox",
         "value": true
+      },
+      "OverflowCoins": {
+        "type": "input",
+        "value": -1
       }
     },
     "MeowfficerTrain": {
@@ -8605,7 +8623,8 @@
           "sirius",
           "new_jersey",
           "taihou",
-          "aegir"
+          "aegir",
+          "nakhimov"
         ]
       }
     },

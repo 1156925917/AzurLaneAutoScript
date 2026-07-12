@@ -93,6 +93,10 @@ Emulator:
       aScreenCap,
       aScreenCap_nc,
       DroidCast,
+      DroidCast_webp,
+      DroidCast_jpeg,
+      DroidCast_jpeg_98,
+      DroidCast_jpeg_96,
       DroidCast_raw,
       nemu_ipc,
       ldopengl,
@@ -319,12 +323,15 @@ C124LargeLeveling:
     value: 3
     option: [ 3, 4, 5 ]
 GemsFarming:
+  ChangeFlagship:
+    value: ship
+    option: [ ship, ship_equip ]
   CommonCV:
     value: any
     option: [ any, langley, bogue, ranger, hermes ]
   ChangeVanguard:
     value: ship
-    option: [ disabled, ship ]
+    option: [ disabled, ship, ship_equip ]
   CommonDD:
     value: any
     option: [ any, favourite, aulick_or_foote , cassin_or_downes, z20_or_z21 ]
@@ -371,7 +378,7 @@ MaritimeEscort:
 Coalition:
   Mode:
     value: hard
-    option: [ easy, normal, hard, sp ]
+    option: [ easy, normal, hard, sp, ex ]
   Fleet:
     value: single
     option: [ single, multi ]
@@ -489,6 +496,7 @@ BuyFurniture:
 Meowfficer:
   BuyAmount: 1
   FortChoreMeowfficer: true
+  OverflowCoins: -1
 MeowfficerTrain:
   Enable: false
   Mode:
@@ -657,7 +665,7 @@ PrivateQuarters:
     TargetInteract: true
     TargetShip:
       value: anchorage
-      option: [ anchorage, noshiro, sirius, new_jersey, taihou, aegir ]
+      option: [ anchorage, noshiro, sirius, new_jersey, taihou, aegir, nakhimov ]
 # ==================== Daily ====================
 
 Daily:

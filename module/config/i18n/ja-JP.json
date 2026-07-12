@@ -696,6 +696,10 @@
       "aScreenCap": "aScreenCap",
       "aScreenCap_nc": "aScreenCap_nc",
       "DroidCast": "DroidCast",
+      "DroidCast_webp": "DroidCast_webp",
+      "DroidCast_jpeg": "DroidCast_jpeg",
+      "DroidCast_jpeg_98": "DroidCast_jpeg_98",
+      "DroidCast_jpeg_96": "DroidCast_jpeg_96",
       "DroidCast_raw": "DroidCast_raw",
       "nemu_ipc": "nemu_ipc",
       "ldopengl": "ldopengl"
@@ -1464,6 +1468,12 @@
       "name": "GemsFarming._info.name",
       "help": "GemsFarming._info.help"
     },
+    "ChangeFlagship": {
+      "name": "GemsFarming.ChangeFlagship.name",
+      "help": "GemsFarming.ChangeFlagship.help",
+      "ship": "ship",
+      "ship_equip": "ship_equip"
+    },
     "CommonCV": {
       "name": "GemsFarming.CommonCV.name",
       "help": "GemsFarming.CommonCV.help",
@@ -1477,7 +1487,8 @@
       "name": "GemsFarming.ChangeVanguard.name",
       "help": "GemsFarming.ChangeVanguard.help",
       "disabled": "disabled",
-      "ship": "ship"
+      "ship": "ship",
+      "ship_equip": "ship_equip"
     },
     "CommonDD": {
       "name": "GemsFarming.CommonDD.name",
@@ -1615,7 +1626,8 @@
       "easy": "easy",
       "normal": "normal",
       "hard": "hard",
-      "sp": "sp"
+      "sp": "sp",
+      "ex": "ex"
     },
     "Fleet": {
       "name": "Coalition.Fleet.name",
@@ -1829,6 +1841,10 @@
     "FortChoreMeowfficer": {
       "name": "Meowfficer.FortChoreMeowfficer.name",
       "help": "Meowfficer.FortChoreMeowfficer.help"
+    },
+    "OverflowCoins": {
+      "name": "Meowfficer.OverflowCoins.name",
+      "help": "Meowfficer.OverflowCoins.help"
     }
   },
   "MeowfficerTrain": {
@@ -2384,7 +2400,8 @@
       "sirius": "sirius",
       "new_jersey": "new_jersey",
       "taihou": "taihou",
-      "aegir": "aegir"
+      "aegir": "aegir",
+      "nakhimov": "nakhimov"
     }
   },
   "Daily": {
