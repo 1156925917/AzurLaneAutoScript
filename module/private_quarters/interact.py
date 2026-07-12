@@ -220,7 +220,7 @@ class PQInteract(UI):
         # Rare case in the middle of dialogue, so address
         # before initiating room exit
         if (not self.appear(PRIVATE_QUARTERS_ROOM_CHECK, offset=(20, 20)) and
-            not self.appear(PRIVATE_QUARTERS_INTERACT, offset=(0, 60))):
+            not self.appear(PRIVATE_QUARTERS_INTERACT, offset=(-10, 0, 0, 65))):
                 self._pq_handle_dialogue()
 
         self.interval_clear(PRIVATE_QUARTERS_ROOM_BACK)
@@ -236,12 +236,15 @@ class PQInteract(UI):
     def pq_interact(self):
         """
         Execute target interact routine
-        offset=(0, 60) to account for y-position of asset
+        offset=(-10, 0, 0, 65) to account for position of asset
+        top_x=-10, bottom_y=65
         Depending on intimacy level, the asset may shift
+        Parameters identified as stable and server transparent
         """
         # Click target ship girl for 1st stage sequence
         logger.hr(f'Interact Start', level=2)
-        click_timer = Timer(10, count=3).start()
+        interact_offset = (-10, 0, 0, 65)
+        click_timer = Timer(1.5, count=3).start()
         skip_first_screenshot = True
         while 1:
             if skip_first_screenshot:
@@ -250,7 +253,7 @@ class PQInteract(UI):
                 self.device.screenshot()
 
             # End
-            if self.appear(PRIVATE_QUARTERS_INTERACT, offset=(0, 60)):
+            if self.appear(PRIVATE_QUARTERS_INTERACT, offset=interact_offset):
                 break
 
             if click_timer.reached():
@@ -275,7 +278,7 @@ class PQInteract(UI):
                 if self.appear(PRIVATE_QUARTERS_INTERACT_CHECK, offset=(20, 20)):
                     break
 
-                if self.appear_then_click(PRIVATE_QUARTERS_INTERACT, offset=(0, 60), interval=1):
+                if self.appear_then_click(PRIVATE_QUARTERS_INTERACT, offset=interact_offset, interval=1):
                     self.device.sleep(5.0)
                     continue
 
@@ -287,7 +290,7 @@ class PQInteract(UI):
                     self.device.screenshot()
 
                 # End
-                if self.appear(PRIVATE_QUARTERS_INTERACT, offset=(0, 60)):
+                if self.appear(PRIVATE_QUARTERS_INTERACT, offset=interact_offset):
                     break
 
                 if self.appear(PRIVATE_QUARTERS_INTERACT_CHECK, offset=(20, 20), interval=1):
