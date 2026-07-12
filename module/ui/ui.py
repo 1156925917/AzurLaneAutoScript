@@ -17,14 +17,17 @@ from module.ocr.ocr import Ocr
 from module.os_handler.assets import (AUTO_SEARCH_REWARD, EXCHANGE_CHECK, RESET_FLEET_PREPARATION, RESET_TICKET_POPUP)
 from module.raid.assets import *
 from module.ui.assets import *
-from module.ui.page import Page, page_academy, page_campaign, page_event, page_island_technology, page_main, page_main_white, page_sp
+from module.ui.page import (
+    Page, page_academy, page_campaign, page_event, page_island_manage,
+    page_island_technology, page_main, page_main_white, page_sp
+)
 from module.ui_white.assets import *
 
 
 class UI(InfoHandler):
     ui_current: Page
 
-    def ui_page_appear(self, page, offset=(30, 30), interval=0):
+    def ui_page_appear(self, page, offset=(30, 30), interval=0, relaxed_technology=False):
         """
         Args:
             page (Page):
@@ -42,7 +45,9 @@ class UI(InfoHandler):
         if self.config.SERVER == 'en' and page == page_academy:
             if self.appear(ACADEMY_GOTO_MUNITIONS, offset=offset, interval=interval):
                 return True
-        if page == page_island_technology:
+        if page == page_island_manage:
+            return self.appear(page.check_button, offset=0, interval=interval, threshold=35)
+        if page == page_island_technology and relaxed_technology:
             return self.appear(page.check_button, offset=0, interval=interval, threshold=20)
         return self.appear(page.check_button, offset=offset, interval=interval)
 
@@ -256,7 +261,11 @@ class UI(InfoHandler):
                 self.device.screenshot()
 
             # Destination page
-            if self.ui_page_appear(page=destination, offset=offset):
+            if self.ui_page_appear(
+                    page=destination,
+                    offset=offset,
+                    relaxed_technology=destination == page_island_technology,
+            ):
                 logger.info(f'Page arrive: {destination}')
                 self.ui_current = destination
                 break
