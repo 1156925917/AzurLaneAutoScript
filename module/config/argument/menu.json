@@ -104,9 +104,9 @@
       "IslandOrder",
       "IslandFreebie",
       "IslandCollect",
+      "IslandRestaurant",
       "IslandSeasonTask",
-      "IslandBusiness",
-      "IslandRestaurant"
+      "IslandBusiness"
     ]
   },
   "Tool": {

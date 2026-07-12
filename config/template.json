@@ -1,4 +1,69 @@
 {
+  "Dashboard": {
+    "Oil": {
+      "Value": 0,
+      "Limit": 0,
+      "Color": "^000000",
+      "Record": "2020-01-01 00:00:00"
+    },
+    "Coin": {
+      "Value": 0,
+      "Limit": 0,
+      "Color": "^FFAA33",
+      "Record": "2020-01-01 00:00:00"
+    },
+    "Gem": {
+      "Value": 0,
+      "Color": "^FF3333",
+      "Record": "2020-01-01 00:00:00"
+    },
+    "Pt": {
+      "Value": 0,
+      "Color": "^00BFFF",
+      "Record": "2020-01-01 00:00:00"
+    },
+    "Cube": {
+      "Value": 0,
+      "Color": "^33FFFF",
+      "Record": "2020-01-01 00:00:00"
+    },
+    "ActionPoint": {
+      "Value": 0,
+      "Total": 0,
+      "Color": "^0000FF",
+      "Record": "2020-01-01 00:00:00"
+    },
+    "YellowCoin": {
+      "Value": 0,
+      "Color": "^FF8800",
+      "Record": "2020-01-01 00:00:00"
+    },
+    "PurpleCoin": {
+      "Value": 0,
+      "Color": "^7700BB",
+      "Record": "2020-01-01 00:00:00"
+    },
+    "Core": {
+      "Value": 0,
+      "Color": "^AAAAAA",
+      "Record": "2020-01-01 00:00:00"
+    },
+    "Medal": {
+      "Value": 0,
+      "Color": "^FFDD00",
+      "Record": "2020-01-01 00:00:00"
+    },
+    "Merit": {
+      "Value": 0,
+      "Color": "^FFFF00",
+      "Record": "2020-01-01 00:00:00"
+    },
+    "GuildCoin": {
+      "Value": 0,
+      "Color": "^AAAAAA",
+      "Record": "2020-01-01 00:00:00"
+    }
+  },
   "Alas": {
     "Emulator": {
       "Serial": "auto",
@@ -314,6 +379,10 @@
       "CommonDD": "any",
       "CommissionLimit": true
     },
+    "EquipmentCode": {
+      "ExportToConfig": true,
+      "Config": "DD: null\nbogue: null\nhermes: null\nlangley: null\nranger: null"
+    },
     "Campaign": {
       "Name": "12-4",
       "Event": "campaign_main",
@@ -343,6 +412,25 @@
       "Fleet2Step": 2,
       "FleetOrder": "fleet1_all_fleet2_standby"
     },
+    "Submarine": {
+      "Fleet": 0,
+      "Mode": "do_not_use",
+      "AutoSearchMode": "sub_standby",
+      "DistanceToBoss": "use_open_ocean_support"
+    },
+    "Emotion": {
+      "Mode": "calculate_ignore",
+      "Fleet1Value": 119,
+      "Fleet1Record": "2020-01-01 00:00:00",
+      "Fleet1Control": "prevent_red_face",
+      "Fleet1Recover": "not_in_dormitory",
+      "Fleet1Oath": false,
+      "Fleet2Value": 119,
+      "Fleet2Record": "2020-01-01 00:00:00",
+      "Fleet2Control": "prevent_red_face",
+      "Fleet2Recover": "not_in_dormitory",
+      "Fleet2Oath": false
+    },
     "Storage": {
       "Storage": {}
     }
@@ -356,6 +444,54 @@
       "Enable": false,
       "CoinLimit": 10000,
       "TaskCall": "Main"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
+  "Coalition": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "Coalition",
+      "SuccessInterval": 30,
+      "FailureInterval": 30,
+      "ServerUpdate": "00:00"
+    },
+    "Campaign": {
+      "Name": "dynamic",
+      "Event": "campaign_main",
+      "Mode": "normal",
+      "UseClearMode": true,
+      "UseFleetLock": true,
+      "UseAutoSearch": false,
+      "Use2xBook": false,
+      "AmbushEvade": true
+    },
+    "Coalition": {
+      "Mode": "hard",
+      "Fleet": "single"
+    },
+    "StopCondition": {
+      "OilLimit": 1000,
+      "RunCount": 0,
+      "MapAchievement": "non_stop",
+      "StageIncrease": false,
+      "GetNewShip": false,
+      "ReachLevel": 0
+    },
+    "Emotion": {
+      "Mode": "calculate",
+      "Fleet1Value": 119,
+      "Fleet1Record": "2020-01-01 00:00:00",
+      "Fleet1Control": "prevent_green_face",
+      "Fleet1Recover": "not_in_dormitory",
+      "Fleet1Oath": false,
+      "Fleet2Value": 119,
+      "Fleet2Record": "2020-01-01 00:00:00",
+      "Fleet2Control": "prevent_yellow_face",
+      "Fleet2Recover": "not_in_dormitory",
+      "Fleet2Oath": false
     },
     "Storage": {
       "Storage": {}
@@ -594,54 +730,6 @@
       "Storage": {}
     }
   },
-  "Coalition": {
-    "Scheduler": {
-      "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
-      "Command": "Coalition",
-      "SuccessInterval": 30,
-      "FailureInterval": 30,
-      "ServerUpdate": "00:00"
-    },
-    "Campaign": {
-      "Name": "dynamic",
-      "Event": "campaign_main",
-      "Mode": "normal",
-      "UseClearMode": true,
-      "UseFleetLock": true,
-      "UseAutoSearch": false,
-      "Use2xBook": false,
-      "AmbushEvade": true
-    },
-    "Coalition": {
-      "Mode": "hard",
-      "Fleet": "single"
-    },
-    "StopCondition": {
-      "OilLimit": 1000,
-      "RunCount": 0,
-      "MapAchievement": "non_stop",
-      "StageIncrease": false,
-      "GetNewShip": false,
-      "ReachLevel": 0
-    },
-    "Emotion": {
-      "Mode": "calculate",
-      "Fleet1Value": 119,
-      "Fleet1Record": "2020-01-01 00:00:00",
-      "Fleet1Control": "prevent_green_face",
-      "Fleet1Recover": "not_in_dormitory",
-      "Fleet1Oath": false,
-      "Fleet2Value": 119,
-      "Fleet2Record": "2020-01-01 00:00:00",
-      "Fleet2Control": "prevent_yellow_face",
-      "Fleet2Recover": "not_in_dormitory",
-      "Fleet2Oath": false
-    },
-    "Storage": {
-      "Storage": {}
-    }
-  },
   "MaritimeEscort": {
     "Scheduler": {
       "Enable": false,
@@ -669,7 +757,7 @@
     },
     "Campaign": {
       "Name": "D3",
-      "Event": "war_archives_20230803_cn",
+      "Event": "war_archives_20240725_cn",
       "Mode": "normal",
       "UseClearMode": true,
       "UseFleetLock": true,
@@ -1967,6 +2055,36 @@
       "SuccessInterval": 0,
       "FailureInterval": 120,
       "ServerUpdate": "03:00, 18:00"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
+  "IslandRestaurant": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "IslandRestaurant",
+      "SuccessInterval": 0,
+      "FailureInterval": 120,
+      "ServerUpdate": "00:00"
+    },
+    "IslandRestaurant": {
+      "KoiGrade": "bronze",
+      "KoiWaitress": "any",
+      "KoiMenu": "{}",
+      "BearGrade": "bronze",
+      "BearWaitress": "any",
+      "BearMenu": "{}",
+      "EateryGrade": "bronze",
+      "EateryWaitress": "any",
+      "EateryMenu": "{}",
+      "GrillGrade": "bronze",
+      "GrillWaitress": "any",
+      "GrillMenu": "{}",
+      "CafeGrade": "bronze",
+      "CafeWaitress": "any",
+      "CafeMenu": "{}"
     },
     "Storage": {
       "Storage": {}
