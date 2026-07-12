@@ -17,7 +17,7 @@ from module.ocr.ocr import Ocr
 from module.os_handler.assets import (AUTO_SEARCH_REWARD, EXCHANGE_CHECK, RESET_FLEET_PREPARATION, RESET_TICKET_POPUP)
 from module.raid.assets import *
 from module.ui.assets import *
-from module.ui.page import Page, page_academy, page_campaign, page_event, page_main, page_main_white, page_sp
+from module.ui.page import Page, page_academy, page_campaign, page_event, page_island_technology, page_main, page_main_white, page_sp
 from module.ui_white.assets import *
 
 
@@ -42,6 +42,8 @@ class UI(InfoHandler):
         if self.config.SERVER == 'en' and page == page_academy:
             if self.appear(ACADEMY_GOTO_MUNITIONS, offset=offset, interval=interval):
                 return True
+        if page == page_island_technology:
+            return self.appear(page.check_button, offset=0, interval=interval, threshold=20)
         return self.appear(page.check_button, offset=offset, interval=interval)
 
     def is_in_main(self, offset=(30, 30), interval=0):
@@ -264,7 +266,7 @@ class UI(InfoHandler):
             for page in Page.iter_pages():
                 if page.parent is None or page.check_button is None:
                     continue
-                if self.appear(page.check_button, offset=offset, interval=5):
+                if self.ui_page_appear(page=page, offset=offset, interval=5):
                     self.ui_current = page
                     island_page_detected = page.is_island() or page.parent.is_island()
                     logger.info(f'Page switch: {page} -> {page.parent}')
