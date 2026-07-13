@@ -6,7 +6,7 @@ from module.config.utils import get_server_next_update
 from module.island.assets import *
 from module.island_handler.restaurant import IslandRestaurant, WaitressOccupied
 from module.logger import logger
-from module.ocr.ocr import Duration
+from module.ocr.ocr import Duration, Ocr
 from module.ui.page import page_island_manage
 
 
@@ -71,6 +71,28 @@ class IslandBusiness(IslandRestaurant):
         self.shifted = True
         self.index = 1
 
+    def get_restaurant_id_by_name(self, button):
+        title_button = button.crop((8, 8, 170, 45))
+        ocr = Ocr(title_button, lang='cnocr', letter=(255, 255, 255), threshold=110, name='RESTAURANT_NAME')
+        name = ocr.ocr(self.device.image)
+        if not name:
+            return None
+
+        # cnocr can misread individual glyphs, so match on stable fragments.
+        restaurant_to_id = {
+            601: ['有鱼', '有魚', 'koi'],
+            602: ['白熊', '白クマ', 'bear'],
+            603: ['啾啾', '简餐', '簡餐', '饅頭軽食', 'eatery'],
+            604: ['乌鱼', '烏魚', '烤肉', '焼肉', 'grill'],
+            901: ['啾咖啡', '咖啡', 'カフェ', 'cafe'],
+        }
+        normalized = name.lower().replace(' ', '').replace('_', '')
+        for restaurant_id, keywords in restaurant_to_id.items():
+            if any(keyword.lower() in normalized for keyword in keywords):
+                logger.info(f'Restaurant name "{name}" -> {restaurant_id}')
+                return restaurant_id
+        return None
+
     def get_restaurant_id(self, button):
         template_to_id = {
             TEMPLATE_ISLAND_BUSINESS_KOI: 601,
@@ -83,7 +105,7 @@ class IslandBusiness(IslandRestaurant):
         for template, id in template_to_id.items():
             if template.match(image):
                 return id
-        return None
+        return self.get_restaurant_id_by_name(button)
 
     def is_restaurant_running(self, button):
         return TEMPLATE_ISLAND_BUSINESS_RUNNING.match(self.image_crop(button, copy=True))
@@ -106,6 +128,8 @@ class IslandBusiness(IslandRestaurant):
             self.restaurant_swipe_to_bottom()
         elif self.index >= 3 and self.shifted:
             logger.info("No more restaurants")
+            return False
+        return True
 
     def run(self):
         self.ui_ensure(page_island_manage)
@@ -121,35 +145,44 @@ class IslandBusiness(IslandRestaurant):
             901: get_server_next_update('00:00') if not self.skip_restaurant[901] else datetime.now() + timedelta(days=3)
         }
         while unchecked_restaurants:
+            buttons = self.business_grid_shifted.buttons if self.shifted else self.business_grid.buttons
+            if self.index >= len(buttons):
+                logger.warning(f'No more restaurants, unchecked restaurants: {unchecked_restaurants}')
+                break
             if self.shifted:
-                button = self.business_grid_shifted.buttons[self.index]
+                button = buttons[self.index]
             else:
-                button = self.business_grid.buttons[self.index]
+                button = buttons[self.index]
             restaurant_id = self.get_restaurant_id(button)
-            if restaurant_id not in unchecked_restaurants:
-                self.next_restaurant()
-                continue
             if restaurant_id is None:
                 logger.warning("Unrecognized restaurant, should check assets")
-                self.next_restaurant()
+                if not self.next_restaurant():
+                    break
+                continue
+            if restaurant_id not in unchecked_restaurants:
+                if not self.next_restaurant():
+                    break
                 continue
             entrance_button = button.crop(BUSINESS_ENTRANCE_AREA)
             if self.skip_restaurant[restaurant_id]:
                 logger.info(f"Skip restaurant {restaurant_id}")
                 unchecked_restaurants.remove(restaurant_id)
-                self.next_restaurant()
+                if not self.next_restaurant():
+                    break
                 continue
             if self.is_restaurant_running(entrance_button):
                 remain_time = self.get_remain_time(button)
                 next_run_time[restaurant_id] = datetime.now() + remain_time if remain_time else "Unknown"
                 logger.info(f"Restaurant {restaurant_id} is running")
                 unchecked_restaurants.remove(restaurant_id)
-                self.next_restaurant()
+                if not self.next_restaurant():
+                    break
                 continue
             if self.is_restaurant_resting(entrance_button):
                 logger.info(f"Restaurant {restaurant_id} is resting")
                 unchecked_restaurants.remove(restaurant_id)
-                self.next_restaurant()
+                if not self.next_restaurant():
+                    break
                 continue
             logger.info(f"Restaurant {restaurant_id} is ready")
             for _ in self.loop():
