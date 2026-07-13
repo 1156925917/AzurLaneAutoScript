@@ -17,7 +17,16 @@ from module.ocr.ocr import Ocr
 from module.os_handler.assets import (AUTO_SEARCH_REWARD, EXCHANGE_CHECK, RESET_FLEET_PREPARATION, RESET_TICKET_POPUP)
 from module.raid.assets import *
 from module.ui.assets import *
-from module.ui.page import Page, page_academy, page_campaign, page_event, page_main, page_main_white, page_sp
+from module.ui.page import (
+    Page,
+    page_academy,
+    page_campaign,
+    page_event,
+    page_island_technology,
+    page_main,
+    page_main_white,
+    page_sp,
+)
 from module.ui_white.assets import *
 
 
@@ -42,6 +51,8 @@ class UI(InfoHandler):
         if self.config.SERVER == 'en' and page == page_academy:
             if self.appear(ACADEMY_GOTO_MUNITIONS, offset=offset, interval=interval):
                 return True
+        if page == page_island_technology:
+            return self.appear(page.check_button, offset=0, interval=interval)
         return self.appear(page.check_button, offset=offset, interval=interval)
 
     def is_in_main(self, offset=(30, 30), interval=0):
