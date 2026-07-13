@@ -80,7 +80,7 @@ class IslandBusiness(IslandRestaurant):
 
         # cnocr can misread individual glyphs, so match on stable fragments.
         restaurant_to_id = {
-            601: ['有鱼', '有魚', 'koi'],
+            601: ['有鱼', '有魚', '餐馆', '餐館', '飯店', 'koi'],
             602: ['白熊', '白クマ', 'bear'],
             603: ['啾啾', '简餐', '簡餐', '饅頭軽食', 'eatery'],
             604: ['乌鱼', '烏魚', '烤肉', '焼肉', 'grill'],
@@ -185,12 +185,18 @@ class IslandBusiness(IslandRestaurant):
                     break
                 continue
             logger.info(f"Restaurant {restaurant_id} is ready")
-            for _ in self.loop():
-                if self.appear(page_island_manage.check_button, offset=(20, 20), interval=1):
+            for _ in self.loop(timeout=10):
+                if self.ui_page_appear(page_island_manage, interval=1):
                     self.device.click(entrance_button)
                     continue
                 if self.is_in_island_restaurant():
                     break
+            else:
+                logger.warning(f'Failed to enter restaurant {restaurant_id}, skip for now')
+                unchecked_restaurants.remove(restaurant_id)
+                if not self.next_restaurant():
+                    break
+                continue
             self.working_restaurant_id = restaurant_id
             try:
                 success = super().run()
