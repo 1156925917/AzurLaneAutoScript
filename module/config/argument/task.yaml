@@ -343,18 +343,12 @@ Island:
     IslandProduction:
       - Scheduler
       - IslandProduction
-    IslandOrder:
-      - Scheduler
-      - IslandOrder
     IslandFreebie:
       - Scheduler
       - IslandFreebie
     IslandCollect:
       - Scheduler
-    IslandSeasonTask:
-      - Scheduler
-      - IslandSeasonTask
-    IslandBusiness:
+    IslandRestaurant:
       - Scheduler
       - IslandRestaurant
 

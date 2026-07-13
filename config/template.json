@@ -2011,27 +2011,8 @@
       "ServerUpdate": "00:00"
     },
     "IslandProduction": {
-      "HardFloorItems": "{}",
-      "ReserveItems": "{}",
-      "RequestBufferItems": "{}",
-      "DailyBufferItems": "{}",
-      "IdleAccumulatingItems": "{}"
-    },
-    "Storage": {
-      "Storage": {}
-    }
-  },
-  "IslandOrder": {
-    "Scheduler": {
-      "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
-      "Command": "IslandOrder",
-      "SuccessInterval": 0,
-      "FailureInterval": 120,
-      "ServerUpdate": "00:00"
-    },
-    "IslandOrder": {
-      "StuckSeasonOrderId": 0
+      "MinStockItems": null,
+      "AccumulatingItems": null
     },
     "Storage": {
       "Storage": {}
@@ -2060,33 +2041,17 @@
       "Command": "IslandCollect",
       "SuccessInterval": 0,
       "FailureInterval": 120,
-      "ServerUpdate": "03:00, 18:00"
-    },
-    "Storage": {
-      "Storage": {}
-    }
-  },
-  "IslandSeasonTask": {
-    "Scheduler": {
-      "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
-      "Command": "IslandSeasonTask",
-      "SuccessInterval": 0,
-      "FailureInterval": 120,
       "ServerUpdate": "00:00"
     },
-    "IslandSeasonTask": {
-      "TaskTarget": "{}"
-    },
     "Storage": {
       "Storage": {}
     }
   },
-  "IslandBusiness": {
+  "IslandRestaurant": {
     "Scheduler": {
       "Enable": false,
       "NextRun": "2020-01-01 00:00:00",
-      "Command": "IslandBusiness",
+      "Command": "IslandRestaurant",
       "SuccessInterval": 0,
       "FailureInterval": 120,
       "ServerUpdate": "00:00"
@@ -2094,19 +2059,14 @@
     "IslandRestaurant": {
       "KoiGrade": "bronze",
       "KoiWaitress": "any",
-      "KoiMenu": "{}",
       "BearGrade": "bronze",
       "BearWaitress": "any",
-      "BearMenu": "{}",
       "EateryGrade": "bronze",
       "EateryWaitress": "any",
-      "EateryMenu": "{}",
       "GrillGrade": "bronze",
       "GrillWaitress": "any",
-      "GrillMenu": "{}",
       "CafeGrade": "bronze",
-      "CafeWaitress": "any",
-      "CafeMenu": "{}"
+      "CafeWaitress": "any"
     },
     "Storage": {
       "Storage": {}
@@ -2139,9 +2099,7 @@
   },
   "IslandProductionPlanner": {
     "IslandProductionPlanner": {
-      "RescanIslandTechnology": false,
       "DailyProfitLowerLimit": 50000,
-      "DailyBufferSafetyMargin": 0,
       "FieldsEfficiency": 0,
       "OrchardEfficiency": 0,
       "NurseryEfficiency": 0

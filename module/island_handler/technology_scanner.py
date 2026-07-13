@@ -9,7 +9,6 @@ from module.base.utils import color_similarity_2d, rgb2luma, load_image, random_
 from module.island_handler.assets import *
 from module.island.data import DIC_ISLAND_TECHNOLOGY
 from module.island.ui import IslandUI
-from module.logger import logger
 from module.ui.navbar import Navbar
 from module.ui.page import page_island_technology
 
@@ -29,14 +28,6 @@ TECHNOLOGY_LENGTH = {
 DETECTION_AREA = (167, 54, 1280, 720)
 DETECTION_AREA_MASK = (1098, 646, 1280, 720)
 BUTTON_AREA = (-110, -26, 110, 26)
-MIN_VIEW_MATCH_SIMILARITY = 0.08
-SCAN_MAX_STEPS = {
-    2: 8,
-    3: 10,
-    4: 8,
-    5: 14,
-    6: 10,
-}
 
 
 def extract_flowchart(image):
@@ -89,8 +80,7 @@ class IslandTechnologyScanner(IslandUI):
         Tab 1 is a special situation where the botton icon is chosen,
         and all the navbar icons are inactive.
         """
-        logger.info(f'Ensure island technology tab {tab}')
-        for _ in self.loop(skip_first=skip_first_screenshot, timeout=15):
+        for _ in self.loop(skip_first=skip_first_screenshot):
             active = self._island_technology_side_navbar_get_active()
             if active == tab:
                 return True
@@ -102,22 +92,16 @@ class IslandTechnologyScanner(IslandUI):
                     self.device.click(self._island_technology_side_navbar.grids.buttons[tab-2])
                     continue
                 else:
-                    return self._island_technology_side_navbar.set(self, upper=tab-1)
-        logger.warning(f'Failed to ensure island technology tab {tab}')
+                    self._island_technology_side_navbar.set(self, upper=tab-1)
+                    return True
         return False
 
-    def get_technology_view_position(self, tab, detail=False):
+    def get_technology_view_position(self, tab):
         globe_view = load_image(f'./assets/island/technology/technology_chart_{tab}.png')
         extracted_flowchart = extract_flowchart(self.device.image)
         result = cv2.matchTemplate(globe_view, extracted_flowchart, cv2.TM_CCOEFF_NORMED)
         _, similarity, _, loca = cv2.minMaxLoc(result)
-        if similarity < MIN_VIEW_MATCH_SIMILARITY:
-            logger.warning(
-                f'Island technology tab {tab} view match is weak: '
-                f'position={loca[0]}, similarity={similarity:.3f}'
-            )
-        if detail:
-            return loca[0], similarity
+        # print(similarity)
         return loca[0]
 
     def _island_technology_swipe(self, forward=True):
@@ -130,25 +114,16 @@ class IslandTechnologyScanner(IslandUI):
 
     def technology_reset_view(self, skip_first_screenshot=True):
         active = self._island_technology_side_navbar_get_active()
-        if active not in SCAN_MAX_STEPS:
-            logger.warning(f'Unexpected island technology active tab {active}, skip reset')
-            return False
-        logger.info(f'Reset island technology tab {active} view')
         for _ in range(10):  # tab 5 has 4400 length, so 5 swipes are not enough
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
-            position_x, similarity = self.get_technology_view_position(tab=active, detail=True)
-            logger.info(f'Island technology tab {active} reset position={position_x}, similarity={similarity:.3f}')
+            position_x = self.get_technology_view_position(tab=active)
             if position_x < 3:
-                self.device.click_record_remove('DRAG')
-                return True
-            if similarity < MIN_VIEW_MATCH_SIMILARITY:
-                self.device.screenshot()
+                break
             self._island_technology_swipe(forward=False)
         self.device.click_record_remove('DRAG')
-        return False
 
     def scan_all(self):
         all_technology = {}
@@ -165,18 +140,11 @@ class IslandTechnologyScanner(IslandUI):
         for index, info in all_technology.items():
             technology_by_tab[info['tab'] - 2][index] = info['position']
         for tab in [2, 3, 4, 5, 6]:
-            logger.hr(f'Scan island technology tab {tab}', level=2)
-            if not self.island_technology_side_navbar_ensure(tab=tab):
-                continue
+            self.island_technology_side_navbar_ensure(tab=tab)
             self.technology_reset_view()
             position_x_old = None
-            matched_count_before = sum(1 for info in all_technology.values() if info['active'])
-            for step, _ in enumerate(self.loop()):
-                if step >= SCAN_MAX_STEPS[tab]:
-                    logger.warning(f'Island technology tab {tab} reached scan step limit')
-                    break
-                position_x, similarity = self.get_technology_view_position(tab=tab, detail=True)
-                logger.info(f'Island technology tab {tab} scan step={step}, position={position_x}, similarity={similarity:.3f}')
+            for _ in self.loop():
+                position_x = self.get_technology_view_position(tab=tab)
                 if position_x_old is not None:
                     if position_x - position_x_old < 5:
                         break
@@ -191,20 +159,18 @@ class IslandTechnologyScanner(IslandUI):
                         tech_button = crop(self.device.image, area=area_offset(BUTTON_AREA, (LEFT_STRIP + tech_pos_x_in_view, tech_pos_y)))
                         luma = rgb2luma(tech_button)
                         color = np.mean(luma.flatten())
-                        bright_ratio = np.count_nonzero(luma > 160) / luma.size
-                        if color > 150 or bright_ratio > 0.12:
+                        if color > 160:
                             all_technology[index]['active'] = True
                 self._island_technology_swipe(forward=True)
                 self.device.click_record_remove('DRAG')
-            matched_count_after = sum(1 for info in all_technology.values() if info['active'])
-            logger.info(f'Island technology tab {tab} detected {matched_count_after - matched_count_before} active technologies')
         return {index: info['active'] for index, info in all_technology.items()}
 
     def get_technology_status(self, dump_key=None):
-        logger.hr('Scan island technology')
         self.ui_ensure(page_island_technology)
         result = self.scan_all()
         if dump_key is not None:
             value = safe_dump(result)
             self.config.cross_set(keys=dump_key, value=value)
         return result
+
+

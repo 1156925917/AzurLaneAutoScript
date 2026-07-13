@@ -9623,76 +9623,13 @@
       }
     },
     "IslandProduction": {
-      "HardFloorItems": {
+      "MinStockItems": {
         "type": "textarea",
-        "value": "{}"
+        "value": ""
       },
-      "ReserveItems": {
+      "AccumulatingItems": {
         "type": "textarea",
-        "value": "{}"
-      },
-      "RequestBufferItems": {
-        "type": "textarea",
-        "value": "{}"
-      },
-      "DailyBufferItems": {
-        "type": "textarea",
-        "value": "{}"
-      },
-      "IdleAccumulatingItems": {
-        "type": "textarea",
-        "value": "{}"
-      }
-    },
-    "Storage": {
-      "Storage": {
-        "type": "storage",
-        "value": {},
-        "valuetype": "ignore",
-        "display": "disabled"
-      }
-    }
-  },
-  "IslandOrder": {
-    "Scheduler": {
-      "Enable": {
-        "type": "checkbox",
-        "value": false,
-        "option": [
-          true,
-          false
-        ]
-      },
-      "NextRun": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      },
-      "Command": {
-        "type": "input",
-        "value": "IslandOrder",
-        "display": "hide"
-      },
-      "SuccessInterval": {
-        "type": "input",
-        "value": 0,
-        "display": "hide"
-      },
-      "FailureInterval": {
-        "type": "input",
-        "value": 120,
-        "display": "hide"
-      },
-      "ServerUpdate": {
-        "type": "input",
-        "value": "00:00",
-        "display": "hide"
-      }
-    },
-    "IslandOrder": {
-      "StuckSeasonOrderId": {
-        "type": "input",
-        "value": 0
+        "value": ""
       }
     },
     "Storage": {
@@ -9787,61 +9724,10 @@
       },
       "ServerUpdate": {
         "type": "input",
-        "value": "03:00, 18:00",
-        "display": "hide"
-      }
-    },
-    "Storage": {
-      "Storage": {
-        "type": "storage",
-        "value": {},
-        "valuetype": "ignore",
-        "display": "disabled"
-      }
-    }
-  },
-  "IslandSeasonTask": {
-    "Scheduler": {
-      "Enable": {
-        "type": "checkbox",
-        "value": false,
-        "option": [
-          true,
-          false
-        ]
-      },
-      "NextRun": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      },
-      "Command": {
-        "type": "input",
-        "value": "IslandSeasonTask",
-        "display": "hide"
-      },
-      "SuccessInterval": {
-        "type": "input",
-        "value": 0,
-        "display": "hide"
-      },
-      "FailureInterval": {
-        "type": "input",
-        "value": 120,
-        "display": "hide"
-      },
-      "ServerUpdate": {
-        "type": "input",
         "value": "00:00",
         "display": "hide"
       }
     },
-    "IslandSeasonTask": {
-      "TaskTarget": {
-        "type": "textarea",
-        "value": "{}"
-      }
-    },
     "Storage": {
       "Storage": {
         "type": "storage",
@@ -9851,7 +9737,7 @@
       }
     }
   },
-  "IslandBusiness": {
+  "IslandRestaurant": {
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
@@ -9868,7 +9754,7 @@
       },
       "Command": {
         "type": "input",
-        "value": "IslandBusiness",
+        "value": "IslandRestaurant",
         "display": "hide"
       },
       "SuccessInterval": {
@@ -9904,14 +9790,10 @@
         "option": [
           "none",
           "any",
-          "Chao_Ho",
+          "zhaohe",
           "any+any",
-          "Chao_Ho+any"
+          "zhaohe+any"
         ]
-      },
-      "KoiMenu": {
-        "type": "textarea",
-        "value": "{}"
       },
       "BearGrade": {
         "type": "select",
@@ -9929,14 +9811,10 @@
         "option": [
           "none",
           "any",
-          "Cheshire",
+          "chaijun",
           "any+any",
-          "Cheshire+any"
+          "chaijun+any"
         ]
-      },
-      "BearMenu": {
-        "type": "textarea",
-        "value": "{}"
       },
       "EateryGrade": {
         "type": "select",
@@ -9954,17 +9832,13 @@
         "option": [
           "none",
           "any",
-          "Helena",
-          "Prinz_Eugen",
+          "hailunna",
+          "ougen",
           "any+any",
-          "Helena+any",
-          "Prinz_Eugen+any",
-          "Helena+Prinz_Eugen"
+          "hailunna+any",
+          "ougen+any",
+          "hailunna+ougen"
         ]
-      },
-      "EateryMenu": {
-        "type": "textarea",
-        "value": "{}"
       },
       "GrillGrade": {
         "type": "select",
@@ -9982,17 +9856,13 @@
         "option": [
           "none",
           "any",
-          "August_von_Parseval",
-          "Prinz_Eugen",
+          "aogusite",
+          "ougen",
           "any+any",
-          "August_von_Parseval+any",
-          "Prinz_Eugen+any",
-          "August_von_Parseval+Prinz_Eugen"
+          "aogusite+any",
+          "ougen+any",
+          "aogusite+ougen"
         ]
-      },
-      "GrillMenu": {
-        "type": "textarea",
-        "value": "{}"
       },
       "CafeGrade": {
         "type": "select",
@@ -10010,14 +9880,10 @@
         "option": [
           "none",
           "any",
-          "Cheshire",
+          "chaijun",
           "any+any",
-          "Cheshire+any"
+          "chaijun+any"
         ]
-      },
-      "CafeMenu": {
-        "type": "textarea",
-        "value": "{}"
       }
     },
     "Storage": {
@@ -10089,17 +9955,9 @@
   },
   "IslandProductionPlanner": {
     "IslandProductionPlanner": {
-      "RescanIslandTechnology": {
-        "type": "checkbox",
-        "value": false
-      },
       "DailyProfitLowerLimit": {
         "type": "input",
         "value": 50000
-      },
-      "DailyBufferSafetyMargin": {
-        "type": "input",
-        "value": 0
       },
       "FieldsEfficiency": {
         "type": "select",
