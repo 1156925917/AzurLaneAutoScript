@@ -22,6 +22,7 @@ from module.ui.page import (
     page_academy,
     page_campaign,
     page_event,
+    page_island_manage,
     page_island_technology,
     page_main,
     page_main_white,
@@ -51,7 +52,7 @@ class UI(InfoHandler):
         if self.config.SERVER == 'en' and page == page_academy:
             if self.appear(ACADEMY_GOTO_MUNITIONS, offset=offset, interval=interval):
                 return True
-        if page == page_island_technology:
+        if page in (page_island_manage, page_island_technology):
             return self.appear(page.check_button, offset=0, interval=interval)
         return self.appear(page.check_button, offset=offset, interval=interval)
 
