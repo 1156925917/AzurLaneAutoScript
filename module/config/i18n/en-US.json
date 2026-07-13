@@ -263,8 +263,8 @@
       "help": ""
     },
     "IslandOrder": {
-      "name": "Task.IslandOrder.name",
-      "help": "Task.IslandOrder.help"
+      "name": "Island Orders",
+      "help": ""
     },
     "IslandFreebie": {
       "name": "Daily Supplies",
@@ -275,12 +275,12 @@
       "help": "Use management panel to gather season specialities and coal/wood.\nWill use multiple characters with least levels until stamina requirement is fulfilled."
     },
     "IslandSeasonTask": {
-      "name": "Task.IslandSeasonTask.name",
-      "help": "Task.IslandSeasonTask.help"
+      "name": "Island Season Tasks",
+      "help": ""
     },
     "IslandBusiness": {
-      "name": "Task.IslandBusiness.name",
-      "help": "Task.IslandBusiness.help"
+      "name": "Island Business",
+      "help": ""
     },
     "Daemon": {
       "name": "Normal Semi-auto",
@@ -2863,34 +2863,34 @@
       "help": ""
     },
     "HardFloorItems": {
-      "name": "IslandProduction.HardFloorItems.name",
-      "help": "IslandProduction.HardFloorItems.help"
+      "name": "Hard Floor Items",
+      "help": ""
     },
     "ReserveItems": {
-      "name": "IslandProduction.ReserveItems.name",
-      "help": "IslandProduction.ReserveItems.help"
+      "name": "Reserve Items",
+      "help": ""
     },
     "RequestBufferItems": {
-      "name": "IslandProduction.RequestBufferItems.name",
-      "help": "IslandProduction.RequestBufferItems.help"
+      "name": "Request Buffer Items",
+      "help": ""
     },
     "DailyBufferItems": {
-      "name": "IslandProduction.DailyBufferItems.name",
-      "help": "IslandProduction.DailyBufferItems.help"
+      "name": "Daily Buffer Items",
+      "help": ""
     },
     "IdleAccumulatingItems": {
-      "name": "IslandProduction.IdleAccumulatingItems.name",
-      "help": "IslandProduction.IdleAccumulatingItems.help"
+      "name": "Idle Accumulating Items",
+      "help": ""
     }
   },
   "IslandOrder": {
     "_info": {
-      "name": "IslandOrder._info.name",
-      "help": "IslandOrder._info.help"
+      "name": "Island Orders",
+      "help": ""
     },
     "StuckSeasonOrderId": {
-      "name": "IslandOrder.StuckSeasonOrderId.name",
-      "help": "IslandOrder.StuckSeasonOrderId.help"
+      "name": "Stuck Season Order ID",
+      "help": ""
     }
   },
   "IslandFreebie": {
@@ -2926,8 +2926,8 @@
       "Chao_Ho+any": "Chao_Ho+any"
     },
     "KoiMenu": {
-      "name": "IslandRestaurant.KoiMenu.name",
-      "help": "IslandRestaurant.KoiMenu.help"
+      "name": "Golden Koi Restaurant Menu",
+      "help": ""
     },
     "BearGrade": {
       "name": "Polar Bear Teahouse Grade",
@@ -2947,8 +2947,8 @@
       "Cheshire+any": "Cheshire+any"
     },
     "BearMenu": {
-      "name": "IslandRestaurant.BearMenu.name",
-      "help": "IslandRestaurant.BearMenu.help"
+      "name": "Polar Bear Teahouse Menu",
+      "help": ""
     },
     "EateryGrade": {
       "name": "Manjuu Eatery Grade",
@@ -2971,8 +2971,8 @@
       "Helena+Prinz_Eugen": "Helena+Prinz_Eugen"
     },
     "EateryMenu": {
-      "name": "IslandRestaurant.EateryMenu.name",
-      "help": "IslandRestaurant.EateryMenu.help"
+      "name": "Manjuu Eatery Menu",
+      "help": ""
     },
     "GrillGrade": {
       "name": "Fin-'n'-Feather Grill Grade",
@@ -2995,8 +2995,8 @@
       "August_von_Parseval+Prinz_Eugen": "August_von_Parseval+Prinz_Eugen"
     },
     "GrillMenu": {
-      "name": "IslandRestaurant.GrillMenu.name",
-      "help": "IslandRestaurant.GrillMenu.help"
+      "name": "Fin-'n'-Feather Grill Menu",
+      "help": ""
     },
     "CafeGrade": {
       "name": "Café Manjuu Grade",
@@ -3016,18 +3016,18 @@
       "Cheshire+any": "Cheshire+any"
     },
     "CafeMenu": {
-      "name": "IslandRestaurant.CafeMenu.name",
-      "help": "IslandRestaurant.CafeMenu.help"
+      "name": "Café Manjuu Menu",
+      "help": ""
     }
   },
   "IslandSeasonTask": {
     "_info": {
-      "name": "IslandSeasonTask._info.name",
-      "help": "IslandSeasonTask._info.help"
+      "name": "Island Season Tasks",
+      "help": ""
     },
     "TaskTarget": {
-      "name": "IslandSeasonTask.TaskTarget.name",
-      "help": "IslandSeasonTask.TaskTarget.help"
+      "name": "Task Target",
+      "help": ""
     }
   },
   "Daemon": {

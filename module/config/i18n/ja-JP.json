@@ -263,8 +263,8 @@
       "help": ""
     },
     "IslandOrder": {
-      "name": "Task.IslandOrder.name",
-      "help": "Task.IslandOrder.help"
+      "name": "離島注文",
+      "help": ""
     },
     "IslandFreebie": {
       "name": "デイリー補給",
@@ -275,12 +275,12 @@
       "help": "管理パネルを使用して、季節の特産品や石炭/木材を収集します。\nスタミナ要件が満たされるまで、レベルの最も低い複数のキャラクターを使用します。"
     },
     "IslandSeasonTask": {
-      "name": "Task.IslandSeasonTask.name",
-      "help": "Task.IslandSeasonTask.help"
+      "name": "離島シーズン任務",
+      "help": ""
     },
     "IslandBusiness": {
-      "name": "Task.IslandBusiness.name",
-      "help": "Task.IslandBusiness.help"
+      "name": "離島経営",
+      "help": ""
     },
     "Daemon": {
       "name": "半自動クリック",
@@ -2863,34 +2863,34 @@
       "help": ""
     },
     "HardFloorItems": {
-      "name": "IslandProduction.HardFloorItems.name",
-      "help": "IslandProduction.HardFloorItems.help"
+      "name": "最低保証アイテム",
+      "help": ""
     },
     "ReserveItems": {
-      "name": "IslandProduction.ReserveItems.name",
-      "help": "IslandProduction.ReserveItems.help"
+      "name": "予約アイテム",
+      "help": ""
     },
     "RequestBufferItems": {
-      "name": "IslandProduction.RequestBufferItems.name",
-      "help": "IslandProduction.RequestBufferItems.help"
+      "name": "注文バッファアイテム",
+      "help": ""
     },
     "DailyBufferItems": {
-      "name": "IslandProduction.DailyBufferItems.name",
-      "help": "IslandProduction.DailyBufferItems.help"
+      "name": "日次バッファアイテム",
+      "help": ""
     },
     "IdleAccumulatingItems": {
-      "name": "IslandProduction.IdleAccumulatingItems.name",
-      "help": "IslandProduction.IdleAccumulatingItems.help"
+      "name": "待機中に蓄積するアイテム",
+      "help": ""
     }
   },
   "IslandOrder": {
     "_info": {
-      "name": "IslandOrder._info.name",
-      "help": "IslandOrder._info.help"
+      "name": "離島注文",
+      "help": ""
     },
     "StuckSeasonOrderId": {
-      "name": "IslandOrder.StuckSeasonOrderId.name",
-      "help": "IslandOrder.StuckSeasonOrderId.help"
+      "name": "停止したシーズン注文ID",
+      "help": ""
     }
   },
   "IslandFreebie": {
@@ -2926,8 +2926,8 @@
       "Chao_Ho+any": "Chao_Ho+any"
     },
     "KoiMenu": {
-      "name": "IslandRestaurant.KoiMenu.name",
-      "help": "IslandRestaurant.KoiMenu.help"
+      "name": "有魚飯店メニュー",
+      "help": ""
     },
     "BearGrade": {
       "name": "白クマ茶房のランク",
@@ -2947,8 +2947,8 @@
       "Cheshire+any": "Cheshire+any"
     },
     "BearMenu": {
-      "name": "IslandRestaurant.BearMenu.name",
-      "help": "IslandRestaurant.BearMenu.help"
+      "name": "白クマ茶房メニュー",
+      "help": ""
     },
     "EateryGrade": {
       "name": "饅頭軽食のランク",
@@ -2971,8 +2971,8 @@
       "Helena+Prinz_Eugen": "Helena+Prinz_Eugen"
     },
     "EateryMenu": {
-      "name": "IslandRestaurant.EateryMenu.name",
-      "help": "IslandRestaurant.EateryMenu.help"
+      "name": "饅頭軽食メニュー",
+      "help": ""
     },
     "GrillGrade": {
       "name": "烏魚焼肉のランク",
@@ -2995,8 +2995,8 @@
       "August_von_Parseval+Prinz_Eugen": "August_von_Parseval+Prinz_Eugen"
     },
     "GrillMenu": {
-      "name": "IslandRestaurant.GrillMenu.name",
-      "help": "IslandRestaurant.GrillMenu.help"
+      "name": "烏魚焼肉メニュー",
+      "help": ""
     },
     "CafeGrade": {
       "name": "饅頭カフェのランク",
@@ -3016,18 +3016,18 @@
       "Cheshire+any": "Cheshire+any"
     },
     "CafeMenu": {
-      "name": "IslandRestaurant.CafeMenu.name",
-      "help": "IslandRestaurant.CafeMenu.help"
+      "name": "饅頭カフェメニュー",
+      "help": ""
     }
   },
   "IslandSeasonTask": {
     "_info": {
-      "name": "IslandSeasonTask._info.name",
-      "help": "IslandSeasonTask._info.help"
+      "name": "離島シーズン任務",
+      "help": ""
     },
     "TaskTarget": {
-      "name": "IslandSeasonTask.TaskTarget.name",
-      "help": "IslandSeasonTask.TaskTarget.help"
+      "name": "任務目標",
+      "help": ""
     }
   },
   "Daemon": {

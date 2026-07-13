@@ -263,8 +263,8 @@
       "help": ""
     },
     "IslandOrder": {
-      "name": "Task.IslandOrder.name",
-      "help": "Task.IslandOrder.help"
+      "name": "岛屿订单",
+      "help": ""
     },
     "IslandFreebie": {
       "name": "每日补给",
@@ -275,12 +275,12 @@
       "help": "使用管理面板采集季节特产和煤炭/自然之木。\n将使用多个等级最低的角色直到满足体力要求。"
     },
     "IslandSeasonTask": {
-      "name": "Task.IslandSeasonTask.name",
-      "help": "Task.IslandSeasonTask.help"
+      "name": "岛屿季节任务",
+      "help": ""
     },
     "IslandBusiness": {
-      "name": "Task.IslandBusiness.name",
-      "help": "Task.IslandBusiness.help"
+      "name": "岛屿经营",
+      "help": ""
     },
     "Daemon": {
       "name": "半自动点击",
@@ -2863,34 +2863,34 @@
       "help": ""
     },
     "HardFloorItems": {
-      "name": "IslandProduction.HardFloorItems.name",
-      "help": "IslandProduction.HardFloorItems.help"
+      "name": "硬性保底物资",
+      "help": ""
     },
     "ReserveItems": {
-      "name": "IslandProduction.ReserveItems.name",
-      "help": "IslandProduction.ReserveItems.help"
+      "name": "保留物资",
+      "help": ""
     },
     "RequestBufferItems": {
-      "name": "IslandProduction.RequestBufferItems.name",
-      "help": "IslandProduction.RequestBufferItems.help"
+      "name": "订单缓冲物资",
+      "help": ""
     },
     "DailyBufferItems": {
-      "name": "IslandProduction.DailyBufferItems.name",
-      "help": "IslandProduction.DailyBufferItems.help"
+      "name": "每日缓冲物资",
+      "help": ""
     },
     "IdleAccumulatingItems": {
-      "name": "IslandProduction.IdleAccumulatingItems.name",
-      "help": "IslandProduction.IdleAccumulatingItems.help"
+      "name": "空闲累积物资",
+      "help": ""
     }
   },
   "IslandOrder": {
     "_info": {
-      "name": "IslandOrder._info.name",
-      "help": "IslandOrder._info.help"
+      "name": "岛屿订单",
+      "help": ""
     },
     "StuckSeasonOrderId": {
-      "name": "IslandOrder.StuckSeasonOrderId.name",
-      "help": "IslandOrder.StuckSeasonOrderId.help"
+      "name": "卡住季节订单ID",
+      "help": ""
     }
   },
   "IslandFreebie": {
@@ -2926,8 +2926,8 @@
       "Chao_Ho+any": "Chao_Ho+any"
     },
     "KoiMenu": {
-      "name": "IslandRestaurant.KoiMenu.name",
-      "help": "IslandRestaurant.KoiMenu.help"
+      "name": "有鱼餐馆菜单",
+      "help": ""
     },
     "BearGrade": {
       "name": "白熊饮品等级",
@@ -2947,8 +2947,8 @@
       "Cheshire+any": "Cheshire+any"
     },
     "BearMenu": {
-      "name": "IslandRestaurant.BearMenu.name",
-      "help": "IslandRestaurant.BearMenu.help"
+      "name": "白熊饮品菜单",
+      "help": ""
     },
     "EateryGrade": {
       "name": "啾啾简餐等级",
@@ -2971,8 +2971,8 @@
       "Helena+Prinz_Eugen": "Helena+Prinz_Eugen"
     },
     "EateryMenu": {
-      "name": "IslandRestaurant.EateryMenu.name",
-      "help": "IslandRestaurant.EateryMenu.help"
+      "name": "啾啾简餐菜单",
+      "help": ""
     },
     "GrillGrade": {
       "name": "乌鱼烤肉等级",
@@ -2995,8 +2995,8 @@
       "August_von_Parseval+Prinz_Eugen": "August_von_Parseval+Prinz_Eugen"
     },
     "GrillMenu": {
-      "name": "IslandRestaurant.GrillMenu.name",
-      "help": "IslandRestaurant.GrillMenu.help"
+      "name": "乌鱼烤肉菜单",
+      "help": ""
     },
     "CafeGrade": {
       "name": "啾咖啡等级",
@@ -3016,18 +3016,18 @@
       "Cheshire+any": "Cheshire+any"
     },
     "CafeMenu": {
-      "name": "IslandRestaurant.CafeMenu.name",
-      "help": "IslandRestaurant.CafeMenu.help"
+      "name": "啾咖啡菜单",
+      "help": ""
     }
   },
   "IslandSeasonTask": {
     "_info": {
-      "name": "IslandSeasonTask._info.name",
-      "help": "IslandSeasonTask._info.help"
+      "name": "岛屿季节任务",
+      "help": ""
     },
     "TaskTarget": {
-      "name": "IslandSeasonTask.TaskTarget.name",
-      "help": "IslandSeasonTask.TaskTarget.help"
+      "name": "任务目标",
+      "help": ""
     }
   },
   "Daemon": {
