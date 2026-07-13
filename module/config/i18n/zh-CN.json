@@ -262,6 +262,10 @@
       "name": "岛屿生产",
       "help": ""
     },
+    "IslandOrder": {
+      "name": "Task.IslandOrder.name",
+      "help": "Task.IslandOrder.help"
+    },
     "IslandFreebie": {
       "name": "每日补给",
       "help": ""
@@ -270,9 +274,13 @@
       "name": "每日采集",
       "help": "使用管理面板采集季节特产和煤炭/自然之木。\n将使用多个等级最低的角色直到满足体力要求。"
     },
-    "IslandRestaurant": {
-      "name": "餐厅管理",
-      "help": ""
+    "IslandSeasonTask": {
+      "name": "Task.IslandSeasonTask.name",
+      "help": "Task.IslandSeasonTask.help"
+    },
+    "IslandBusiness": {
+      "name": "Task.IslandBusiness.name",
+      "help": "Task.IslandBusiness.help"
     },
     "Daemon": {
       "name": "半自动点击",
@@ -2849,6 +2857,42 @@
       "22": "22 | NA海域西南B"
     }
   },
+  "IslandProduction": {
+    "_info": {
+      "name": "岛屿生产",
+      "help": ""
+    },
+    "HardFloorItems": {
+      "name": "IslandProduction.HardFloorItems.name",
+      "help": "IslandProduction.HardFloorItems.help"
+    },
+    "ReserveItems": {
+      "name": "IslandProduction.ReserveItems.name",
+      "help": "IslandProduction.ReserveItems.help"
+    },
+    "RequestBufferItems": {
+      "name": "IslandProduction.RequestBufferItems.name",
+      "help": "IslandProduction.RequestBufferItems.help"
+    },
+    "DailyBufferItems": {
+      "name": "IslandProduction.DailyBufferItems.name",
+      "help": "IslandProduction.DailyBufferItems.help"
+    },
+    "IdleAccumulatingItems": {
+      "name": "IslandProduction.IdleAccumulatingItems.name",
+      "help": "IslandProduction.IdleAccumulatingItems.help"
+    }
+  },
+  "IslandOrder": {
+    "_info": {
+      "name": "IslandOrder._info.name",
+      "help": "IslandOrder._info.help"
+    },
+    "StuckSeasonOrderId": {
+      "name": "IslandOrder.StuckSeasonOrderId.name",
+      "help": "IslandOrder.StuckSeasonOrderId.help"
+    }
+  },
   "IslandFreebie": {
     "_info": {
       "name": "每日补给",
@@ -2857,20 +2901,6 @@
     "Share": {
       "name": "将补给分享给好友",
       "help": ""
-    }
-  },
-  "IslandProduction": {
-    "_info": {
-      "name": "岛屿生产",
-      "help": ""
-    },
-    "MinStockItems": {
-      "name": "最低库存物品",
-      "help": "需要在库存低时生产的物品，以及每种物品要维持的库存水平\nAlas 将在库存低时优先生产这些物品，闲置时会生产其他物品\n可以通过工具中的岛屿生产规划器自动生成"
-    },
-    "AccumulatingItems": {
-      "name": "累积物品",
-      "help": "超额生产应忽略的物品，以及每种物品库存水平增加的比率\nAlas 不会将这些物品视为过度生产，闲置时将根据当前库存除以比率来生产它们\n可以通过工具中的岛屿生产规划器自动生成"
     }
   },
   "IslandRestaurant": {
@@ -2891,9 +2921,13 @@
       "help": "无表示不运营此餐厅，任意表示不限制服务员的选择，此时将选择管理等级最高的角色\n如果选择的特定角色不可用，餐厅将回退到任意而不是跳过此餐厅",
       "none": "无",
       "any": "任意",
-      "zhaohe": "肇和",
+      "Chao_Ho": "Chao_Ho",
       "any+any": "任意 + 任意",
-      "zhaohe+any": "肇和 + 任意"
+      "Chao_Ho+any": "Chao_Ho+any"
+    },
+    "KoiMenu": {
+      "name": "IslandRestaurant.KoiMenu.name",
+      "help": "IslandRestaurant.KoiMenu.help"
     },
     "BearGrade": {
       "name": "白熊饮品等级",
@@ -2908,9 +2942,13 @@
       "help": "无表示不运营此餐厅，任意表示不限制服务员的选择，此时将选择管理等级最高的角色\n如果选择的特定角色不可用，餐厅将回退到任意而不是跳过此餐厅",
       "none": "无",
       "any": "任意",
-      "chaijun": "柴郡",
+      "Cheshire": "Cheshire",
       "any+any": "任意 + 任意",
-      "chaijun+any": "柴郡 + 任意"
+      "Cheshire+any": "Cheshire+any"
+    },
+    "BearMenu": {
+      "name": "IslandRestaurant.BearMenu.name",
+      "help": "IslandRestaurant.BearMenu.help"
     },
     "EateryGrade": {
       "name": "啾啾简餐等级",
@@ -2925,12 +2963,16 @@
       "help": "无表示不运营此餐厅，任意表示不限制服务员的选择，此时将选择管理等级最高的角色\n如果选择的特定角色不可用，餐厅将回退到任意而不是跳过此餐厅",
       "none": "无",
       "any": "任意",
-      "hailunna": "海伦娜",
-      "ougen": "欧根亲王",
+      "Helena": "Helena",
+      "Prinz_Eugen": "Prinz_Eugen",
       "any+any": "任意 + 任意",
-      "hailunna+any": "海伦娜 + 任意",
-      "ougen+any": "欧根亲王 + 任意",
-      "hailunna+ougen": "海伦娜 + 欧根亲王"
+      "Helena+any": "Helena+any",
+      "Prinz_Eugen+any": "Prinz_Eugen+any",
+      "Helena+Prinz_Eugen": "Helena+Prinz_Eugen"
+    },
+    "EateryMenu": {
+      "name": "IslandRestaurant.EateryMenu.name",
+      "help": "IslandRestaurant.EateryMenu.help"
     },
     "GrillGrade": {
       "name": "乌鱼烤肉等级",
@@ -2945,12 +2987,16 @@
       "help": "无表示不运营此餐厅，任意表示不限制服务员的选择，此时将选择管理等级最高的角色\n如果选择的特定角色不可用，餐厅将回退到任意而不是跳过此餐厅",
       "none": "无",
       "any": "任意",
-      "aogusite": "奥古斯特·冯·帕塞瓦尔",
-      "ougen": "欧根亲王",
+      "August_von_Parseval": "August_von_Parseval",
+      "Prinz_Eugen": "Prinz_Eugen",
       "any+any": "任意 + 任意",
-      "aogusite+any": "奥古斯特·冯·帕塞瓦尔 + 任意",
-      "ougen+any": "欧根亲王 + 任意",
-      "aogusite+ougen": "奥古斯特·冯·帕塞瓦尔 + 欧根亲王"
+      "August_von_Parseval+any": "August_von_Parseval+any",
+      "Prinz_Eugen+any": "Prinz_Eugen+any",
+      "August_von_Parseval+Prinz_Eugen": "August_von_Parseval+Prinz_Eugen"
+    },
+    "GrillMenu": {
+      "name": "IslandRestaurant.GrillMenu.name",
+      "help": "IslandRestaurant.GrillMenu.help"
     },
     "CafeGrade": {
       "name": "啾咖啡等级",
@@ -2965,9 +3011,23 @@
       "help": "无表示不运营此餐厅，任意表示不限制服务员的选择，此时将选择管理等级最高的角色\n如果选择的特定角色不可用，餐厅将回退到任意而不是跳过此餐厅",
       "none": "无",
       "any": "任意",
-      "chaijun": "柴郡",
+      "Cheshire": "Cheshire",
       "any+any": "任意 + 任意",
-      "chaijun+any": "柴郡 + 任意"
+      "Cheshire+any": "Cheshire+any"
+    },
+    "CafeMenu": {
+      "name": "IslandRestaurant.CafeMenu.name",
+      "help": "IslandRestaurant.CafeMenu.help"
+    }
+  },
+  "IslandSeasonTask": {
+    "_info": {
+      "name": "IslandSeasonTask._info.name",
+      "help": "IslandSeasonTask._info.help"
+    },
+    "TaskTarget": {
+      "name": "IslandSeasonTask.TaskTarget.name",
+      "help": "IslandSeasonTask.TaskTarget.help"
     }
   },
   "Daemon": {

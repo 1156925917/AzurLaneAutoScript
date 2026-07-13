@@ -814,47 +814,88 @@ OpsiHazard1Leveling:
     option: [ 0, 44, 22 ]
 
 # =================== Island ====================
+
+IslandProduction:
+  HardFloorItems:
+    type: textarea
+    value: |-
+      {}
+  ReserveItems:
+    type: textarea
+    value: |-
+      {}
+  RequestBufferItems:
+    type: textarea
+    value: |-
+      {}
+  DailyBufferItems:
+    type: textarea
+    value: |-
+      {}
+  IdleAccumulatingItems:
+    type: textarea
+    value: |-
+      {}
+IslandOrder:
+  StuckSeasonOrderId: 0
 IslandFreebie:
   Share: true
-IslandProduction:
-  MinStockItems:
-    type: textarea
-    value: |-
-  AccumulatingItems:
-    type: textarea
-    value: |-
 IslandRestaurant:
   KoiGrade:
     value: bronze
     option: [ bronze, silver, gold, diamond ]
   KoiWaitress:
     value: any
-    option: [ none, any, zhaohe, any+any, zhaohe+any ]
+    option: [ none, any, Chao_Ho, any+any, Chao_Ho+any ]
+  KoiMenu:
+    type: textarea
+    value: |-
+      {}
   BearGrade:
     value: bronze
     option: [ bronze, silver, gold, diamond ]
   BearWaitress:
     value: any
-    option: [ none, any, chaijun, any+any, chaijun+any ]
+    option: [ none, any, Cheshire, any+any, Cheshire+any ]
+  BearMenu:
+    type: textarea
+    value: |-
+      {}
   EateryGrade:  
     value: bronze
     option: [ bronze, silver, gold, diamond ]
   EateryWaitress:
     value: any
-    option: [ none, any, hailunna, ougen, any+any, hailunna+any, ougen+any, hailunna+ougen ]
+    option: [ none, any, Helena, Prinz_Eugen, any+any, Helena+any, Prinz_Eugen+any, Helena+Prinz_Eugen ]
+  EateryMenu:
+    type: textarea
+    value: |-
+      {}
   GrillGrade:
     value: bronze
     option: [ bronze, silver, gold, diamond ]
   GrillWaitress:
     value: any
-    option: [ none, any, aogusite, ougen, any+any, aogusite+any, ougen+any, aogusite+ougen ]
+    option: [ none, any, August_von_Parseval, Prinz_Eugen, any+any, August_von_Parseval+any, Prinz_Eugen+any, August_von_Parseval+Prinz_Eugen ]
+  GrillMenu:
+    type: textarea
+    value: |-
+      {}
   CafeGrade:
     value: bronze
     option: [ bronze, silver, gold, diamond ]
   CafeWaitress:
     value: any
-    option: [ none, any, chaijun, any+any, chaijun+any ]
-
+    option: [ none, any, Cheshire, any+any, Cheshire+any ]
+  CafeMenu:
+    type: textarea
+    value: |-
+      {}
+IslandSeasonTask:
+  TaskTarget:
+    type: textarea
+    value: |-
+      {}
 
 # ==================== Tools ====================
 
