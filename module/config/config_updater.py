@@ -173,14 +173,19 @@ class ConfigGenerator:
         # Construct args
         data = {}
         # Add dashboard to args
-        dashboard_and_task = {**self.dashboard,**self.task}
-        for path, groups in deep_iter(dashboard_and_task, depth=3):
-            if 'tasks' not in path and 'Dashboard' not in path:
+        for task, groups in self.dashboard.items():
+            for group in list(groups) + ['Storage']:
+                if group not in self.argument:
+                    print(f'`{task}.{group}` is not related to any argument group')
+                    continue
+                deep_set(data, keys=[task, group], value=deepcopy(self.argument[group]))
+
+        for path, groups in deep_iter(self.task, depth=3):
+            if 'tasks' not in path:
                 continue
-            task = path[2] if 'tasks' in path else path[0]
+            task = path[2]
             # Add storage to all task
-            groups.append('Storage')
-            for group in groups:
+            for group in list(groups) + ['Storage']:
                 if group not in self.argument:
                     print(f'`{task}.{group}` is not related to any argument group')
                     continue
