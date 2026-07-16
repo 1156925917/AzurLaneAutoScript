@@ -265,6 +265,7 @@ class PQInteract(UI):
             logger.hr(f'Interact Loop {i}/3', level=3)
             self.interval_clear([PRIVATE_QUARTERS_INTERACT_CHECK,
                                  PRIVATE_QUARTERS_INTERACT])
+            dialogue_timer = Timer(8, count=4).start()
             skip_first_screenshot = True
             while 1:
                 if skip_first_screenshot:
@@ -276,9 +277,16 @@ class PQInteract(UI):
                 if self.appear(PRIVATE_QUARTERS_INTERACT_CHECK, offset=(20, 20)):
                     break
 
-                if self.appear_then_click(PRIVATE_QUARTERS_INTERACT, offset=interact_offset, interval=1):
+                if self.appear_then_click(PRIVATE_QUARTERS_INTERACT, offset=interact_offset, interval=3):
+                    dialogue_timer.reset()
                     continue
 
+                if dialogue_timer.reached():
+                    logger.info('Private quarters dialogue wait timeout, click safe area')
+                    self.device.click(PRIVATE_QUARTERS_ROOM_SAFE_CLICK_AREA)
+                    dialogue_timer.reset()
+
+            dialogue_timer = Timer(8, count=4).start()
             skip_first_screenshot = True
             while 1:
                 if skip_first_screenshot:
@@ -292,7 +300,13 @@ class PQInteract(UI):
 
                 if self.appear(PRIVATE_QUARTERS_INTERACT_CHECK, offset=(20, 20), interval=1):
                     self.device.click(PRIVATE_QUARTERS_ROOM_BACK)
+                    dialogue_timer.reset()
                     continue
+
+                if dialogue_timer.reached():
+                    logger.info('Private quarters interaction settle timeout, click safe area')
+                    self.device.click(PRIVATE_QUARTERS_ROOM_SAFE_CLICK_AREA)
+                    dialogue_timer.reset()
 
         logger.hr(f'Interact End', level=2)
         self._pq_goto_room_exit()

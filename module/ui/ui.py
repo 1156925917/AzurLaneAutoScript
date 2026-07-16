@@ -288,6 +288,17 @@ class UI(InfoHandler):
             if clicked:
                 continue
 
+            # Unknown page with a visible HOME/BACK button, such as game settings.
+            # Recover to main and let path finding continue.
+            if self.appear_then_click(GOTO_MAIN, offset=(30, 30), interval=2):
+                continue
+            if self.appear_then_click(GOTO_MAIN_WHITE, offset=(30, 30), interval=2):
+                continue
+            if self.appear_then_click(BACK_ARROW, offset=(30, 30), interval=2):
+                continue
+            if self.appear_then_click(BACK_ARROW_WHITE, offset=(30, 30), interval=2):
+                continue
+
             # Additional
             if self.ui_additional(get_ship=get_ship and not island_page_detected):
                 continue

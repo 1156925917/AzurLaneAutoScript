@@ -3,7 +3,7 @@ from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2
 from module.freebies.assets import *
 from module.logger import logger
-from module.ui.page import GOTO_MAIN_WHITE, page_mail, page_main, page_main_white
+from module.ui.page import BACK_ARROW, GOTO_MAIN_WHITE, page_event_list, page_mail, page_main, page_main_white
 from module.ui.setting import Setting
 from module.ui.ui import UI
 
@@ -72,6 +72,10 @@ class MailWhite(UI):
                 if timeout.reached():
                     logger.info('Mail empty, wait GOTO_MAIN_WHITE timeout')
                     return False
+            if self.ui_page_appear(page_event_list, interval=3):
+                logger.info('Mail enter reached event list, return to main')
+                self.device.click(BACK_ARROW)
+                continue
 
             # Click
             if self.appear_then_click(MAIL_MANAGE, offset=(30, 30), interval=3):
