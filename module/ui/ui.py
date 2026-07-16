@@ -258,6 +258,7 @@ class UI(InfoHandler):
 
         logger.hr(f"UI goto {destination}")
         island_page_detected = False
+        recovery_timer = Timer(45, count=20).start()
         while 1:
             GOTO_MAIN.clear_offset()
             if skip_first_screenshot:
@@ -284,23 +285,32 @@ class UI(InfoHandler):
                     self.device.click(button)
                     self.ui_button_interval_reset(button)
                     clicked = True
+                    recovery_timer.reset()
                     break
             if clicked:
                 continue
 
-            # Unknown page with a visible HOME/BACK button, such as game settings.
-            # Recover to main and let path finding continue.
-            if self.appear_then_click(GOTO_MAIN, offset=(30, 30), interval=2):
-                continue
-            if self.appear_then_click(GOTO_MAIN_WHITE, offset=(30, 30), interval=2):
-                continue
-            if self.appear_then_click(BACK_ARROW, offset=(30, 30), interval=2):
-                continue
-            if self.appear_then_click(BACK_ARROW_WHITE, offset=(30, 30), interval=2):
-                continue
-
             # Additional
             if self.ui_additional(get_ship=get_ship and not island_page_detected):
+                recovery_timer.reset()
+                continue
+
+            # Last-resort recovery before stuck detection reports an error.
+            if recovery_timer.reached():
+                logger.info('UI goto recovery: try HOME/BACK before stuck')
+                if self.appear_then_click(GOTO_MAIN, offset=(30, 30), interval=2):
+                    recovery_timer.reset()
+                    continue
+                if self.appear_then_click(GOTO_MAIN_WHITE, offset=(30, 30), interval=2):
+                    recovery_timer.reset()
+                    continue
+                if self.appear_then_click(BACK_ARROW, offset=(30, 30), interval=2):
+                    recovery_timer.reset()
+                    continue
+                if self.appear_then_click(BACK_ARROW_WHITE, offset=(30, 30), interval=2):
+                    recovery_timer.reset()
+                    continue
+                recovery_timer.reset()
                 continue
 
         # Reset connection
