@@ -1,3 +1,4 @@
+from module.base.button import Button
 from module.base.timer import Timer
 from module.base.utils import random_rectangle_vector
 from module.handler.assets import POPUP_CANCEL
@@ -5,6 +6,14 @@ from module.logger import logger
 from module.private_quarters.assets import *
 from module.ui.page import page_private_quarters
 from module.ui.ui import UI
+
+
+PRIVATE_QUARTERS_DIALOGUE_BUBBLE_CLICK = Button(
+    area=(620, 100, 750, 175),
+    color=(255, 255, 255),
+    button=(620, 100, 750, 175),
+    name='PRIVATE_QUARTERS_DIALOGUE_BUBBLE_CLICK',
+)
 
 
 class PQInteract(UI):
@@ -266,6 +275,7 @@ class PQInteract(UI):
             self.interval_clear([PRIVATE_QUARTERS_INTERACT_CHECK,
                                  PRIVATE_QUARTERS_INTERACT])
             dialogue_timer = Timer(8, count=4).start()
+            dialogue_clicks = 0
             skip_first_screenshot = True
             while 1:
                 if skip_first_screenshot:
@@ -282,11 +292,16 @@ class PQInteract(UI):
                     continue
 
                 if dialogue_timer.reached():
-                    logger.info('Private quarters dialogue wait timeout, click safe area')
-                    self.device.click(PRIVATE_QUARTERS_ROOM_SAFE_CLICK_AREA)
+                    dialogue_clicks += 1
+                    if dialogue_clicks > 3 and self.appear(PRIVATE_QUARTERS_ROOM_CHECK, offset=(20, 20)):
+                        logger.warning('Private quarters dialogue returned to room, continue')
+                        break
+                    logger.info('Private quarters dialogue wait timeout, click dialogue bubble')
+                    self.device.click(PRIVATE_QUARTERS_DIALOGUE_BUBBLE_CLICK)
                     dialogue_timer.reset()
 
             dialogue_timer = Timer(8, count=4).start()
+            dialogue_clicks = 0
             skip_first_screenshot = True
             while 1:
                 if skip_first_screenshot:
@@ -304,8 +319,14 @@ class PQInteract(UI):
                     continue
 
                 if dialogue_timer.reached():
-                    logger.info('Private quarters interaction settle timeout, click safe area')
-                    self.device.click(PRIVATE_QUARTERS_ROOM_SAFE_CLICK_AREA)
+                    dialogue_clicks += 1
+                    if dialogue_clicks > 3 and self.appear(PRIVATE_QUARTERS_ROOM_CHECK, offset=(20, 20)):
+                        logger.warning('Private quarters interaction settled in room, click target again')
+                        self.device.click(PRIVATE_QUARTERS_ROOM_TARGET_CLICK_AREA)
+                        dialogue_clicks = 0
+                    else:
+                        logger.info('Private quarters interaction settle timeout, click dialogue bubble')
+                        self.device.click(PRIVATE_QUARTERS_DIALOGUE_BUBBLE_CLICK)
                     dialogue_timer.reset()
 
         logger.hr(f'Interact End', level=2)
