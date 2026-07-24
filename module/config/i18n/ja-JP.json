@@ -71,7 +71,7 @@
       "help": ""
     },
     "Coalition": {
-      "name": "星霜海嵐",
+      "name": "怪談実録",
       "help": ""
     },
     "Event": {
@@ -98,6 +98,10 @@
       "name": "作戦履歴",
       "help": ""
     },
+    "CoalitionSp": {
+      "name": "怪談実録SP",
+      "help": ""
+    },
     "EventA": {
       "name": "毎日イベント海域A",
       "help": ""
@@ -120,10 +124,6 @@
     },
     "RaidDaily": {
       "name": "Raid Daily",
-      "help": ""
-    },
-    "CoalitionSp": {
-      "name": "星霜海嵐SP",
       "help": ""
     },
     "Commission": {
@@ -953,6 +953,7 @@
       "coalition_20250626": "ネオンシティの探索者",
       "coalition_20251120": "DATE A LANE",
       "coalition_20260122": "特集写真-撮影進行中",
+      "coalition_20260723": "怪談実録",
       "event_20200227_cn": "凍絶の北海",
       "event_20200312_cn": "南洋に靡く硝煙（復刻）",
       "event_20200326_cn": "闇靄払う銀翼",
@@ -1619,11 +1620,10 @@
     "Mode": {
       "name": "Coalition.Mode.name",
       "help": "Coalition.Mode.help",
-      "tc1": "tc1",
-      "tc2": "tc2",
-      "tc3": "tc3",
-      "sp": "sp",
-      "ex": "ex"
+      "easy": "easy",
+      "normal": "normal",
+      "hard": "hard",
+      "sp": "sp"
     },
     "Fleet": {
       "name": "Coalition.Fleet.name",
