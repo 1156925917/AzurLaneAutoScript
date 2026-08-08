@@ -156,12 +156,20 @@ class IslandSeasonTask(IslandUI):
 
     def handle_island_get_items(self):
         if self.appear(GET_ITEMS_1, offset=(20, 100), interval=3):
-            self.device.click(ISLAND_SEASON_TASK_RECEIVE_ALL)
+            logger.info(f'{GET_ITEMS_1} -> {ISLAND_CLICK_SAFE_AREA}')
+            self.device.click(ISLAND_CLICK_SAFE_AREA)
+            self.interval_clear(ISLAND_SEASON_TASK_RECEIVE_ALL)
+            self.device.click_record_remove(ISLAND_SEASON_TASK_RECEIVE_ALL)
+            self.device.sleep(0.5)
             return True
         if self.has_white_band():
             if self.appear(page_island_season.check_button):
                 return False
-            self.device.click(ISLAND_SEASON_TASK_RECEIVE_ALL)
+            logger.info(f'Island reward white band -> {ISLAND_CLICK_SAFE_AREA}')
+            self.device.click(ISLAND_CLICK_SAFE_AREA)
+            self.interval_clear(ISLAND_SEASON_TASK_RECEIVE_ALL)
+            self.device.click_record_remove(ISLAND_SEASON_TASK_RECEIVE_ALL)
+            self.device.sleep(0.5)
             return True
         return False
 
@@ -169,11 +177,11 @@ class IslandSeasonTask(IslandUI):
         clicked = False
         confirm_timer = Timer(3, count=6)
         for _ in self.loop(skip_first=False):
-            if self.appear_then_click(ISLAND_SEASON_TASK_RECEIVE_ALL, interval=2, offset=(20, 20)):
-                clicked = True
+            if self.handle_island_additional():
                 confirm_timer.reset()
                 continue
-            if self.handle_island_additional():
+            if self.appear_then_click(ISLAND_SEASON_TASK_RECEIVE_ALL, interval=2, offset=(20, 20)):
+                clicked = True
                 confirm_timer.reset()
                 continue
             if confirm_timer.reached():
