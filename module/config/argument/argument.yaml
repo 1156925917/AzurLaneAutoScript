@@ -2,59 +2,6 @@
 # Define arguments.
 # --------------------
 
-# ==================== Dashboard ====================
-Oil:
-  Value: 0
-  Limit: 0
-  Color: ^000000
-  Record: 2020-01-01 00:00:00
-Coin:
-  Value: 0
-  Limit: 0
-  Color: ^FFAA33
-  Record: 2020-01-01 00:00:00
-Gem:
-  Value: 0
-  Color: ^FF3333
-  Record: 2020-01-01 00:00:00
-Pt:
-  Value: 0
-  Color: ^00BFFF
-  Record: 2020-01-01 00:00:00
-YellowCoin:
-  Value: 0
-  Color: ^FF8800
-  Record: 2020-01-01 00:00:00
-PurpleCoin:
-  Value: 0
-  Color: ^7700BB
-  Record: 2020-01-01 00:00:00
-ActionPoint:
-  Value: 0
-  Total: 0
-  Color: ^0000FF
-  Record: 2020-01-01 00:00:00
-Merit:
-  Value: 0
-  Color: ^FFFF00
-  Record: 2020-01-01 00:00:00
-Cube:
-  Value: 0
-  Color: ^33FFFF
-  Record: 2020-01-01 00:00:00
-Core:
-  Value: 0
-  Color: ^AAAAAA
-  Record: 2020-01-01 00:00:00
-Medal:
-  Value: 0
-  Color: ^FFDD00
-  Record: 2020-01-01 00:00:00
-GuildCoin:
-  Value: 0
-  Color: ^AAAAAA
-  Record: 2020-01-01 00:00:00
-
 # ==================== Alas ====================
 
 Scheduler:
@@ -93,10 +40,6 @@ Emulator:
       aScreenCap,
       aScreenCap_nc,
       DroidCast,
-      DroidCast_webp,
-      DroidCast_jpeg,
-      DroidCast_jpeg_98,
-      DroidCast_jpeg_96,
       DroidCast_raw,
       nemu_ipc,
       ldopengl,
@@ -805,15 +748,7 @@ OpsiHazard1Leveling:
 # =================== Island ====================
 
 IslandProduction:
-  HardFloorItems:
-    type: textarea
-    value: |-
-      {}
   ReserveItems:
-    type: textarea
-    value: |-
-      {}
-  RequestBufferItems:
     type: textarea
     value: |-
       {}
@@ -825,6 +760,11 @@ IslandProduction:
     type: textarea
     value: |-
       {}
+  HardFloorItems:
+    type: textarea
+    value: |-
+      {}
+    display: disabled
 IslandOrder:
   StuckSeasonOrderId: 0
 IslandFreebie:
@@ -833,9 +773,12 @@ IslandRestaurant:
   KoiGrade:
     value: bronze
     option: [ bronze, silver, gold, diamond ]
-  KoiWaitress:
+  KoiWaitress1: &KoiWaitressSlot
     value: any
-    option: [ none, any, Chao_Ho, any+any, Chao_Ho+any ]
+    option: &KoiWaitressOptions [ none, any, Chao_Ho, Chang_Feng ]
+  KoiWaitress2:
+    <<: *KoiWaitressSlot
+    value: none
   KoiMenu:
     type: textarea
     value: |-
@@ -843,9 +786,12 @@ IslandRestaurant:
   BearGrade:
     value: bronze
     option: [ bronze, silver, gold, diamond ]
-  BearWaitress:
+  BearWaitress1: &BearWaitressSlot
     value: any
-    option: [ none, any, Cheshire, any+any, Cheshire+any ]
+    option: &BearWaitressOptions [ none, any, Cheshire, Chang_Feng ]
+  BearWaitress2:
+    <<: *BearWaitressSlot
+    value: none
   BearMenu:
     type: textarea
     value: |-
@@ -853,9 +799,12 @@ IslandRestaurant:
   EateryGrade:  
     value: bronze
     option: [ bronze, silver, gold, diamond ]
-  EateryWaitress:
+  EateryWaitress1: &EateryWaitressSlot
     value: any
-    option: [ none, any, Helena, Prinz_Eugen, any+any, Helena+any, Prinz_Eugen+any, Helena+Prinz_Eugen ]
+    option: &EateryWaitressOptions [ none, any, Helena, Prinz_Eugen, Chang_Feng ]
+  EateryWaitress2:
+    <<: *EateryWaitressSlot
+    value: none
   EateryMenu:
     type: textarea
     value: |-
@@ -863,9 +812,12 @@ IslandRestaurant:
   GrillGrade:
     value: bronze
     option: [ bronze, silver, gold, diamond ]
-  GrillWaitress:
+  GrillWaitress1: &GrillWaitressSlot
     value: any
-    option: [ none, any, August_von_Parseval, Prinz_Eugen, any+any, August_von_Parseval+any, Prinz_Eugen+any, August_von_Parseval+Prinz_Eugen ]
+    option: &GrillWaitressOptions [ none, any, August_von_Parseval, Prinz_Eugen, Chang_Feng ]
+  GrillWaitress2:
+    <<: *GrillWaitressSlot
+    value: none
   GrillMenu:
     type: textarea
     value: |-
@@ -873,9 +825,12 @@ IslandRestaurant:
   CafeGrade:
     value: bronze
     option: [ bronze, silver, gold, diamond ]
-  CafeWaitress:
+  CafeWaitress1: &CafeWaitressSlot
     value: any
-    option: [ none, any, Cheshire, any+any, Cheshire+any ]
+    option: &CafeWaitressOptions [ none, any, Cheshire, Belfast, Chang_Feng ]
+  CafeWaitress2:
+    <<: *CafeWaitressSlot
+    value: none
   CafeMenu:
     type: textarea
     value: |-
@@ -899,7 +854,9 @@ EventStory:
     value: false
     option: [ true, false ]
 IslandProductionPlanner:
+  RescanIslandTechnology: false
   DailyProfitLowerLimit: 50000
+  DailyBufferSafetyMargin: 0
   FieldsEfficiency:
     value: 0
     option: [ 0, 0.04, 0.12 ]

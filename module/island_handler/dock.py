@@ -1,4 +1,4 @@
-from module.base.button import Button, ButtonGrid
+from module.base.button import ButtonGrid
 from module.base.decorator import cached_property, del_cached_property
 from module.base.utils import random_rectangle_vector_opted
 from module.island.ui import IslandUI
@@ -24,7 +24,8 @@ class IslandDock(IslandUI):
         return self.appear(ISLAND_DOCK_CHECK, offset=(0, 20))
 
     def handle_island_dock_loading(self):
-        for _ in self.loop(timeout=1.2):
+        # poor implementation, just wait for a while
+        for _ in self.loop(timeout=0.6):
             pass
 
     def _island_dock_quit_check_func(self):
@@ -34,16 +35,9 @@ class IslandDock(IslandUI):
         self.ui_back(check_button=self._island_dock_quit_check_func, skip_first_screenshot=True)
 
     def island_dock_sort_method_dsc_set(self, enable=True, wait_loading=True):
-        """
-        Args:
-            enable (bool): True to set descending sorting
-            wait_loading (bool): Default to True, use False on continuous operation
-        """
         if ISLAND_DOCK_SORTING.set('Descending' if enable else 'Ascending', main=self):
             if wait_loading:
                 self.handle_island_dock_loading()
-            return True
-        return False
 
     def _get_dock_buttons(self):
         area = (ISLAND_DOCK_DETECT_AREA[0] + ISLAND_DOCK_CARD_ANCHOR_AREA[0],
@@ -67,17 +61,15 @@ class IslandDock(IslandUI):
     def get_dock_grid(self):
         rows = self._get_dock_buttons()
         count = len(rows)
-        delta_y = ISLAND_DOCK_CARD_DELTA[1]
         if count >= 3:
-            logger.warning(f'Unexpected card count in view: {count}, assume 2 rows')
-            count = 2
+            logger.warning(f'Unexpected card count in view: {count}, retrying detection')
+            count = 0
         if count > 0:
             y_list = rows[:, 1]
             origin_y = y_list.min() + ISLAND_DOCK_DETECT_AREA[1]
         else:
-            logger.warning('No cards detected, use default position')
+            logger.warning('No cards detected, retrying detection')
             origin_y = 139
-            count = 2
 
         grid = ButtonGrid(
             origin=(ISLAND_DOCK_DETECT_AREA[0], origin_y),
@@ -88,17 +80,19 @@ class IslandDock(IslandUI):
         )
         return grid
 
-    def next_dock_page(self):
+    def next_dock_page(self, wait_loading=True):
         p1, p2 = random_rectangle_vector_opted((0, -250), box=ISLAND_DOCK_DETECT_AREA, padding=-10)
         self.device.drag(p1, p2, hold_duration=0.1, name='ISLAND_DOCK_NEXT_PAGE_SWIPE')
         del_cached_property(self, 'dock_grid')
-        self.device.screenshot()
+        if wait_loading:
+            self.handle_island_dock_loading()
 
-    def prev_dock_page(self):
+    def prev_dock_page(self, wait_loading=True):
         p1, p2 = random_rectangle_vector_opted((0, 250), box=ISLAND_DOCK_DETECT_AREA, padding=-10)
         self.device.drag(p1, p2, hold_duration=0.1, name='ISLAND_DOCK_PREV_PAGE_SWIPE')
         del_cached_property(self, 'dock_grid')
-        self.device.screenshot()
+        if wait_loading:
+            self.handle_island_dock_loading()
 
     def ensure_dock_page_at_top(self):
         ISLAND_DOCK_DETECT.load_color(self.device.image)
@@ -112,19 +106,19 @@ class IslandDock(IslandUI):
                 ISLAND_DOCK_DETECT.load_color(self.device.image)
         return False
 
-    def island_dock_select_one(self, button, skip_first=True):
+    def island_dock_select_one(self, button, skip_first=False):
         """
         Args:
             button (Button): Character button to select
             skip_first (bool):
         """
-        self.interval_clear(ISLAND_DOCK_CHECK)
         for _ in self.loop(skip_first=skip_first):
             if self.is_button_selected(button, color=(19, 181, 231)):
-                break
-
-            if self.appear(ISLAND_DOCK_CHECK, offset=(20, 20), interval=5):
-                self.device.click(button)
+                logger.info(f'Button {button.name} is selected')
+                return True
+            else:
+                if self.appear(ISLAND_DOCK_CHECK, offset=(20, 20), interval=1):
+                    self.device.click(button)
                 continue
 
     def island_dock_select_confirm(self, check_button, skip_first=True):
@@ -138,11 +132,11 @@ class IslandDock(IslandUI):
                 del_cached_property(self, 'dock_grid')
                 break
 
-            if self.appear_then_click(ISLAND_DOCK_CHARACTER_CONFIRM, offset=(20, 20), interval=5):
+            if self.appear_then_click(ISLAND_DOCK_CHARACTER_CONFIRM, offset=(20, 20), interval=2):
                 continue
 
     def island_dock_select_manjuu(self):
-        self.island_dock_sort_method_dsc_set(enable=False)
+        self.island_dock_sort_method_dsc_set(enable=False, wait_loading=True)
         scanner = CharacterScanner(self.dock_grid, identity=['Manjuu'], status='free')
         candidates = scanner.scan(self.device.image)
         if candidates:
@@ -157,6 +151,7 @@ class IslandDock(IslandUI):
         ISLAND_DOCK_DETECT.load_color(self.device.image)
         ISLAND_DOCK_DETECT._match_init = True
         for _ in self.loop(timeout=40, skip_first=False):
+            # dock_grid needs refresh after each page swipe, so we need to get a new scanner each time
             scanner = CharacterScanner(self.dock_grid, identity=identity, status=None)
             candidates = scanner.scan(self.device.image)
             for candidate in candidates:
@@ -178,6 +173,7 @@ class IslandDock(IslandUI):
         ISLAND_DOCK_DETECT.load_color(self.device.image)
         ISLAND_DOCK_DETECT._match_init = True
         for _ in self.loop(timeout=40, skip_first=False):
+            # dock_grid needs refresh after each page swipe, so we need to get a new scanner each time
             scanner = CharacterScanner(self.dock_grid, identity='any', status='free')
             candidates = scanner.scan(self.device.image)
             candidates = (

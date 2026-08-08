@@ -16,15 +16,16 @@ from module.island.data import DIC_ISLAND_ITEM, DIC_ISLAND_RECIPE, DIC_ISLAND_SH
 from module.island.utils import (
     ceil_div_or_ceil,
     get_target_stock_load_rate,
+    get_production_target_stock,
     load_hard_floor_items,
     load_item_mapping,
-    load_request_buffer_items,
     load_reserve_items,
     normalize_item_keys,
     normalize_item_needs,
     parse_item_need_deadlines,
 )
 from module.island_handler.assets import *
+from module.island_handler.exchange import IslandExchange
 from module.island_handler.shop import IslandShop
 from module.logger import logger
 from module.map_detection.utils import Points
@@ -33,14 +34,16 @@ from module.ui.page import page_island, page_island_manage, page_island_shop
 
 
 class IslandProductionRestart(Exception):
-    pass
+    def __init__(self, item_id, success=True):
+        self.item_id = item_id
+        self.success = success
 
 
 RECIPE_SIZE = (280, 134)
 RECIPE_DELTA = (0, 149)
 RECIPE_DETECT_AREA = (181, 55, 460, 668)
 RECIPE_DRAG_AREA = (300, 55, 350, 668)
-RECIPE_ANCHOR_AREA = (58, 97, 96, 115)
+RECIPE_ANCHOR_AREA = (58, 97, 102, 115)
 RECIPE_PRODUCT_NAME_AREA = (123, 23, 269, 46)
 RECIPE_PRODUCT_STOCK_AREA = (212, 92, 275, 110)
 if server.server == 'jp':
@@ -50,31 +53,35 @@ elif server.server == 'en':
 else:
     lang = 'cnocr'
 RECIPE_PRODUCT_NAME_OCR = Ocr([], lang=lang, letter=(57, 59, 61), threshold=160, name='product_name_ocr')
-RECIPE_PRODUCT_STOCK_OCR = Digit([], lang='cnocr', letter=(57, 59, 61), threshold=160, name='product_stock_ocr')
+RECIPE_PRODUCT_STOCK_OCR = Digit([], lang='cnocr', letter=(80, 80, 80), threshold=160, name='product_stock_ocr')
 ISLAND_RECIPE_AMOUNT_OCR = Digit(ISLAND_RECIPE_AMOUNT, letter=(50, 50, 57), name='recipe_amount_ocr')
 
 
 class IslandReversedDigitCounter(Ocr):
-    def __init__(self, buttons, lang='cnocr', letter=(255, 255, 255), sub_letter=None, threshold=128, sub_threshold=128, alphabet='0123456789/IDSB()+',
-                 name=None):
+    def __init__(self, buttons, lang='cnocr', letter=(255, 255, 255), sub_letter=None, 
+                 threshold=128, sub_threshold=128, 
+                 background_color=None,
+                 alphabet='0123456789/IDSB()+', name=None):
         super().__init__(buttons, lang=lang, letter=letter, threshold=threshold, alphabet=alphabet, name=name)
         self.sub_letter = sub_letter
         self.sub_threshold = sub_threshold
+        self.background_color = background_color
 
-    def pre_process(self, image, background_color=(80, 80, 80)):
-        mask = color_similarity_2d(image, background_color)
-        mask[mask < self.threshold] = 0
-        line = cv2.bitwise_and(mask[0], mask[-1]).flatten()
-        indices = np.where(line > 200)[0]
-        left = indices[0] if len(indices) > 0 else 0
-        right = indices[-1] + 1 if len(indices) > 0 else len(line)
-        image = image[:, left:right]
+    def pre_process(self, image):
+        if self.background_color is not None:
+            mask = color_similarity_2d(image, self.background_color)
+            mask[mask < self.threshold] = 0
+            line = cv2.bitwise_and(mask[0], mask[-1]).flatten()
+            indices = np.where(line > 200)[0]
+            left = indices[0] if len(indices) > 0 else 0
+            right = indices[-1] + 1 if len(indices) > 0 else len(line)
+            image = image[:, left:right]
 
         main_image = extract_letters(image, letter=self.letter, threshold=self.threshold)
         if self.sub_letter is not None and isinstance(self.sub_letter, tuple):
             mask = color_similarity_2d(image, self.sub_letter)
             mask[mask < self.sub_threshold] = 0
-            if np.count_nonzero(mask) > 50:
+            if np.count_nonzero(mask) > 30:
                 sub_image = extract_letters(image, letter=self.sub_letter, threshold=self.sub_threshold)
                 cv2.bitwise_and(main_image, sub_image, dst=main_image)
 
@@ -106,7 +113,7 @@ class IslandReversedDigitCounter(Ocr):
 
 RECIPE_INGREDIENT_COUNTER_OCR = IslandReversedDigitCounter(
     [], lang='cnocr', letter=(255, 255, 255), sub_letter=(253, 171, 34),
-    threshold=160, sub_threshold=160, name='ingredient_counter_ocr'
+    threshold=160, sub_threshold=160, background_color=(80, 80, 80), name='ingredient_counter_ocr'
 )
 
 
@@ -162,7 +169,52 @@ def get_recipe_entry_weight(entry):
     )
 
 
-class IslandRecipe(IslandShop):
+def recipe_product_name_to_recipe_id(name, slotcode=None):
+    if server.server == 'jp':
+        # While we have 果樹園二重奏 and 朝光活力コンビ, the problem of カニ as 力二 is worse,
+        # so we replace 力 with カ before matching,
+        # which can fix most of the misrecognition without causing new issues.
+        name = name.replace('二', 'ニ').replace('力', 'カ')
+    min_distance = float('inf')
+    min_real_distance = float('inf')
+    corrected_name = None
+    corrected_id = None
+    if isinstance(slotcode, int):
+        recipe_lists = DIC_ISLAND_SLOT[slotcode]['formula'] + DIC_ISLAND_SLOT[slotcode]['activity_formula']
+    else:
+        recipe_lists = DIC_ISLAND_RECIPE.keys()
+
+    for recipe_id in recipe_lists:
+        product_id = get_recipe_product_id(recipe_id)
+        product_name = DIC_ISLAND_ITEM[product_id]['name'][server.server]
+
+        # If product_name is longer than OCR result name, try matching any substring
+        # of product_name with the same length as name and take the minimal distance.
+        if isinstance(name, str) and isinstance(product_name, str) and len(product_name) >= len(name) and len(name) > 0:
+            best_sub_distance = float('inf')
+            L = len(name)
+            for i in range(len(product_name) - L + 1):
+                sub = product_name[i:i+L]
+                d = levenshtein_distance(name, sub)
+                if d < best_sub_distance:
+                    best_sub_distance = d
+            distance = best_sub_distance
+            real_distance = levenshtein_distance(name, product_name)
+        else:
+            distance = levenshtein_distance(name, product_name)
+            real_distance = distance
+        if distance < min_distance or (distance == min_distance and real_distance < min_real_distance):
+            min_distance = distance
+            min_real_distance = real_distance
+            corrected_name = product_name
+            corrected_id = recipe_id
+
+    if name != corrected_name:
+        logger.info(f'Recipe product name OCR result "{name}" corrected to "{corrected_name}" with distance {min_distance} and real distance {min_real_distance}')
+    return corrected_id
+
+
+class IslandRecipe(IslandExchange, IslandShop):
     working_slot_id = None
 
     # recipe related methods
@@ -184,7 +236,7 @@ class IslandRecipe(IslandShop):
     def recipe_grid(self):
         for _ in self.loop(timeout=2):
             grid = self.get_recipe_grid()
-            if len(grid.buttons) >= 3:
+            if len(grid.buttons) >= 3 or len(grid.buttons) == 1 and self.working_slot_id in [9031, 9032, 9033, 9034]:
                 return grid
         return grid
 
@@ -217,52 +269,8 @@ class IslandRecipe(IslandShop):
         product_name_grid = self.recipe_grid.crop(RECIPE_PRODUCT_NAME_AREA, name='RECIPE_PRODUCT_NAME_GRID')
         product_name_images = [self.image_crop(button.area, copy=True) for button in product_name_grid.buttons]
         product_names = RECIPE_PRODUCT_NAME_OCR.ocr(product_name_images, direct_ocr=True)
-        corrected_ids = [self.recipe_product_name_to_recipe_id(name, slotcode=self.working_slot_id) for name in product_names]
+        corrected_ids = [recipe_product_name_to_recipe_id(name, slotcode=self.working_slot_id) for name in product_names]
         return corrected_ids
-
-    def recipe_product_name_to_recipe_id(self, name, slotcode=None):
-        if server.server == 'jp':
-            # While we have 果樹園二重奏 and 朝光活力コンビ, the problem of カニ as 力二 is worse,
-            # so we replace 力 with カ before matching,
-            # which can fix most of the misrecognition without causing new issues.
-            name = name.replace('二', 'ニ').replace('力', 'カ')
-        min_distance = float('inf')
-        min_real_distance = float('inf')
-        corrected_name = None
-        corrected_id = None
-        if isinstance(slotcode, int):
-            recipe_lists = DIC_ISLAND_SLOT[slotcode]['formula'] + DIC_ISLAND_SLOT[slotcode]['activity_formula']
-        else:
-            recipe_lists = DIC_ISLAND_RECIPE.keys()
-
-        for recipe_id in recipe_lists:
-            product_id = get_recipe_product_id(recipe_id)
-            product_name = DIC_ISLAND_ITEM[product_id]['name'][server.server]
-
-            # If product_name is longer than OCR result name, try matching any substring
-            # of product_name with the same length as name and take the minimal distance.
-            if isinstance(name, str) and isinstance(product_name, str) and len(product_name) >= len(name) and len(name) > 0:
-                best_sub_distance = float('inf')
-                L = len(name)
-                for i in range(len(product_name) - L + 1):
-                    sub = product_name[i:i+L]
-                    d = levenshtein_distance(name, sub)
-                    if d < best_sub_distance:
-                        best_sub_distance = d
-                distance = best_sub_distance
-                real_distance = levenshtein_distance(name, product_name)
-            else:
-                distance = levenshtein_distance(name, product_name)
-                real_distance = distance
-            if distance < min_distance or (distance == min_distance and real_distance < min_real_distance):
-                min_distance = distance
-                min_real_distance = real_distance
-                corrected_name = product_name
-                corrected_id = recipe_id
-
-        if name != corrected_name:
-            logger.info(f'Recipe product name OCR result "{name}" corrected to "{corrected_name}" with distance {min_distance} and real distance {min_real_distance}')
-        return corrected_id
 
     def get_recipe_product_stocks(self):
         stock_grid = self.recipe_grid.crop(RECIPE_PRODUCT_STOCK_AREA, name='RECIPE_PRODUCT_STOCK_GRID')
@@ -275,7 +283,7 @@ class IslandRecipe(IslandShop):
             logger.info('Less than 3 recipes in current page, no need to swipe to next page')
             return
         else:
-            p1, p2 = random_rectangle_vector_opted((0, -250), box=RECIPE_DRAG_AREA, padding=0)
+            p1, p2 = random_rectangle_vector_opted((0, -300), box=RECIPE_DRAG_AREA, padding=0)
             self.device.drag(p1, p2, hold_duration=0.1, name='RECIPE_NEXT_PAGE_SWIPE')
             del_cached_property(self, 'recipe_grid')
             del_cached_property(self, 'recipe_ids')
@@ -286,21 +294,26 @@ class IslandRecipe(IslandShop):
             logger.info('Less than 3 recipes in current page, no need to swipe to previous page')
             return
         else:
-            p1, p2 = random_rectangle_vector_opted((0, 250), box=RECIPE_DRAG_AREA, padding=0)
+            p1, p2 = random_rectangle_vector_opted((0, 300), box=RECIPE_DRAG_AREA, padding=0)
             self.device.drag(p1, p2, hold_duration=0.1, name='RECIPE_PREV_PAGE_SWIPE')
             del_cached_property(self, 'recipe_grid')
             del_cached_property(self, 'recipe_ids')
             self.device.screenshot()
 
     def scan_all_recipe_stocks(self):
+        for _ in self.loop(timeout=3):
+            # use ISLAND_RECIPE_AMOUNT_MAX as a check to ensure the recipe page is fully loaded
+            if self.appear(ISLAND_RECIPE_AMOUNT_MAX, offset=(0, 20)):
+                break
         all_stocks = {}
         drag_count = 0
+        ISLAND_RECIPE_DRAG_CHECK.load_color(self.device.image)
         for _ in self.loop(timeout=30):
             new_stocks = dict(zip(self.recipe_ids, self.get_recipe_product_stocks()))
             all_stocks.update(new_stocks)
             self.next_recipe_page()
             drag_count += 1
-            if ISLAND_RECIPE_DRAG_CHECK.match(self.device.image):
+            if self.appear(ISLAND_RECIPE_DRAG_CHECK, offset=(20, 20)):
                 if drag_count > 1:
                     logger.info(f'Ensured recipe page bottom after dragging {drag_count} times')
                     self.device.click_record_clear()
@@ -331,7 +344,6 @@ class IslandRecipe(IslandShop):
     def get_recipe_id_sequence_to_run(
             self,
             daily_buffer_items_dict=None,
-            request_buffer_items_dict=None,
             hard_floor_items_dict=None,
             reserve_items_dict=None,
             idle_accumulating_items_dict=None,
@@ -344,10 +356,6 @@ class IslandRecipe(IslandShop):
                 yaml_text = ""
             daily_buffer_items_dict = safe_load(yaml_text) or {}
         daily_buffer_items_dict = normalize_item_keys(daily_buffer_items_dict)
-        if request_buffer_items_dict is None:
-            yaml_text = self.config.cross_get("IslandProduction.IslandProduction.RequestBufferItems", "")
-            request_buffer_items_dict = load_request_buffer_items(yaml_text)
-        request_buffer_items_dict = normalize_item_keys(request_buffer_items_dict)
         if hard_floor_items_dict is None:
             hard_floor_items_dict = self.hard_floor_items
         else:
@@ -372,10 +380,13 @@ class IslandRecipe(IslandShop):
             product_id = get_recipe_product_id(recipe_id)
             batch_size = recipe_product[product_id]
             daily_consumed_stock = daily_buffer_items_dict.get(product_id, 0)
-            request_buffer = request_buffer_items_dict.get(product_id, 0)
             hard_floor = hard_floor_items_dict.get(product_id, 0)
             reserve = reserve_items_dict.get(product_id, 0)
-            target_stock = hard_floor + reserve + max(daily_consumed_stock, request_buffer)
+            target_stock = get_production_target_stock(
+                hard_floor,
+                reserve,
+                daily_consumed_stock,
+            )
             demand = task_target_items_dict.get(product_id, {})
             demand = parse_item_need_deadlines(demand)
             demand_text = ', '.join(
@@ -390,7 +401,6 @@ class IslandRecipe(IslandShop):
             logger.info(
                 f'Recipe {recipe_id} stock: {stock}, '
                 f'daily_consumed_stock: {daily_consumed_stock}, '
-                f'request_buffer: {request_buffer}, '
                 f'hard_floor: {hard_floor}, '
                 f'reserve: {reserve}, '
                 f'target_stock: {target_stock}, '
@@ -460,9 +470,12 @@ class IslandRecipe(IslandShop):
         if ingredient_grids is None:
             return None
 
-        counter_grids = ingredient_grids.crop((-10, 66, 92, 83), name='counter_grids')
-        counter_images = [self.image_crop(button.area, copy=True) for button in counter_grids.buttons]
-        counters = RECIPE_INGREDIENT_COUNTER_OCR.ocr(counter_images, direct_ocr=True)
+        counter_grids = ingredient_grids.crop((-10, 66, 92, 84), name='counter_grids')
+        for _ in self.loop(timeout=3):
+            counter_images = [self.image_crop(button.area, copy=True) for button in counter_grids.buttons]
+            counters = RECIPE_INGREDIENT_COUNTER_OCR.ocr(counter_images, direct_ocr=True)
+            if (0, 0, 0) not in counters:
+                break
         return counters
 
     def set_recipe(self, recipe_id):
@@ -478,7 +491,12 @@ class IslandRecipe(IslandShop):
                 self.device.click(button)
                 clicked = True
                 continue
-            if all_recipe_ids.index(recipe_id) < all_recipe_ids.index(self.recipe_ids[0]):
+            for first_recipe_id in self.recipe_ids:
+                if first_recipe_id in all_recipe_ids:
+                    # Avoid error due to unscanned recipe_ids outside all_recipe_ids
+                    first_index = all_recipe_ids.index(first_recipe_id)
+                    break
+            if all_recipe_ids.index(recipe_id) < first_index:
                 self.prev_recipe_page()
             else:
                 self.next_recipe_page()
@@ -516,9 +534,14 @@ class IslandRecipe(IslandShop):
         if batch_count == float('inf'):
             max_count = DIC_ISLAND_RECIPE[recipe_id]['production_limit']
             for ingredient_key, counter in zip(recipe_cost, counters):
-                if ingredient_key in DIC_ISLAND_SHOP_ITEM_TO_RECIPE:
+                if ingredient_key in DIC_ISLAND_SHOP_ITEM_TO_RECIPE or ingredient_key in (2521, 2522):
                     continue
-                available_stock = max(counter[0] - self.hard_floor_items.get(ingredient_key, 0), 0)
+                available_stock = max(
+                    counter[0]
+                    - self.hard_floor_items.get(ingredient_key, 0)
+                    - self.reserve_items.get(ingredient_key, 0),
+                    0,
+                )
                 count = available_stock // counter[1] if counter[1] > 0 else float('inf')
                 if count < max_count:
                     max_count = count
@@ -526,12 +549,38 @@ class IslandRecipe(IslandShop):
             logger.info(f'Calculated max batch count to produce with current ingredient stock: {batch_count}')
         success = True
         real_count = batch_count
+        failed_buy_items = getattr(self, 'failed_buy_items', set())
         ingredient_buttons = self.get_recipe_ingredient_grids(recipe_id).buttons
         for ingredient_key, counter, button in zip(recipe_cost, counters, ingredient_buttons):
             hard_floor = self.hard_floor_items.get(ingredient_key, 0)
-            available_stock = max(counter[0] - hard_floor, 0)
+            reserve = self.reserve_items.get(ingredient_key, 0)
+            available_stock = max(counter[0] - hard_floor - reserve, 0)
             if available_stock < real_count * counter[1]:
+                if ingredient_key in (2521, 2522):
+                    if ingredient_key in failed_buy_items:
+                        logger.warning(
+                            f'Skipping exchange of ingredient {ingredient_key} after a previous failed exchange'
+                        )
+                        real_count = min(real_count, available_stock // counter[1]) if counter[1] > 0 else 0
+                        success = False
+                        continue
+                    delta = real_count * counter[1] - available_stock
+                    self.ui_back(check_button=page_island_manage.check_button)
+                    self.ui_goto_island_shop()
+                    exchange_success = super().island_shop_exchange({ingredient_key: delta})
+                    # Exchange leaves the recipe menu. Return to production management and
+                    # restart so the next attempt rescans recipe stocks and ingredient state.
+                    self.ui_back(check_button=page_island.check_button)
+                    self.ui_goto(page_island_manage)
+                    raise IslandProductionRestart(item_id=ingredient_key, success=exchange_success)
                 if ingredient_key in DIC_ISLAND_SHOP_ITEM_TO_RECIPE:
+                    if ingredient_key in failed_buy_items:
+                        logger.warning(
+                            f'Skipping purchase of ingredient {ingredient_key} after a previous failed buy'
+                        )
+                        real_count = min(real_count, available_stock // counter[1]) if counter[1] > 0 else 0
+                        success = False
+                        continue
                     if ingredient_key == 3004:  # flour cannot be bought via jumping page, need to go to shop page to buy
                         self.ui_back(check_button=page_island_manage.check_button)
                         self.ui_goto_island_shop()
@@ -540,7 +589,8 @@ class IslandRecipe(IslandShop):
                         self.goto_ingredient_shop_page(entrance_button=button)
                         isolated = True
                     delta = real_count * counter[1] - available_stock
-                    success = super().island_shop_buy({ingredient_key: delta}, isolated=isolated) and success
+                    buy_success = super().island_shop_buy({ingredient_key: delta}, isolated=isolated)
+                    success = buy_success and success
                     if not isolated:
                         # We need an exception for inherited class to handle ui switch
                         # and restart the ingredient preparation after buying flour,
@@ -548,7 +598,7 @@ class IslandRecipe(IslandShop):
                         # which may cause the recipe page to lose the set recipe and ingredient states.
                         self.ui_back(check_button=page_island.check_button)
                         self.ui_goto(page_island_manage)
-                        raise IslandProductionRestart
+                        raise IslandProductionRestart(item_id=ingredient_key, success=buy_success)
                     else:
                         self.ui_back(check_button=self.is_in_recipe_menu)
                     if not success:
@@ -592,7 +642,7 @@ class IslandRecipe(IslandShop):
     def get_recipe_remain_time(self):
         if self.match_template_color(ISLAND_RECIPE_TIME_ANCHOR, offset=(100, 20)):
             ISLAND_RECIPE_TIME.load_offset(ISLAND_RECIPE_TIME_ANCHOR)
-            remain_time = Duration(ISLAND_RECIPE_TIME.button, name='recipe_remain_time').ocr(self.device.image)
+            remain_time = Duration(ISLAND_RECIPE_TIME.button, lang='cnocr', name='recipe_remain_time').ocr(self.device.image)
             return remain_time
         else:
             logger.warning('Unable to find recipe time anchor, failed to execute recipe')

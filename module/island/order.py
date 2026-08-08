@@ -12,7 +12,12 @@ from module.base.utils import color_similarity_2d
 from module.island.assets import *
 from module.island.data import DIC_ISLAND_ITEM, DIC_ISLAND_SEASON_ORDER
 from module.island.ui import IslandUI
-from module.island.utils import load_hard_floor_items, load_reserve_items, normalize_item_keys
+from module.island.utils import (
+    get_order_effective_stock,
+    load_hard_floor_items,
+    load_reserve_items,
+    normalize_item_keys,
+)
 from module.island_handler.recipe import IslandReversedDigitCounter
 from module.logger import logger
 from module.map_detection.utils import Points
@@ -67,11 +72,6 @@ class IslandOrder(IslandUI):
         inner_radius = 44
         outer_radius = 52
         circles = get_circles(self.device.image, color, inner_radius, outer_radius)
-        image_copy = cv2.cvtColor(self.device.image.copy(), cv2.COLOR_BGR2RGB)
-        for circle in circles:
-            x, y, r = int(circle[0]), int(circle[1]), int(circle[2])
-            cv2.circle(image_copy, (x, y), r, (0, 255, 0), 2)
-        cv2.imwrite(f'test/island_order/detected_orders_{color}.png', image_copy)
         button_list = []
         for index, circle in enumerate(circles):
             x, y, _ = circle
@@ -79,7 +79,7 @@ class IslandOrder(IslandUI):
             y = int(y)
             detect_area = (x - outer_radius, y - outer_radius, x + outer_radius, y + outer_radius)
             click_area = (x - inner_radius, y - inner_radius, x + inner_radius, y + inner_radius)
-            button = Button(area=detect_area, color=(), button=click_area, name=f'ORDER_{index}')
+            button = Button(area=detect_area, color=(), button=click_area, name=f'ORDER_AT_{x}_{y}')
             button_list.append(button)
         return button_list
 
@@ -115,7 +115,10 @@ class IslandOrder(IslandUI):
 
     @cached_property
     def requirement_counter_ocr(self):
-        return IslandReversedDigitCounter(self.requirement_counter_grid.buttons, lang='cnocr', letter=(57, 59, 61), sub_letter=(253, 97, 96), name='REQUIREMENTS_COUNTER_OCR')
+        return IslandReversedDigitCounter(self.requirement_counter_grid.buttons, lang='cnocr', 
+                                          letter=(57, 59, 61), sub_letter=(253, 97, 96), 
+                                          threshold=160, sub_threshold=160, background_color=None,
+                                          name='REQUIREMENTS_COUNTER_OCR')
 
     def item_name_to_item_id(self, name):
         if name == '':
@@ -176,21 +179,16 @@ class IslandOrder(IslandUI):
         )
         return normalize_item_keys(reserve_items_text)
 
-    def is_order_satisfied(self, order_requirements, is_urgent=False):
+    def is_order_satisfied(self, order_requirements, is_urgent=False, is_season=False):
         for item, counter in order_requirements.items():
             stock, required, _ = counter
-            if not is_urgent:
-                hard_floor = self.hard_floor.get(item, 0)
-                reserve = self.reserve.get(item, 0)
-                effective_stock = stock - hard_floor - reserve
-            else:
-                hard_floor = 0
-                reserve = 0
-                effective_stock = stock
+            hard_floor = self.hard_floor.get(item, 0)
+            priority = is_urgent or is_season
+            effective_stock = get_order_effective_stock(stock, hard_floor, priority=priority)
             if required > effective_stock:
                 logger.warning(
                     f'Item {item} does not meet the requirement: stock {stock}, '
-                    f'hard floor {hard_floor}, reserve {reserve}, '
+                    f'hard floor {hard_floor}, reserve {self.reserve.get(item, 0)}, '
                     f'effective stock {effective_stock}, required {required}'
                 )
                 return False
@@ -203,14 +201,19 @@ class IslandOrder(IslandUI):
             return True
         return False
 
-    def click_order(self, order_button):
+    def click_order(self, order_button, is_urgent=False):
         click_timer = Timer(1, count=3)
         for _ in self.loop(timeout=5, skip_first=False):
             if click_timer.reached():
                 self.device.click(order_button)
                 click_timer.reset()
                 continue
-            if self.appear(ISLAND_ORDER_REQUIREMENTS_CHECK, offset=(20, 20)):
+            if (is_urgent and self.appear(ISLAND_ORDER_ACCEPT, offset=(20, 20))) or \
+                    (not is_urgent and self.appear(ISLAND_ORDER_ACCEPT_URGENT, offset=(20, 20))):
+                logger.info('requirement page does not match, should click order button again')
+                click_timer.reset()
+                continue
+            if self.appear(ISLAND_ORDER_REQUIREMENTS_CHECK, offset=(0, 20)):
                 logger.info('Clicked order button, requirements page appeared')
                 break
             if self.appear(ISLAND_ORDER_COOLDOWN_SPEED_UP, offset=(20, 20)):
@@ -243,6 +246,7 @@ class IslandOrder(IslandUI):
             if self.match_template_color(ISLAND_ORDER_BACKGROUND, offset=(20, 20)):
                 logger.info('Submit success')
                 return True
+            # after urgent order submission, cursor may jump to normal order and the normal order submit button is visible
             if is_urgent and self.match_template_color(ISLAND_ORDER_ACCEPT, offset=(20, 20)):
                 logger.info('Urgent order submit success')
                 return True
@@ -287,7 +291,9 @@ class IslandOrder(IslandUI):
         Returns:
             (bool): True if the order is dealt.
         """
-        self.click_order(order_button)
+        self.handle_island_additional()
+        self.handle_info_bar()
+        self.click_order(order_button, is_urgent=is_urgent)
         if self.appear(ISLAND_ORDER_COOLDOWN_SPEED_UP, offset=(20, 20)):
             logger.warning('Order is in cooldown, cannot submit')
             remain_time = self.cooldown_time_ocr.ocr(self.device.image)
@@ -295,7 +301,7 @@ class IslandOrder(IslandUI):
             self.next_runtime.append(next_runtime)
             return False
         requirements = self.scan_current_order_requirements()
-        if self.is_order_satisfied(requirements, is_urgent=is_urgent):
+        if self.is_order_satisfied(requirements, is_urgent=is_urgent, is_season=is_season):
             return self.submit_order(is_urgent=is_urgent)
         else:
             logger.warning('Order requirements not satisfied due to low stock')

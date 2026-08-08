@@ -9,69 +9,6 @@ class GeneratedConfig:
     Auto generated configuration
     """
 
-    # Group `Oil`
-    Oil_Value = 0
-    Oil_Limit = 0
-    Oil_Color = '^000000'
-    Oil_Record = datetime.datetime(2020, 1, 1, 0, 0)
-
-    # Group `Coin`
-    Coin_Value = 0
-    Coin_Limit = 0
-    Coin_Color = '^FFAA33'
-    Coin_Record = datetime.datetime(2020, 1, 1, 0, 0)
-
-    # Group `Gem`
-    Gem_Value = 0
-    Gem_Color = '^FF3333'
-    Gem_Record = datetime.datetime(2020, 1, 1, 0, 0)
-
-    # Group `Pt`
-    Pt_Value = 0
-    Pt_Color = '^00BFFF'
-    Pt_Record = datetime.datetime(2020, 1, 1, 0, 0)
-
-    # Group `YellowCoin`
-    YellowCoin_Value = 0
-    YellowCoin_Color = '^FF8800'
-    YellowCoin_Record = datetime.datetime(2020, 1, 1, 0, 0)
-
-    # Group `PurpleCoin`
-    PurpleCoin_Value = 0
-    PurpleCoin_Color = '^7700BB'
-    PurpleCoin_Record = datetime.datetime(2020, 1, 1, 0, 0)
-
-    # Group `ActionPoint`
-    ActionPoint_Value = 0
-    ActionPoint_Total = 0
-    ActionPoint_Color = '^0000FF'
-    ActionPoint_Record = datetime.datetime(2020, 1, 1, 0, 0)
-
-    # Group `Merit`
-    Merit_Value = 0
-    Merit_Color = '^FFFF00'
-    Merit_Record = datetime.datetime(2020, 1, 1, 0, 0)
-
-    # Group `Cube`
-    Cube_Value = 0
-    Cube_Color = '^33FFFF'
-    Cube_Record = datetime.datetime(2020, 1, 1, 0, 0)
-
-    # Group `Core`
-    Core_Value = 0
-    Core_Color = '^AAAAAA'
-    Core_Record = datetime.datetime(2020, 1, 1, 0, 0)
-
-    # Group `Medal`
-    Medal_Value = 0
-    Medal_Color = '^FFDD00'
-    Medal_Record = datetime.datetime(2020, 1, 1, 0, 0)
-
-    # Group `GuildCoin`
-    GuildCoin_Value = 0
-    GuildCoin_Color = '^AAAAAA'
-    GuildCoin_Record = datetime.datetime(2020, 1, 1, 0, 0)
-
     # Group `Scheduler`
     Scheduler_Enable = False  # True, False
     Scheduler_NextRun = datetime.datetime(2020, 1, 1, 0, 0)
@@ -84,7 +21,7 @@ class GeneratedConfig:
     Emulator_Serial = 'auto'
     Emulator_PackageName = 'auto'  # auto, com.bilibili.azurlane, com.YoStarEN.AzurLane, com.YoStarJP.AzurLane, com.hkmanjuu.azurlane.gp, com.bilibili.blhx.huawei, com.bilibili.blhx.honor, com.bilibili.blhx.mi, com.tencent.tmgp.bilibili.blhx, com.bilibili.blhx.baidu, com.bilibili.blhx.qihoo, com.bilibili.blhx.nearme.gamecenter, com.bilibili.blhx.vivo, com.bilibili.blhx.mz, com.bilibili.blhx.dl, com.bilibili.blhx.lenovo, com.bilibili.blhx.uc, com.bilibili.blhx.mzw, com.yiwu.blhx.yx15, com.bilibili.blhx.m4399, com.bilibili.blhx.bilibiliMove, com.hkmanjuu.azurlane.gp.mc
     Emulator_ServerName = 'disabled'  # disabled, cn_android-0, cn_android-1, cn_android-2, cn_android-3, cn_android-4, cn_android-5, cn_android-6, cn_android-7, cn_android-8, cn_android-9, cn_android-10, cn_android-11, cn_android-12, cn_android-13, cn_android-14, cn_android-15, cn_android-16, cn_android-17, cn_android-18, cn_android-19, cn_android-20, cn_android-21, cn_android-22, cn_android-23, cn_android-24, cn_android-25, cn_android-26, cn_android-27, cn_android-28, cn_android-29, cn_ios-0, cn_ios-1, cn_ios-2, cn_ios-3, cn_ios-4, cn_ios-5, cn_ios-6, cn_ios-7, cn_ios-8, cn_ios-9, cn_ios-10, cn_channel-0, cn_channel-1, cn_channel-2, cn_channel-3, cn_channel-4, cn_channel-5, en-0, en-1, en-2, en-3, en-4, en-5, jp-0, jp-1, jp-2, jp-3, jp-4, jp-5, jp-6, jp-7, jp-8, jp-9, jp-10, jp-11, jp-12, jp-13, jp-14, jp-15, jp-16, jp-17
-    Emulator_ScreenshotMethod = 'auto'  # auto, ADB, ADB_nc, uiautomator2, aScreenCap, aScreenCap_nc, DroidCast, DroidCast_webp, DroidCast_jpeg, DroidCast_jpeg_98, DroidCast_jpeg_96, DroidCast_raw, nemu_ipc, ldopengl
+    Emulator_ScreenshotMethod = 'auto'  # auto, ADB, ADB_nc, uiautomator2, aScreenCap, aScreenCap_nc, DroidCast, DroidCast_raw, nemu_ipc, ldopengl
     Emulator_ControlMethod = 'MaaTouch'  # ADB, uiautomator2, minitouch, Hermit, MaaTouch
     Emulator_ScreenshotDedithering = False
     Emulator_AdbRestart = False
@@ -503,11 +440,10 @@ class GeneratedConfig:
     OpsiHazard1Leveling_TargetZone = 0  # 0, 44, 22
 
     # Group `IslandProduction`
-    IslandProduction_HardFloorItems = '{}'
     IslandProduction_ReserveItems = '{}'
-    IslandProduction_RequestBufferItems = '{}'
     IslandProduction_DailyBufferItems = '{}'
     IslandProduction_IdleAccumulatingItems = '{}'
+    IslandProduction_HardFloorItems = '{}'
 
     # Group `IslandOrder`
     IslandOrder_StuckSeasonOrderId = 0
@@ -517,19 +453,24 @@ class GeneratedConfig:
 
     # Group `IslandRestaurant`
     IslandRestaurant_KoiGrade = 'bronze'  # bronze, silver, gold, diamond
-    IslandRestaurant_KoiWaitress = 'any'  # none, any, Chao_Ho, any+any, Chao_Ho+any
+    IslandRestaurant_KoiWaitress1 = 'any'  # none, any, Chao_Ho, Chang_Feng
+    IslandRestaurant_KoiWaitress2 = 'none'  # none, any, Chao_Ho, Chang_Feng
     IslandRestaurant_KoiMenu = '{}'
     IslandRestaurant_BearGrade = 'bronze'  # bronze, silver, gold, diamond
-    IslandRestaurant_BearWaitress = 'any'  # none, any, Cheshire, any+any, Cheshire+any
+    IslandRestaurant_BearWaitress1 = 'any'  # none, any, Cheshire, Chang_Feng
+    IslandRestaurant_BearWaitress2 = 'none'  # none, any, Cheshire, Chang_Feng
     IslandRestaurant_BearMenu = '{}'
     IslandRestaurant_EateryGrade = 'bronze'  # bronze, silver, gold, diamond
-    IslandRestaurant_EateryWaitress = 'any'  # none, any, Helena, Prinz_Eugen, any+any, Helena+any, Prinz_Eugen+any, Helena+Prinz_Eugen
+    IslandRestaurant_EateryWaitress1 = 'any'  # none, any, Helena, Prinz_Eugen, Chang_Feng
+    IslandRestaurant_EateryWaitress2 = 'none'  # none, any, Helena, Prinz_Eugen, Chang_Feng
     IslandRestaurant_EateryMenu = '{}'
     IslandRestaurant_GrillGrade = 'bronze'  # bronze, silver, gold, diamond
-    IslandRestaurant_GrillWaitress = 'any'  # none, any, August_von_Parseval, Prinz_Eugen, any+any, August_von_Parseval+any, Prinz_Eugen+any, August_von_Parseval+Prinz_Eugen
+    IslandRestaurant_GrillWaitress1 = 'any'  # none, any, August_von_Parseval, Prinz_Eugen, Chang_Feng
+    IslandRestaurant_GrillWaitress2 = 'none'  # none, any, August_von_Parseval, Prinz_Eugen, Chang_Feng
     IslandRestaurant_GrillMenu = '{}'
     IslandRestaurant_CafeGrade = 'bronze'  # bronze, silver, gold, diamond
-    IslandRestaurant_CafeWaitress = 'any'  # none, any, Cheshire, any+any, Cheshire+any
+    IslandRestaurant_CafeWaitress1 = 'any'  # none, any, Cheshire, Belfast, Chang_Feng
+    IslandRestaurant_CafeWaitress2 = 'none'  # none, any, Cheshire, Belfast, Chang_Feng
     IslandRestaurant_CafeMenu = '{}'
 
     # Group `IslandSeasonTask`
@@ -546,7 +487,9 @@ class GeneratedConfig:
     EventStory_SkipBattle = False  # True, False
 
     # Group `IslandProductionPlanner`
+    IslandProductionPlanner_RescanIslandTechnology = False
     IslandProductionPlanner_DailyProfitLowerLimit = 50000
+    IslandProductionPlanner_DailyBufferSafetyMargin = 0
     IslandProductionPlanner_FieldsEfficiency = 0  # 0, 0.04, 0.12
     IslandProductionPlanner_OrchardEfficiency = 0  # 0, 0.04, 0.12
     IslandProductionPlanner_NurseryEfficiency = 0  # 0, 0.04, 0.12

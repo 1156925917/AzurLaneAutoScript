@@ -1,7 +1,22 @@
 import re
+from datetime import datetime, timedelta
 
 from dev_tools.slpp import slpp
 from dev_tools.utils import LuaLoader
+
+
+def dates_within_24_hours(date_str1, date_str2):
+    """
+    Judge if two date strings do not have an interval of more than 24 hours.
+    Returns True if the interval is <= 24 hours, False otherwise.
+    """
+    try:
+        dt1 = datetime.strptime(date_str1, '%Y-%m-%d %H:%M:%S')
+        dt2 = datetime.strptime(date_str2, '%Y-%m-%d %H:%M:%S')
+        diff = abs((dt1 - dt2).total_seconds())
+        return diff <= 86400  # 24 hours = 86400 seconds
+    except (ValueError, TypeError):
+        return False
 
 
 class IslandItem:
@@ -359,7 +374,7 @@ class IslandActivityExtractor:
                 continue
             out[item['id']] = item
         return out
-
+    
     def encode(self):
         lines = []
         lines.append('DIC_ISLAND_ACTIVITY = {')
@@ -367,7 +382,7 @@ class IslandActivityExtractor:
             lines.append(f'    {index}: {activity},')
         lines.append('}')
         return lines
-
+    
     def write(self, file):
         print(f'writing {file}')
         with open(file, 'w', encoding='utf-8') as f:
@@ -410,7 +425,7 @@ class IslandWildGatherExtractor:
             lines.append(f'    {index}: {gather},')
         lines.append('}')
         return lines
-
+        
 
 
 class IslandProductionMiningExtractor:
@@ -418,7 +433,7 @@ class IslandProductionMiningExtractor:
         self.mining = {}
         for index in range(40101, 40110):
             self.mining[index] = {2700: 8}
-
+    
     def encode(self):
         lines = []
         lines.append('DIC_ISLAND_PRODUCTION_MINING = {')
@@ -433,7 +448,7 @@ class IslandProductionLoggingExtractor:
         self.logging = {}
         for index in range(40201, 40210):
             self.logging[index] = {2800: 8}
-
+    
     def encode(self):
         lines = []
         lines.append('DIC_ISLAND_PRODUCTION_LOGGING = {')
@@ -483,7 +498,8 @@ class IslandSeasonExtractor:
         for index, season in self.season.items():
             for activity_id, activity in activity_dict.items():
                 if season['start_time']['cn'] is not None and season['end_time']['cn'] is not None and activity['start_time']['cn'] is not None and activity['end_time']['cn'] is not None:
-                    if season['start_time']['cn'] == activity['start_time']['cn'] and season['end_time']['cn'] == activity['end_time']['cn']:
+                    if (dates_within_24_hours(season['start_time']['cn'], activity['start_time']['cn']) and
+                        dates_within_24_hours(season['end_time']['cn'], activity['end_time']['cn'])):
                         season.setdefault('activity', []).append(activity_id)
 
     def extract_item_name(self, server):
@@ -503,7 +519,7 @@ class IslandSeasonExtractor:
             lines.append(f'    {index}: {season},')
         lines.append('}')
         return lines
-
+    
 
 class IslandTaskExtractor:
     def __init__(self):
@@ -584,7 +600,7 @@ class IslandTaskExtractor:
         #     else:
         #         self.task[index]['start_time']['tw'] = island_time_to_sql_time(time_dict[0])
         #         self.task[index]['end_time']['tw'] = island_time_to_sql_time(time_dict[1])
-
+        
         data = LOADER.load('sharecfg/island_task_target.lua')
         for index, item in data.items():
             if not isinstance(index, int) or not item['id'] in target_id_to_task_id:
@@ -603,7 +619,7 @@ class IslandTaskExtractor:
             out[item['id']] = item
 
         return out
-
+    
     def encode(self):
         lines = []
         lines.append('DIC_ISLAND_TASK = {')
@@ -630,7 +646,7 @@ class IslandSeasonRequest:
             'award': self.award,
         }
         return data
-
+    
 
 class IslandSeasonRequestExtractor:
     def __init__(self):
@@ -755,7 +771,7 @@ class IslandShopItemExtractor:
             }
             for _, itm in item['items'].items():
                 self.item_to_recipe_id[itm[1]] = index
-
+        
         for index, item in self.extract_item('zh-CN').items():
             self.item[index]['name']['cn'] = item['goods_name']
             time_dict = item['time']

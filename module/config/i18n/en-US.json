@@ -307,234 +307,6 @@
       "help": ""
     }
   },
-  "Oil": {
-    "_info": {
-      "name": "Oil._info.name",
-      "help": "Oil._info.help"
-    },
-    "Value": {
-      "name": "Oil.Value.name",
-      "help": "Oil.Value.help"
-    },
-    "Limit": {
-      "name": "Oil.Limit.name",
-      "help": "Oil.Limit.help"
-    },
-    "Color": {
-      "name": "Oil.Color.name",
-      "help": "Oil.Color.help"
-    },
-    "Record": {
-      "name": "Oil.Record.name",
-      "help": "Oil.Record.help"
-    }
-  },
-  "Coin": {
-    "_info": {
-      "name": "Coin._info.name",
-      "help": "Coin._info.help"
-    },
-    "Value": {
-      "name": "Coin.Value.name",
-      "help": "Coin.Value.help"
-    },
-    "Limit": {
-      "name": "Coin.Limit.name",
-      "help": "Coin.Limit.help"
-    },
-    "Color": {
-      "name": "Coin.Color.name",
-      "help": "Coin.Color.help"
-    },
-    "Record": {
-      "name": "Coin.Record.name",
-      "help": "Coin.Record.help"
-    }
-  },
-  "Gem": {
-    "_info": {
-      "name": "Gem._info.name",
-      "help": "Gem._info.help"
-    },
-    "Value": {
-      "name": "Gem.Value.name",
-      "help": "Gem.Value.help"
-    },
-    "Color": {
-      "name": "Gem.Color.name",
-      "help": "Gem.Color.help"
-    },
-    "Record": {
-      "name": "Gem.Record.name",
-      "help": "Gem.Record.help"
-    }
-  },
-  "Pt": {
-    "_info": {
-      "name": "Pt._info.name",
-      "help": "Pt._info.help"
-    },
-    "Value": {
-      "name": "Pt.Value.name",
-      "help": "Pt.Value.help"
-    },
-    "Color": {
-      "name": "Pt.Color.name",
-      "help": "Pt.Color.help"
-    },
-    "Record": {
-      "name": "Pt.Record.name",
-      "help": "Pt.Record.help"
-    }
-  },
-  "YellowCoin": {
-    "_info": {
-      "name": "YellowCoin._info.name",
-      "help": "YellowCoin._info.help"
-    },
-    "Value": {
-      "name": "YellowCoin.Value.name",
-      "help": "YellowCoin.Value.help"
-    },
-    "Color": {
-      "name": "YellowCoin.Color.name",
-      "help": "YellowCoin.Color.help"
-    },
-    "Record": {
-      "name": "YellowCoin.Record.name",
-      "help": "YellowCoin.Record.help"
-    }
-  },
-  "PurpleCoin": {
-    "_info": {
-      "name": "PurpleCoin._info.name",
-      "help": "PurpleCoin._info.help"
-    },
-    "Value": {
-      "name": "PurpleCoin.Value.name",
-      "help": "PurpleCoin.Value.help"
-    },
-    "Color": {
-      "name": "PurpleCoin.Color.name",
-      "help": "PurpleCoin.Color.help"
-    },
-    "Record": {
-      "name": "PurpleCoin.Record.name",
-      "help": "PurpleCoin.Record.help"
-    }
-  },
-  "ActionPoint": {
-    "_info": {
-      "name": "ActionPoint._info.name",
-      "help": "ActionPoint._info.help"
-    },
-    "Value": {
-      "name": "ActionPoint.Value.name",
-      "help": "ActionPoint.Value.help"
-    },
-    "Total": {
-      "name": "ActionPoint.Total.name",
-      "help": "ActionPoint.Total.help"
-    },
-    "Color": {
-      "name": "ActionPoint.Color.name",
-      "help": "ActionPoint.Color.help"
-    },
-    "Record": {
-      "name": "ActionPoint.Record.name",
-      "help": "ActionPoint.Record.help"
-    }
-  },
-  "Merit": {
-    "_info": {
-      "name": "Merit._info.name",
-      "help": "Merit._info.help"
-    },
-    "Value": {
-      "name": "Merit.Value.name",
-      "help": "Merit.Value.help"
-    },
-    "Color": {
-      "name": "Merit.Color.name",
-      "help": "Merit.Color.help"
-    },
-    "Record": {
-      "name": "Merit.Record.name",
-      "help": "Merit.Record.help"
-    }
-  },
-  "Cube": {
-    "_info": {
-      "name": "Cube._info.name",
-      "help": "Cube._info.help"
-    },
-    "Value": {
-      "name": "Cube.Value.name",
-      "help": "Cube.Value.help"
-    },
-    "Color": {
-      "name": "Cube.Color.name",
-      "help": "Cube.Color.help"
-    },
-    "Record": {
-      "name": "Cube.Record.name",
-      "help": "Cube.Record.help"
-    }
-  },
-  "Core": {
-    "_info": {
-      "name": "Core._info.name",
-      "help": "Core._info.help"
-    },
-    "Value": {
-      "name": "Core.Value.name",
-      "help": "Core.Value.help"
-    },
-    "Color": {
-      "name": "Core.Color.name",
-      "help": "Core.Color.help"
-    },
-    "Record": {
-      "name": "Core.Record.name",
-      "help": "Core.Record.help"
-    }
-  },
-  "Medal": {
-    "_info": {
-      "name": "Medal._info.name",
-      "help": "Medal._info.help"
-    },
-    "Value": {
-      "name": "Medal.Value.name",
-      "help": "Medal.Value.help"
-    },
-    "Color": {
-      "name": "Medal.Color.name",
-      "help": "Medal.Color.help"
-    },
-    "Record": {
-      "name": "Medal.Record.name",
-      "help": "Medal.Record.help"
-    }
-  },
-  "GuildCoin": {
-    "_info": {
-      "name": "GuildCoin._info.name",
-      "help": "GuildCoin._info.help"
-    },
-    "Value": {
-      "name": "GuildCoin.Value.name",
-      "help": "GuildCoin.Value.help"
-    },
-    "Color": {
-      "name": "GuildCoin.Color.name",
-      "help": "GuildCoin.Color.help"
-    },
-    "Record": {
-      "name": "GuildCoin.Record.name",
-      "help": "GuildCoin.Record.help"
-    }
-  },
   "Scheduler": {
     "_info": {
       "name": "Scheduler",
@@ -688,10 +460,6 @@
       "aScreenCap": "aScreenCap",
       "aScreenCap_nc": "aScreenCap_nc",
       "DroidCast": "DroidCast",
-      "DroidCast_webp": "DroidCast_webp",
-      "DroidCast_jpeg": "DroidCast_jpeg",
-      "DroidCast_jpeg_98": "DroidCast_jpeg_98",
-      "DroidCast_jpeg_96": "DroidCast_jpeg_96",
       "DroidCast_raw": "DroidCast_raw",
       "nemu_ipc": "nemu_ipc",
       "ldopengl": "ldopengl"
@@ -2844,16 +2612,8 @@
       "name": "Island Production",
       "help": ""
     },
-    "HardFloorItems": {
-      "name": "Hard Floor Items",
-      "help": ""
-    },
     "ReserveItems": {
       "name": "Reserve Items",
-      "help": ""
-    },
-    "RequestBufferItems": {
-      "name": "Request Buffer Items",
       "help": ""
     },
     "DailyBufferItems": {
@@ -2862,6 +2622,10 @@
     },
     "IdleAccumulatingItems": {
       "name": "Idle Accumulating Items",
+      "help": ""
+    },
+    "HardFloorItems": {
+      "name": "Hard Floor Items",
       "help": ""
     }
   },
@@ -2898,14 +2662,21 @@
       "gold": "Gold",
       "diamond": "Diamond"
     },
-    "KoiWaitress": {
-      "name": "Golden Koi Restaurant Waitress",
-      "help": "None means not running this restaurant and Any means not restricting the choice of waitress, in which case the character with the highest manage level will be chosen\nIf a specific character is chosen but not available, the restaurant will fallback to Any instead of skipping the restaurant",
-      "none": "None",
-      "any": "Any",
+    "KoiWaitress1": {
+      "name": "IslandRestaurant.KoiWaitress1.name",
+      "help": "IslandRestaurant.KoiWaitress1.help",
+      "none": "none",
+      "any": "any",
       "Chao_Ho": "Chao_Ho",
-      "any+any": "Any + Any",
-      "Chao_Ho+any": "Chao_Ho+any"
+      "Chang_Feng": "Chang_Feng"
+    },
+    "KoiWaitress2": {
+      "name": "IslandRestaurant.KoiWaitress2.name",
+      "help": "IslandRestaurant.KoiWaitress2.help",
+      "none": "none",
+      "any": "any",
+      "Chao_Ho": "Chao_Ho",
+      "Chang_Feng": "Chang_Feng"
     },
     "KoiMenu": {
       "name": "Golden Koi Restaurant Menu",
@@ -2919,14 +2690,21 @@
       "gold": "Gold",
       "diamond": "Diamond"
     },
-    "BearWaitress": {
-      "name": "Polar Bear Teahouse Waitress",
-      "help": "None means not running this restaurant and Any means not restricting the choice of waitress, in which case the character with the highest manage level will be chosen\nIf a specific character is chosen but not available, the restaurant will fallback to Any instead of skipping the restaurant",
-      "none": "None",
-      "any": "Any",
+    "BearWaitress1": {
+      "name": "IslandRestaurant.BearWaitress1.name",
+      "help": "IslandRestaurant.BearWaitress1.help",
+      "none": "none",
+      "any": "any",
       "Cheshire": "Cheshire",
-      "any+any": "Any + Any",
-      "Cheshire+any": "Cheshire+any"
+      "Chang_Feng": "Chang_Feng"
+    },
+    "BearWaitress2": {
+      "name": "IslandRestaurant.BearWaitress2.name",
+      "help": "IslandRestaurant.BearWaitress2.help",
+      "none": "none",
+      "any": "any",
+      "Cheshire": "Cheshire",
+      "Chang_Feng": "Chang_Feng"
     },
     "BearMenu": {
       "name": "Polar Bear Teahouse Menu",
@@ -2940,17 +2718,23 @@
       "gold": "Gold",
       "diamond": "Diamond"
     },
-    "EateryWaitress": {
-      "name": "Manjuu Eatery Waitress",
-      "help": "None means not running this restaurant and Any means not restricting the choice of waitress, in which case the character with the highest manage level will be chosen\nIf a specific character is chosen but not available, the restaurant will fallback to Any instead of skipping the restaurant",
-      "none": "None",
-      "any": "Any",
+    "EateryWaitress1": {
+      "name": "IslandRestaurant.EateryWaitress1.name",
+      "help": "IslandRestaurant.EateryWaitress1.help",
+      "none": "none",
+      "any": "any",
       "Helena": "Helena",
       "Prinz_Eugen": "Prinz_Eugen",
-      "any+any": "Any + Any",
-      "Helena+any": "Helena+any",
-      "Prinz_Eugen+any": "Prinz_Eugen+any",
-      "Helena+Prinz_Eugen": "Helena+Prinz_Eugen"
+      "Chang_Feng": "Chang_Feng"
+    },
+    "EateryWaitress2": {
+      "name": "IslandRestaurant.EateryWaitress2.name",
+      "help": "IslandRestaurant.EateryWaitress2.help",
+      "none": "none",
+      "any": "any",
+      "Helena": "Helena",
+      "Prinz_Eugen": "Prinz_Eugen",
+      "Chang_Feng": "Chang_Feng"
     },
     "EateryMenu": {
       "name": "Manjuu Eatery Menu",
@@ -2964,17 +2748,23 @@
       "gold": "Gold",
       "diamond": "Diamond"
     },
-    "GrillWaitress": {
-      "name": "Fin-'n'-Feather Grill Waitress",
-      "help": "",
-      "none": "None",
-      "any": "Any",
+    "GrillWaitress1": {
+      "name": "IslandRestaurant.GrillWaitress1.name",
+      "help": "IslandRestaurant.GrillWaitress1.help",
+      "none": "none",
+      "any": "any",
       "August_von_Parseval": "August_von_Parseval",
       "Prinz_Eugen": "Prinz_Eugen",
-      "any+any": "Any + Any",
-      "August_von_Parseval+any": "August_von_Parseval+any",
-      "Prinz_Eugen+any": "Prinz_Eugen+any",
-      "August_von_Parseval+Prinz_Eugen": "August_von_Parseval+Prinz_Eugen"
+      "Chang_Feng": "Chang_Feng"
+    },
+    "GrillWaitress2": {
+      "name": "IslandRestaurant.GrillWaitress2.name",
+      "help": "IslandRestaurant.GrillWaitress2.help",
+      "none": "none",
+      "any": "any",
+      "August_von_Parseval": "August_von_Parseval",
+      "Prinz_Eugen": "Prinz_Eugen",
+      "Chang_Feng": "Chang_Feng"
     },
     "GrillMenu": {
       "name": "Fin-'n'-Feather Grill Menu",
@@ -2988,14 +2778,23 @@
       "gold": "Gold",
       "diamond": "Diamond"
     },
-    "CafeWaitress": {
-      "name": "Café Manjuu Waitress",
-      "help": "",
-      "none": "None",
-      "any": "Any",
+    "CafeWaitress1": {
+      "name": "IslandRestaurant.CafeWaitress1.name",
+      "help": "IslandRestaurant.CafeWaitress1.help",
+      "none": "none",
+      "any": "any",
       "Cheshire": "Cheshire",
-      "any+any": "Any + Any",
-      "Cheshire+any": "Cheshire+any"
+      "Belfast": "Belfast",
+      "Chang_Feng": "Chang_Feng"
+    },
+    "CafeWaitress2": {
+      "name": "IslandRestaurant.CafeWaitress2.name",
+      "help": "IslandRestaurant.CafeWaitress2.help",
+      "none": "none",
+      "any": "any",
+      "Cheshire": "Cheshire",
+      "Belfast": "Belfast",
+      "Chang_Feng": "Chang_Feng"
     },
     "CafeMenu": {
       "name": "Café Manjuu Menu",
@@ -3053,9 +2852,17 @@
       "name": "Island Production Planner",
       "help": "Will use linear programming to optimize the production plan for the island based on the parameters you set and generate the config for Island Production module.\nPlease set Island Restaurant config first."
     },
+    "RescanIslandTechnology": {
+      "name": "IslandProductionPlanner.RescanIslandTechnology.name",
+      "help": "IslandProductionPlanner.RescanIslandTechnology.help"
+    },
     "DailyProfitLowerLimit": {
       "name": "Daily Profit Lower Limit",
       "help": "Negative value means accepting a daily loss, 0 means breaking even, and positive value means profit."
+    },
+    "DailyBufferSafetyMargin": {
+      "name": "IslandProductionPlanner.DailyBufferSafetyMargin.name",
+      "help": "IslandProductionPlanner.DailyBufferSafetyMargin.help"
     },
     "FieldsEfficiency": {
       "name": "Faircrop Fields Efficiency",

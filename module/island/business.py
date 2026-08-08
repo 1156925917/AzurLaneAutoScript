@@ -5,8 +5,13 @@ from module.base.decorator import cached_property, del_cached_property
 from module.config.utils import get_server_next_update
 from module.island.assets import *
 from module.island_handler.restaurant import IslandRestaurant, WaitressOccupied
+from module.island_handler.restaurant_config import (
+    RESTAURANT_IDS,
+    get_waitress_slots,
+    is_restaurant_enabled,
+)
 from module.logger import logger
-from module.ocr.ocr import Duration, Ocr
+from module.ocr.ocr import Duration
 from module.ui.page import page_island_manage
 
 
@@ -17,14 +22,12 @@ BUSINESS_ENTRANCE_AREA = (794, 84, 950, 120)
 class IslandBusiness(IslandRestaurant):
     @cached_property
     def skip_restaurant(self):
-        open = {
-            601: self.has_waitress("IslandBusiness.IslandRestaurant.KoiWaitress", 'none'),
-            602: self.has_waitress("IslandBusiness.IslandRestaurant.BearWaitress", 'none'),
-            603: self.has_waitress("IslandBusiness.IslandRestaurant.EateryWaitress", 'none'),
-            604: self.has_waitress("IslandBusiness.IslandRestaurant.GrillWaitress", 'none'),
-            901: self.has_waitress("IslandBusiness.IslandRestaurant.CafeWaitress", 'none')
+        return {
+            restaurant_id: not is_restaurant_enabled(
+                get_waitress_slots(self.config, restaurant_id)
+            )
+            for restaurant_id in RESTAURANT_IDS
         }
-        return open
 
     @property
     def business_grid(self):
@@ -71,28 +74,6 @@ class IslandBusiness(IslandRestaurant):
         self.shifted = True
         self.index = 1
 
-    def get_restaurant_id_by_name(self, button):
-        title_button = button.crop((8, 8, 170, 45))
-        ocr = Ocr(title_button, lang='cnocr', letter=(255, 255, 255), threshold=110, name='RESTAURANT_NAME')
-        name = ocr.ocr(self.device.image)
-        if not name:
-            return None
-
-        # cnocr can misread individual glyphs, so match on stable fragments.
-        restaurant_to_id = {
-            601: ['有鱼', '有魚', '餐馆', '餐館', '飯店', 'koi'],
-            602: ['白熊', '白クマ', 'bear'],
-            603: ['啾啾', '简餐', '簡餐', '饅頭軽食', 'eatery'],
-            604: ['乌鱼', '烏魚', '烤肉', '焼肉', 'grill'],
-            901: ['啾咖啡', '咖啡', 'カフェ', 'cafe'],
-        }
-        normalized = name.lower().replace(' ', '').replace('_', '')
-        for restaurant_id, keywords in restaurant_to_id.items():
-            if any(keyword.lower() in normalized for keyword in keywords):
-                logger.info(f'Restaurant name "{name}" -> {restaurant_id}')
-                return restaurant_id
-        return None
-
     def get_restaurant_id(self, button):
         template_to_id = {
             TEMPLATE_ISLAND_BUSINESS_KOI: 601,
@@ -101,11 +82,14 @@ class IslandBusiness(IslandRestaurant):
             TEMPLATE_ISLAND_BUSINESS_GRILL: 604,
             TEMPLATE_ISLAND_BUSINESS_CAFE: 901
         }
-        image = self.image_crop(button, copy=True)
-        for template, id in template_to_id.items():
-            if template.match(image):
-                return id
-        return self.get_restaurant_id_by_name(button)
+        for _ in self.loop(timeout=4):
+            image = self.image_crop(button, copy=True)
+            for template, id in template_to_id.items():
+                if template.match(image):
+                    return id
+        else:
+            logger.warning("Failed to recognize restaurant")
+        return None
 
     def is_restaurant_running(self, button):
         return TEMPLATE_ISLAND_BUSINESS_RUNNING.match(self.image_crop(button, copy=True))
@@ -122,21 +106,28 @@ class IslandBusiness(IslandRestaurant):
     index = None
     shifted = None
 
+    def current_restaurant_button(self):
+        if self.shifted:
+            buttons = self.business_grid_shifted.buttons
+        else:
+            buttons = self.business_grid.buttons
+        if self.index >= len(buttons):
+            return None
+        return buttons[self.index]
+
     def next_restaurant(self):
         self.index += 1
-        if self.index >= 3 and not self.shifted:
+        if self.index >= len(self.business_grid.buttons) and not self.shifted:
             self.restaurant_swipe_to_bottom()
-        elif self.index >= 3 and self.shifted:
+        elif self.index >= len(self.business_grid_shifted.buttons) and self.shifted:
             logger.info("No more restaurants")
-            return False
-        return True
 
     def run(self):
         self.ui_ensure(page_island_manage)
         self.island_manage_side_navbar_ensure(upper=2)
         self.handle_restaurant_popup()
         self.restaurant_swipe_to_top()
-        unchecked_restaurants = [601, 602, 603, 604, 901]
+        unchecked_restaurants = list(RESTAURANT_IDS)
         next_run_time = {
             601: get_server_next_update('00:00') if not self.skip_restaurant[601] else datetime.now() + timedelta(days=3),
             602: get_server_next_update('00:00') if not self.skip_restaurant[602] else datetime.now() + timedelta(days=3),
@@ -145,58 +136,43 @@ class IslandBusiness(IslandRestaurant):
             901: get_server_next_update('00:00') if not self.skip_restaurant[901] else datetime.now() + timedelta(days=3)
         }
         while unchecked_restaurants:
-            buttons = self.business_grid_shifted.buttons if self.shifted else self.business_grid.buttons
-            if self.index >= len(buttons):
-                logger.warning(f'No more restaurants, unchecked restaurants: {unchecked_restaurants}')
+            button = self.current_restaurant_button()
+            if button is None:
+                logger.warning(f"Restaurant index exhausted, unchecked restaurants: {unchecked_restaurants}")
                 break
-            if self.shifted:
-                button = buttons[self.index]
-            else:
-                button = buttons[self.index]
             restaurant_id = self.get_restaurant_id(button)
             if restaurant_id is None:
                 logger.warning("Unrecognized restaurant, should check assets")
-                if not self.next_restaurant():
-                    break
+                self.next_restaurant()
                 continue
             if restaurant_id not in unchecked_restaurants:
-                if not self.next_restaurant():
-                    break
+                self.next_restaurant()
                 continue
             entrance_button = button.crop(BUSINESS_ENTRANCE_AREA)
             if self.skip_restaurant[restaurant_id]:
                 logger.info(f"Skip restaurant {restaurant_id}")
                 unchecked_restaurants.remove(restaurant_id)
-                if not self.next_restaurant():
-                    break
+                self.next_restaurant()
                 continue
             if self.is_restaurant_running(entrance_button):
                 remain_time = self.get_remain_time(button)
                 next_run_time[restaurant_id] = datetime.now() + remain_time if remain_time else "Unknown"
                 logger.info(f"Restaurant {restaurant_id} is running")
                 unchecked_restaurants.remove(restaurant_id)
-                if not self.next_restaurant():
-                    break
+                self.next_restaurant()
                 continue
             if self.is_restaurant_resting(entrance_button):
                 logger.info(f"Restaurant {restaurant_id} is resting")
                 unchecked_restaurants.remove(restaurant_id)
-                if not self.next_restaurant():
-                    break
+                self.next_restaurant()
                 continue
             logger.info(f"Restaurant {restaurant_id} is ready")
-            for _ in self.loop(timeout=10):
-                if self.ui_page_appear(page_island_manage, interval=1):
+            for _ in self.loop():
+                if self.appear(page_island_manage.check_button, offset=(20, 20), interval=1):
                     self.device.click(entrance_button)
                     continue
                 if self.is_in_island_restaurant():
                     break
-            else:
-                logger.warning(f'Failed to enter restaurant {restaurant_id}, skip for now')
-                unchecked_restaurants.remove(restaurant_id)
-                if not self.next_restaurant():
-                    break
-                continue
             self.working_restaurant_id = restaurant_id
             try:
                 success = super().run()
@@ -212,6 +188,7 @@ class IslandBusiness(IslandRestaurant):
             del_cached_property(super(), '_restaurant_offset_x')
             del_cached_property(super(), 'restaurant_grid')
             del_cached_property(super(), 'event_buff')
+            del_cached_property(super(), '_restaurant_offset')
             if restaurant_id in unchecked_restaurants:
                 unchecked_restaurants.remove(restaurant_id)
             if success:

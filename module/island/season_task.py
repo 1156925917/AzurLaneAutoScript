@@ -21,7 +21,7 @@ DETECT_AREA = (42, 171, 1206, 604)
 ICON_AREA = (21, 133, 225, 195)
 TAB_DELTA = (395, 230)
 TAB_SIZE = (376, 211)
-NAME_AREA = (29, 25, 200, 53)
+NAME_AREA = (29, 18, 200, 48)
 ISLAND_SEASON_TASK_SCROLL = Scroll(
     ISLAND_SEASON_TASK_SCROLL_AREA.button,
     color=(128, 128, 128),
@@ -142,8 +142,11 @@ class IslandSeasonTask(IslandUI):
         code = None
         corrected_name = None
         for key, item in DIC_ISLAND_TASK.items():
+            if item['start_time'] is None or item['end_time'] is None:
+                continue
             distance = levenshtein_distance(name, item['name'][server.server])
-            if distance < min_distance:
+            if distance <= min_distance:
+                # allow for multiple matches, but only keep the closest one
                 min_distance = distance
                 code = key
                 corrected_name = item['name'][server.server]
@@ -192,14 +195,15 @@ class IslandSeasonTask(IslandUI):
                     early_stop = True
                     break
                 else:
-                    unfinished_tasks.append(task_id)
+                    if task_id not in unfinished_tasks:
+                        unfinished_tasks.append(task_id)
             if early_stop:
                 logger.info(f'Detect obtained task, early stop scanning')
                 break
             if ISLAND_SEASON_TASK_SCROLL.at_bottom(main=self):
                 break
             else:
-                ISLAND_SEASON_TASK_SCROLL.next_page(main=self)
+                ISLAND_SEASON_TASK_SCROLL.next_page(main=self, skip_first_screenshot=False)
                 del_cached_property(self, 'season_task_grid')
                 del_cached_property(self, 'task_names')
                 continue

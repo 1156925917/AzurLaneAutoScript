@@ -23,10 +23,10 @@ class IslandCollect(IslandDock):
 
     def collect_available(self):
         for _ in self.loop(timeout=10):
-            if self.appear_then_click(ISLAND_COLLECT_SELECT_ENTER, offset=0, interval=3, threshold=30):
+            if self.appear_then_click(ISLAND_COLLECT_SELECT_ENTER, offset=(20, 20), interval=3):
                 continue
             # End
-            if self.appear(ISLAND_COLLECT_SELECT_CONFIRM, offset=0, threshold=30):
+            if self.appear(ISLAND_COLLECT_SELECT_CONFIRM, offset=(20, 20)):
                 break
         else:
             logger.warning('Cannot find collect enter button, collect may not be available')
@@ -44,7 +44,7 @@ class IslandCollect(IslandDock):
                 available = True
                 break
 
-            if self.appear(ISLAND_COLLECT_SELECT_CONFIRM, offset=0, threshold=30):
+            if self.appear(ISLAND_COLLECT_SELECT_CONFIRM, offset=(20, 20)):
                 buttons = self.collect_location_unselected_buttons()
                 if not buttons:
                     self.device.click(ISLAND_COLLECT_SELECT_CONFIRM)
@@ -60,7 +60,7 @@ class IslandCollect(IslandDock):
             return True
         # Back to island manage page
         for _ in self.loop(timeout=10):
-            if self.appear_then_click(ISLAND_COLLECT_SELECT_CANCEL, offset=0, interval=3, threshold=30):
+            if self.appear_then_click(ISLAND_COLLECT_SELECT_CANCEL, offset=(20, 20), interval=3):
                 continue
             if self.ui_page_appear(page_island_manage, offset=(20, 20)):
                 break
@@ -110,7 +110,7 @@ class IslandCollect(IslandDock):
                 continue
 
             # End
-            if self.appear(ISLAND_COLLECT_SELECT_ENTER, offset=0, threshold=30):
+            if self.appear(ISLAND_COLLECT_SELECT_ENTER, offset=(20, 20)):
                 if confirm_timer.reached():
                     return True
         else:
@@ -131,4 +131,9 @@ class IslandCollect(IslandDock):
                 self.config.task_delay(success=False)
         else:
             logger.info('Collect not available, possibly due to cooldown')
+            for _ in self.loop():
+                if self.appear_then_click(ISLAND_COLLECT_SELECT_CANCEL, offset=(20, 20), interval=3):
+                    continue
+                if self.appear(ISLAND_COLLECT_SELECT_ENTER, offset=(20, 20)):
+                    break
             self.config.task_delay(server_update=True)
