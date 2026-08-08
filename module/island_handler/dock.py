@@ -1,5 +1,6 @@
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property, del_cached_property
+from module.base.timer import Timer
 from module.base.utils import random_rectangle_vector_opted
 from module.island.ui import IslandUI
 from module.island_handler.assets import *
@@ -112,13 +113,15 @@ class IslandDock(IslandUI):
             button (Button): Character button to select
             skip_first (bool):
         """
+        retry_timer = Timer(1.5)
         for _ in self.loop(skip_first=skip_first):
             if self.is_button_selected(button, color=(19, 181, 231)):
                 logger.info(f'Button {button.name} is selected')
                 return True
             else:
-                if self.appear(ISLAND_DOCK_CHECK, offset=(20, 20), interval=1):
+                if retry_timer.reached() and self.appear(ISLAND_DOCK_CHECK, offset=(20, 20), interval=1):
                     self.device.click(button)
+                    retry_timer.reset()
                 continue
 
     def island_dock_select_confirm(self, check_button, skip_first=True):
