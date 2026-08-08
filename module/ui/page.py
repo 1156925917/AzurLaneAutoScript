@@ -324,10 +324,6 @@ page_island_order = Page(ISLAND_ORDER_CHECK)
 page_island_phone.link(button=ISLAND_PHONE_GOTO_ISLAND_ORDER, destination=page_island_order)
 page_island_order.link(button=BACK_ARROW_WHITE, destination=page_island_phone)
 
-page_island_commission = Page(ISLAND_COMMISSION_CHECK)  # IslandShipOrder
-page_island_phone.link(button=ISLAND_PHONE_GOTO_ISLAND_COMMISSION, destination=page_island_commission)
-page_island_commission.link(button=BACK_ARROW_WHITE, destination=page_island_phone)
-
 page_island_transport = Page(ISLAND_TRANSPORT_CHECK)
 page_island_phone.link(button=ISLAND_PHONE_GOTO_ISLAND_TRANSPORT, destination=page_island_transport)
 page_island_transport.link(button=BACK_ARROW_WHITE, destination=page_island_phone)
