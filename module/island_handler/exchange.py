@@ -21,16 +21,20 @@ class IslandExchange(IslandShopUI):
         else:
             logger.warning('No fish available for exchange')
             return False
-        for _ in self.loop():
+        confirm_clicked = False
+        for _ in self.loop(timeout=8):
             if self.handle_island_additional():
                 continue
             if self.appear(ISLAND_EXCHANGE_SELECT_ALL, offset=(20, 20)):
                 break
-            if self.appear_then_click(ISLAND_EXCHANGE_CONFIRM, offset=(20, 20), interval=1):
+            if not confirm_clicked and self.appear_then_click(
+                    ISLAND_EXCHANGE_CONFIRM, offset=(20, 20), interval=1):
+                confirm_clicked = True
+                self.device.sleep(1.0)
                 continue
         after_amount = before_amount
         exchanged_amount = 0
-        for _ in self.loop(timeout=3):
+        for _ in self.loop(timeout=8):
             if self.handle_island_additional():
                 continue
             after_amount = ocr.ocr(self.device.image)
