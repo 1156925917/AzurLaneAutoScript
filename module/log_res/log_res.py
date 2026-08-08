@@ -20,8 +20,11 @@ class LogRes:
             _key_group = f'Dashboard.{key}'
             _mod = False
             original = deep_get(self.config.data, keys=_key_group)
+            if not isinstance(original, dict):
+                logger.warning(f'Dashboard resource missing in config: {_key_group}')
+                return
             if isinstance(value, int):
-                if original['Value'] != value:
+                if original.get('Value') != value:
                     _key = _key_group + '.Value'
                     self.config.modified[_key] = value
                     _time = datetime.now().replace(microsecond=0)
@@ -29,7 +32,7 @@ class LogRes:
                     self.config.modified[_key_time] = _time
             elif isinstance(value, dict):
                 for value_name, _value in value.items():
-                    if _value == original[value_name]:
+                    if _value == original.get(value_name):
                         continue
                     _key = _key_group + f'.{value_name}'
                     self.config.modified[_key] = _value
