@@ -138,6 +138,8 @@ class IslandSeasonTask(IslandUI):
         return codenames
 
     def task_name_to_codename(self, name):
+        if not isinstance(name, str):
+            return None
         min_distance = float('inf')
         code = None
         corrected_name = None
@@ -202,6 +204,9 @@ class IslandSeasonTask(IslandUI):
                 if TEMPLATE_ISLAND_SEASON_TASK_OBTAINED.match(image):
                     early_stop = True
                     break
+                if task_id is None:
+                    logger.warning('Unable to identify season task, skip it')
+                    continue
                 else:
                     if task_id not in unfinished_tasks:
                         unfinished_tasks.append(task_id)
@@ -219,6 +224,10 @@ class IslandSeasonTask(IslandUI):
         return unfinished_tasks
 
     def run(self):
+        if self.config.SERVER in ['en', 'tw']:
+            logger.info(f'IslandSeasonTask is not available on {self.config.SERVER} server, delay until next server update')
+            self.config.task_delay(server_update=True)
+            return
         self.ui_ensure(page_island_season)
         self.island_season_bottom_navbar_ensure(left=3)
         self.receive_all_reward()

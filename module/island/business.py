@@ -100,11 +100,16 @@ class IslandBusiness(IslandRestaurant):
     def get_remain_time(self, button):
         time_button = button.crop((851, 11, 913, 38))
         ocr = Duration(time_button, name="RESTAURANT_REMAIN_TIME")
-        remain_time = ocr.ocr(self.device.image)
-        return remain_time
+        for _ in self.loop(timeout=3):
+            remain_time = ocr.ocr(self.device.image)
+            if isinstance(remain_time, timedelta) and remain_time.total_seconds() > 0:
+                return remain_time
+        else:
+            logger.warning("Failed to recognize remain time, assuming restaurant is running for 8 hours")
+            return timedelta(hours=8)
 
-    index = None
-    shifted = None
+    index = 0
+    shifted = False
 
     def current_restaurant_button(self):
         if self.shifted:
@@ -123,6 +128,10 @@ class IslandBusiness(IslandRestaurant):
             logger.info("No more restaurants")
 
     def run(self):
+        if self.config.SERVER in ['en', 'tw']:
+            logger.info(f'IslandBusiness is not available on {self.config.SERVER} server, delay until next server update')
+            self.config.task_delay(server_update=True)
+            return
         self.ui_ensure(page_island_manage)
         self.island_manage_side_navbar_ensure(upper=2)
         self.handle_restaurant_popup()
@@ -156,7 +165,7 @@ class IslandBusiness(IslandRestaurant):
                 continue
             if self.is_restaurant_running(entrance_button):
                 remain_time = self.get_remain_time(button)
-                next_run_time[restaurant_id] = datetime.now() + remain_time if remain_time else "Unknown"
+                next_run_time[restaurant_id] = datetime.now() + remain_time
                 logger.info(f"Restaurant {restaurant_id} is running")
                 unchecked_restaurants.remove(restaurant_id)
                 self.next_restaurant()
