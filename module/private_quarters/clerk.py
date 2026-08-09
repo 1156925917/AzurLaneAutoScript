@@ -51,9 +51,9 @@ class PQShopClerk(ShopClerk, PQShopUI):
             if self.appear(PRIVATE_QUARTERS_SHOP_CHECK, interval=3):
                 self.device.click(item)
                 continue
-            if self.appear_then_click(PRIVATE_QUARTERS_SHOP_AMOUNT_MAX, offset=(20, 20), interval=1):
-                continue
             if self.appear_then_click(PRIVATE_QUARTERS_SHOP_CONFIRM_AMOUNT, offset=(20, 20), interval=1):
+                continue
+            if self.appear_then_click(PRIVATE_QUARTERS_SHOP_AMOUNT_MAX, offset=(20, 20), interval=1):
                 continue
 
         click_timer = Timer(3, count=6)
