@@ -618,23 +618,28 @@ class IslandRecipe(IslandExchange, IslandShop):
             if self.appear_then_click(ISLAND_RECIPE_AMOUNT_MAX, offset=(20, 20)):
                 self.device.screenshot()
                 break
+        current = ISLAND_RECIPE_AMOUNT_OCR.ocr(self.device.image)
         if batch_count == float('inf'):
             logger.info('Set recipe amount to max')
-            return True
+            return current
         else:
             logger.info(f'Set recipe amount to {batch_count}')
-            if ISLAND_RECIPE_AMOUNT_OCR.ocr(self.device.image) < batch_count:
+            if current < batch_count:
                 # Check if already at max, if so, cannot set to desired amount
                 counters = self.get_recipe_ingredient_counters()
                 for counter in counters:
                     if counter[2] < 0:
                         logger.warning('Insufficient ingredient for next recipe amount, cannot set recipe amount to desired value')
                         return False
+                logger.warning(
+                    f'Recipe amount capped at {current}, unable to set desired amount {batch_count}'
+                )
+                return current
             try:
                 self.ui_ensure_index(index=batch_count, letter=ISLAND_RECIPE_AMOUNT_OCR,
                                  next_button=ISLAND_RECIPE_AMOUNT_PLUS,
                                  prev_button=ISLAND_RECIPE_AMOUNT_MINUS,)
-                return True
+                return batch_count
             except GameTooManyClickError:
                 logger.warning('Too many clicks when setting recipe amount, failed to set recipe amount')
                 return False
@@ -670,9 +675,11 @@ class IslandRecipe(IslandExchange, IslandShop):
                 return None
             else:
                 logger.info(f'Can only produce {real_count} batch(es) with current ingredient stock, will try to run with this amount')
-        if not self.set_recipe_batch_count(real_count):
+        actual_count = self.set_recipe_batch_count(real_count)
+        if not actual_count:
             logger.warning(f'Failed to set recipe batch count to {"max" if real_count == float("inf") else real_count}, cannot run recipe')
             return None
+        real_count = actual_count
         remain_time = self.get_recipe_remain_time()
         logger.attr('Recipe_remain_time', remain_time)
         if remain_time is not None:
