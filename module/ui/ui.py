@@ -1,4 +1,4 @@
-from module.base.button import Button
+from module.base.button import Button, ButtonGrid
 from module.base.decorator import run_once
 from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_SHIP
@@ -34,6 +34,22 @@ from module.ui_white.assets import *
 class UI(InfoHandler):
     ui_current: Page
 
+    def _island_manage_side_navbar_appear(self):
+        side_navbar = ButtonGrid(
+            origin=(13, 107), delta=(0, 196 / 3),
+            button_shape=(128, 43), grid_shape=(1, 3),
+            name='ISLAND_MANAGE_SIDE_NAVBAR_CHECK'
+        )
+        total = 0
+        active = 0
+        for button in side_navbar.buttons:
+            if self.image_color_count(button, color=(57, 189, 255), threshold=180, count=500):
+                total += 1
+                active += 1
+            elif self.image_color_count(button, color=(50, 52, 55), threshold=180, count=500):
+                total += 1
+        return total >= 2 and active >= 1
+
     def ui_page_appear(self, page, offset=(30, 30), interval=0):
         """
         Args:
@@ -52,7 +68,9 @@ class UI(InfoHandler):
         if self.config.SERVER == 'en' and page == page_academy:
             if self.appear(ACADEMY_GOTO_MUNITIONS, offset=offset, interval=interval):
                 return True
-        if page in (page_island_manage, page_island_technology):
+        if page == page_island_manage:
+            return self.appear(page.check_button, offset=0, interval=interval) and self._island_manage_side_navbar_appear()
+        if page == page_island_technology:
             return self.appear(page.check_button, offset=0, interval=interval)
         return self.appear(page.check_button, offset=offset, interval=interval)
 
