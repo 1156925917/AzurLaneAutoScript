@@ -202,15 +202,17 @@ class IslandOrder(IslandUI):
         return False
 
     def click_order(self, order_button, is_urgent=False):
-        click_timer = Timer(1, count=3)
+        click_timer = Timer(2, count=3)
         for _ in self.loop(timeout=5, skip_first=False):
             if click_timer.reached():
                 self.device.click(order_button)
+                self.device.sleep(0.5)
                 click_timer.reset()
                 continue
             if (is_urgent and self.appear(ISLAND_ORDER_ACCEPT, offset=(20, 20))) or \
                     (not is_urgent and self.appear(ISLAND_ORDER_ACCEPT_URGENT, offset=(20, 20))):
                 logger.info('requirement page does not match, should click order button again')
+                self.device.sleep(0.5)
                 click_timer.reset()
                 continue
             if self.appear(ISLAND_ORDER_REQUIREMENTS_CHECK, offset=(0, 20)):
@@ -266,11 +268,14 @@ class IslandOrder(IslandUI):
         return time_ocr
 
     def reject_order(self):
+        click_timer = Timer(2, count=3)
         for _ in self.loop():
-            if self.appear_then_click(ISLAND_ORDER_REJECT, offset=(20, 20), interval=1):
-                continue
             if self.appear(ISLAND_ORDER_COOLDOWN_SPEED_UP, offset=(20, 20)):
                 break
+            if click_timer.reached() and self.appear_then_click(ISLAND_ORDER_REJECT, offset=(20, 20), interval=1):
+                self.device.sleep(0.5)
+                click_timer.reset()
+                continue
         cooldown_remain_time = self.cooldown_time_ocr.ocr(self.device.image)
         logger.info(f'Order cooldown remain time: {cooldown_remain_time}')
         return cooldown_remain_time
