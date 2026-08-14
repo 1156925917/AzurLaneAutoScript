@@ -27,6 +27,7 @@ from module.island.utils import (
     get_sub_dict,
     item_mapping_to_yaml,
     item_name,
+    load_hard_floor_items,
     load_item_mapping,
     load_reserve_items,
     load_technology_status,
@@ -41,8 +42,6 @@ from module.logger import logger
 
 class IslandProductionPlanner(DaemonBase):
     NET_ACCUMULATING_EPSILON = 1e-3
-    # Fish-meat exchange is executed by IslandRecipe when an ingredient is short.
-    EXCHANGE_REQUIRES_MANUAL_OPERATION = False
     SLOT_TO_GROUP = {
         9001: 'field', 9002: 'field', 9003: 'field', 9004: 'field',
         9011: 'mine', 9012: 'mine', 9013: 'mine', 9014: 'mine',
@@ -462,33 +461,69 @@ class IslandProductionPlanner(DaemonBase):
             return 0
         return idle_accumulating_amount
 
-    def _redirect_exchange_idle_accumulating_items(self):
-        if not self.EXCHANGE_REQUIRES_MANUAL_OPERATION or not self.exchange_plan:
+    def _redirect_exchange_idle_accumulating_items(self, solution, activities):
+        """Translate idle exchange outputs into equivalent source production.
+
+        Only the amount that the LP actually leaves accumulating is translated.
+        Required exchange output consumed by another activity remains ordinary
+        fish-meat flow. Any independently planned source-fish accumulation is
+        preserved and added to the translated amount.
+        """
+        if not self.exchange_plan:
             return
 
-        exchange_inputs = defaultdict(float)
-        exchange_outputs = defaultdict(float)
-        for exchange_id, amount in self.exchange_plan.items():
-            recipe = DIC_ISLAND_EXCHANGE_RECIPE[exchange_id]
-            for item_id, input_amount in recipe['resource_consume'].items():
-                exchange_inputs[item_id] += input_amount * amount
-            for item_id, output_amount in recipe['items'].items():
-                exchange_outputs[item_id] += output_amount * amount
-
-        for item_id, amount in exchange_outputs.items():
-            current = self.net_idle_accumulating_items.get(item_id, 0)
-            if current <= self.NET_ACCUMULATING_EPSILON:
+        idle_output = {
+            item_id: self.net_idle_accumulating_items.get(item_id, 0)
+            for item_id in self.EXCHANGE_PRODUCT_IDS
+        }
+        for col, activity in enumerate(activities):
+            if activity['kind'] != 'exchange':
                 continue
-            remaining = current - min(current, amount)
-            if remaining > self.NET_ACCUMULATING_EPSILON:
-                self.net_idle_accumulating_items[item_id] = remaining
-            else:
-                self.net_idle_accumulating_items.pop(item_id, None)
-
-        for item_id, amount in exchange_inputs.items():
+            amount = solution[col]
             if amount <= self.NET_ACCUMULATING_EPSILON:
                 continue
-            self.net_idle_accumulating_items[item_id] = self.net_idle_accumulating_items.get(item_id, 0) + amount
+            recipe = DIC_ISLAND_EXCHANGE_RECIPE[activity['id']]
+            for output_id, output_amount in recipe['items'].items():
+                total_output = output_amount * amount
+                if total_output <= self.NET_ACCUMULATING_EPSILON:
+                    continue
+                idle_amount = min(idle_output.get(output_id, 0), total_output)
+                if idle_amount <= self.NET_ACCUMULATING_EPSILON:
+                    continue
+                ratio = idle_amount / total_output
+                self.net_idle_accumulating_items[output_id] = max(
+                    self.net_idle_accumulating_items.get(output_id, 0) - idle_amount,
+                    0,
+                )
+                if self.net_idle_accumulating_items.get(output_id, 0) <= self.NET_ACCUMULATING_EPSILON:
+                    self.net_idle_accumulating_items.pop(output_id, None)
+                for input_id, input_amount in recipe['resource_consume'].items():
+                    translated = input_amount * amount * ratio
+                    if translated > self.NET_ACCUMULATING_EPSILON:
+                        self.net_idle_accumulating_items[input_id] = (
+                            self.net_idle_accumulating_items.get(input_id, 0) + translated
+                        )
+                idle_output[output_id] = max(idle_output.get(output_id, 0) - idle_amount, 0)
+
+    def _subtract_passive_idle_accumulating_items(self):
+        """Exclude passive collection from exported idle accumulation."""
+        passive_supply = defaultdict(float)
+        for product in self.wild_gather_plan.values():
+            for item_id, amount in product.items():
+                passive_supply[item_id] += amount
+        for supply_plan in (self.mining_supply_plan, self.logging_supply_plan):
+            for item_id, amount in supply_plan.items():
+                passive_supply[item_id] += amount
+        for item_id, amount in passive_supply.items():
+            reserved_rate = self.demand_items.get(item_id, {}).get('rate_per_day', 0)
+            # Natural idle has already excluded reserved_rate. Since passive
+            # supply can satisfy the same reserve, subtract only the remainder.
+            passive_idle = max(amount - reserved_rate, 0)
+            idle_amount = self.net_idle_accumulating_items.get(item_id, 0) - passive_idle
+            if idle_amount > self.NET_ACCUMULATING_EPSILON:
+                self.net_idle_accumulating_items[item_id] = idle_amount
+            else:
+                self.net_idle_accumulating_items.pop(item_id, None)
 
     def _item_name(self, item_id):
         return item_name(item_id)
@@ -785,11 +820,12 @@ class IslandProductionPlanner(DaemonBase):
                 idle_accumulating_amount = self._get_natural_idle_accumulating_amount(item_id, amount)
                 if idle_accumulating_amount > 0:
                     self.net_idle_accumulating_items[item_id] = idle_accumulating_amount
-        self._redirect_exchange_idle_accumulating_items()
+        self._redirect_exchange_idle_accumulating_items(solution=solution, activities=activities)
         self.total_pt = sum(
             DIC_ISLAND_ITEM[item_id].get('pt_num', 0) * amount
             for item_id, amount in self.net_idle_accumulating_items.items()
         )
+        self._subtract_passive_idle_accumulating_items()
         self.daily_profit = self.net_items.get(1, 0)
         for col, activity in enumerate(activities):
             amount = solution[col]
@@ -857,6 +893,8 @@ class IslandProductionPlanner(DaemonBase):
         for item_id, amount in sorted(daily_product_demand.items()):
             if amount <= self.NET_ACCUMULATING_EPSILON:
                 continue
+            # DailyBufferItems is the width of the planned range
+            # (maximum minus minimum), not the absolute stock target.
             daily_buffer = ceil_with_epsilon(amount * (1 + self.daily_buffer_safety_margin))
             daily_buffer_items[item_id] = daily_buffer
         return daily_buffer_items
@@ -982,7 +1020,7 @@ class IslandProductionPlanner(DaemonBase):
             lines.append('-')
 
         lines.append('')
-        lines.append('[reserve_items]')
+        lines.append('[soft_floor_items]')
         if self.reserve_items:
             for item_id, amount in sorted(self.reserve_items.items()):
                 lines.append(f'{self._item_name(item_id)} ({item_id}): {self._format_amount(amount)}')
@@ -1026,31 +1064,54 @@ class IslandProductionPlanner(DaemonBase):
     def idle_accumulating_items_to_yaml(self, use_item_name=False):
         return item_mapping_to_yaml(self.idle_accumulating_items_per_day, use_item_name=use_item_name)
 
-    def _build_planner_hard_floor_items(self):
-        """Build protected stock for menu capacity and one-time objectives.
+    def _build_planner_hard_floor_items(self, hard_floor_items):
+        """Normalize explicit manual dead-stock claims.
 
-        These values are planner-owned and are regenerated on every run. User
-        reserves live in ``ReserveItems`` and are intentionally kept separate.
+        Planner demands and restaurant menu allocations are deliberately not
+        written here. Hard floors are user-editable and do not constrain LP
+        optimization.
         """
-        hard_floor_items = defaultdict(float)
-        for needs in (self.task_target_items, self.stuck_season_order_items):
-            for item_id, data in needs.items():
-                hard_floor_items[item_id] += data.get('total_need_count', 0)
         return {
             item_id: self._round_up_int(amount)
-            for item_id, amount in sorted(hard_floor_items.items())
+            for item_id, amount in sorted(normalize_item_keys(hard_floor_items).items())
+            if amount > self.NET_ACCUMULATING_EPSILON
+        }
+
+    def _configured_menu_capacity_items(self):
+        """Return capacity tranches represented by the currently saved menus."""
+        capacity_items = defaultdict(float)
+        for slot, config_key in self.RESTAURANT_MENU_CONFIG.items():
+            menu = normalize_item_keys(load_item_mapping(
+                self.config.cross_get(config_key, default='{}'),
+                config_name=config_key,
+            ))
+            if not menu:
+                continue
+            for item_id in menu:
+                capacity_items[item_id] += self.restaurant_capacity[slot]
+        return capacity_items
+
+    def _build_planner_reserve_items(self, reserve_items):
+        """Merge user soft floors with the current planner menu allocations."""
+        reserve_items = dict(reserve_items)
+        for (slot, item_id), amount in self.sell_plan.items():
+            if amount <= self.NET_ACCUMULATING_EPSILON:
+                continue
+            reserve_items[item_id] = (
+                reserve_items.get(item_id, 0)
+                + self.restaurant_capacity[slot]
+            )
+        return {
+            item_id: self._round_up_int(amount)
+            for item_id, amount in sorted(reserve_items.items())
             if amount > self.NET_ACCUMULATING_EPSILON
         }
 
     def _get_hard_floor_export_items(self):
+        # Hard floors are explicit manual dead-stock claims only. Planner
+        # demands and restaurant allocations are represented by soft floors
+        # and daily-buffer widths instead.
         hard_floor_items = dict(self.hard_floor_items)
-        for (slot, item_id), amount in self.sell_plan.items():
-            if amount <= self.NET_ACCUMULATING_EPSILON:
-                continue
-            hard_floor_items[item_id] = (
-                hard_floor_items.get(item_id, 0)
-                + self.restaurant_capacity[slot]
-            )
         return {
             item_id: self._round_up_int(amount)
             for item_id, amount in sorted(hard_floor_items.items())
@@ -1077,6 +1138,7 @@ class IslandProductionPlanner(DaemonBase):
     def solve_production_plan(
             self,
             reserve_items=None,
+            hard_floor_items=None,
             task_target_items=None,
             stuck_season_order_id=None,
     ):
@@ -1088,6 +1150,17 @@ class IslandProductionPlanner(DaemonBase):
         if reserve_items is None:
             reserve_items = load_reserve_items(
                 self.config.cross_get("IslandProduction.IslandProduction.ReserveItems", "")
+            )
+        else:
+            reserve_items = load_reserve_items(reserve_items) if isinstance(reserve_items, str) else reserve_items
+        previous_menu_capacity = self._configured_menu_capacity_items()
+        reserve_items = {
+            item_id: max(float(amount) - previous_menu_capacity.get(item_id, 0), 0)
+            for item_id, amount in normalize_item_keys(reserve_items).items()
+        }
+        if hard_floor_items is None:
+            hard_floor_items = load_hard_floor_items(
+                self.config.cross_get("IslandProduction.IslandProduction.HardFloorItems", "")
             )
         if task_target_items is None:
             task_target_items = load_item_mapping(
@@ -1101,7 +1174,7 @@ class IslandProductionPlanner(DaemonBase):
         self.task_target_items = normalize_item_needs(task_target_items, default_period=10)
         self.stuck_season_order_id = normalize_stuck_season_order_id(stuck_season_order_id)
         self.stuck_season_order_items = normalize_item_needs(stuck_season_order_items, default_period=10)
-        self.hard_floor_items = self._build_planner_hard_floor_items()
+        self.hard_floor_items = self._build_planner_hard_floor_items(hard_floor_items)
         if self.stuck_season_order_items:
             logger.info(
                 f'Adding stuck season order {self.stuck_season_order_id} '
@@ -1129,11 +1202,14 @@ class IslandProductionPlanner(DaemonBase):
             if result.success:
                 break
         self._apply_production_lp_result(result, problem)
+        if result.success:
+            self.reserve_items = self._build_planner_reserve_items(self.reserve_items)
 
     def run(
             self,
             tech_status_yaml=None,
             reserve_items_yaml=None,
+            hard_floor_items_yaml=None,
             task_target_items=None,
             stuck_season_order_id=None,
             export=True,
@@ -1152,6 +1228,12 @@ class IslandProductionPlanner(DaemonBase):
             )
         else:
             reserve_items = load_reserve_items(reserve_items_yaml)
+        if hard_floor_items_yaml is None:
+            hard_floor_items = load_hard_floor_items(
+                self.config.cross_get("IslandProduction.IslandProduction.HardFloorItems", "")
+            )
+        else:
+            hard_floor_items = load_hard_floor_items(hard_floor_items_yaml)
         if task_target_items is None:
             task_target_items = load_item_mapping(
                 self.config.cross_get("IslandSeasonTask.IslandSeasonTask.TaskTarget", "{}"),
@@ -1160,6 +1242,7 @@ class IslandProductionPlanner(DaemonBase):
         self.analyze_technology_status(technology_status)
         self.solve_production_plan(
             reserve_items=reserve_items,
+            hard_floor_items=hard_floor_items,
             task_target_items=task_target_items,
             stuck_season_order_id=stuck_season_order_id,
         )

@@ -326,15 +326,15 @@ def get_target_stock_load_rate(stock, reserve, target_deadlines):
 
 
 def get_production_target_stock(hard_floor, reserve, daily_buffer):
-    """Return the stock target shared by recipes and restaurant protection."""
+    """Return the recipe replenishment target, including the soft daily buffer."""
     return max(hard_floor, 0) + max(reserve, 0) + max(daily_buffer, 0)
 
 
-def get_order_effective_stock(stock, hard_floor, priority=False):
+def get_order_effective_stock(stock, hard_floor, reserve=0, priority=False):
     """Return stock available to an order under the current priority policy."""
     if priority:
         return stock
-    return stock - max(hard_floor, 0)
+    return stock - max(hard_floor, 0) - max(reserve, 0)
 
 
 def is_integer_value(value):

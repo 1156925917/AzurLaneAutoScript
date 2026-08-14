@@ -100,17 +100,18 @@ class IslandOrder(IslandUI):
 
     @property
     def requirement_counter_grid(self):
-        counter_grid = self.requirement_grid.crop((238, 44, 327, 65))
+        if server.server == 'en':
+            counter_grid = self.requirement_grid.crop((238, 44, 327, 75))
+        else:
+            counter_grid = self.requirement_grid.crop((238, 44, 327, 65))
         return counter_grid
 
     @cached_property
     def requirement_name_ocr(self):
         if server.server == 'jp':
             lang = 'jp'
-        elif server.server == 'cn':
-            lang = 'cnocr'
         else:
-            lang = 'azur_lane'
+            lang = 'cnocr'
         return Ocr(self.requirement_name_grid.buttons, lang=lang, letter=(57, 59, 61), threshold=160, name='REQUIREMENTS_NAME_OCR')
 
     @cached_property
@@ -184,7 +185,12 @@ class IslandOrder(IslandUI):
             stock, required, _ = counter
             hard_floor = self.hard_floor.get(item, 0)
             priority = is_urgent or is_season
-            effective_stock = get_order_effective_stock(stock, hard_floor, priority=priority)
+            effective_stock = get_order_effective_stock(
+                stock,
+                hard_floor,
+                reserve=self.reserve.get(item, 0),
+                priority=priority,
+            )
             if required > effective_stock:
                 logger.warning(
                     f'Item {item} does not meet the requirement: stock {stock}, '
@@ -375,7 +381,7 @@ class IslandOrder(IslandUI):
         return False
 
     def run(self):
-        if self.config.SERVER in ['en', 'tw']:
+        if self.config.SERVER in ['tw']:
             logger.info(f'IslandOrder is not available on {self.config.SERVER} server, delay until next server update')
             self.config.task_delay(server_update=True)
             return

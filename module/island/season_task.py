@@ -21,7 +21,7 @@ DETECT_AREA = (42, 171, 1206, 604)
 ICON_AREA = (21, 133, 225, 195)
 TAB_DELTA = (395, 230)
 TAB_SIZE = (376, 211)
-NAME_AREA = (29, 18, 200, 48)
+NAME_AREA = (29, 18, 270, 48)
 ISLAND_SEASON_TASK_SCROLL = Scroll(
     ISLAND_SEASON_TASK_SCROLL_AREA.button,
     color=(128, 128, 128),
@@ -122,8 +122,6 @@ class IslandSeasonTask(IslandUI):
     def task_name_ocr(self):
         if server.server == 'jp':
             lang = 'jp'
-        elif server.server == 'en':
-            lang = 'azur_lane'
         else:
             lang = 'cnocr'
         ocr = Ocr([], lang=lang, letter=(57, 58, 60), name='task_name_ocr')
@@ -158,20 +156,12 @@ class IslandSeasonTask(IslandUI):
 
     def handle_island_get_items(self):
         if self.appear(GET_ITEMS_1, offset=(20, 100), interval=3):
-            logger.info(f'{GET_ITEMS_1} -> {ISLAND_CLICK_SAFE_AREA}')
-            self.device.click(ISLAND_CLICK_SAFE_AREA)
-            self.interval_clear(ISLAND_SEASON_TASK_RECEIVE_ALL)
-            self.device.click_record_remove(ISLAND_SEASON_TASK_RECEIVE_ALL)
-            self.device.sleep(0.5)
+            self.device.click(ISLAND_SEASON_TASK_RECEIVE_ALL)
             return True
         if self.has_white_band():
             if self.appear(page_island_season.check_button):
                 return False
-            logger.info(f'Island reward white band -> {ISLAND_CLICK_SAFE_AREA}')
-            self.device.click(ISLAND_CLICK_SAFE_AREA)
-            self.interval_clear(ISLAND_SEASON_TASK_RECEIVE_ALL)
-            self.device.click_record_remove(ISLAND_SEASON_TASK_RECEIVE_ALL)
-            self.device.sleep(0.5)
+            self.device.click(ISLAND_SEASON_TASK_RECEIVE_ALL)
             return True
         return False
 
@@ -179,11 +169,11 @@ class IslandSeasonTask(IslandUI):
         clicked = False
         confirm_timer = Timer(3, count=6)
         for _ in self.loop(skip_first=False):
-            if self.handle_island_additional():
-                confirm_timer.reset()
-                continue
             if self.appear_then_click(ISLAND_SEASON_TASK_RECEIVE_ALL, interval=2, offset=(20, 20)):
                 clicked = True
+                confirm_timer.reset()
+                continue
+            if self.handle_island_additional():
                 confirm_timer.reset()
                 continue
             if confirm_timer.reached():
@@ -224,7 +214,7 @@ class IslandSeasonTask(IslandUI):
         return unfinished_tasks
 
     def run(self):
-        if self.config.SERVER in ['en', 'tw']:
+        if self.config.SERVER in ['tw']:
             logger.info(f'IslandSeasonTask is not available on {self.config.SERVER} server, delay until next server update')
             self.config.task_delay(server_update=True)
             return

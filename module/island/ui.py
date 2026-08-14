@@ -262,6 +262,8 @@ class IslandUI(UI):
         return False
 
     def handle_island_popup_confirm(self, name='', offset=None, interval=2):
+        if offset is None:
+            offset = self._popup_offset
         if self.appear(POPUP_CONFIRM_WHITE_ISLAND, offset=offset, interval=interval):
             POPUP_CONFIRM_WHITE_ISLAND.name = POPUP_CONFIRM_WHITE_ISLAND.name + '_' + name
             self.device.click(POPUP_CONFIRM_WHITE_ISLAND)

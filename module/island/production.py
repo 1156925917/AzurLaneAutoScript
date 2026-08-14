@@ -17,7 +17,7 @@ from module.ui.page import page_island, page_island_manage
 
 ANCHOR_AREA = (452, 7, 481, 36)
 DETECT_AREA = (192, 69, 1221, 653)
-NAME_AREA = (0, 0, 240, 39)
+NAME_AREA = (0, 0, 265, 39)
 TAB_SIZE = (490, 159)
 TAB_DELTA = (539, 183.5)
 SLOT_ORIGIN = (62, 59)
@@ -302,7 +302,7 @@ class IslandProduction(IslandRecipe, IslandDock):
                 break
 
     def run(self):
-        if self.config.SERVER in ['en', 'tw']:
+        if self.config.SERVER in ['tw']:
             logger.info(f'IslandProduction is not available on {self.config.SERVER} server, delay until next server update')
             self.config.task_delay(server_update=True)
             return
@@ -310,15 +310,6 @@ class IslandProduction(IslandRecipe, IslandDock):
         slot_finish_time = self.config.cross_get("IslandProduction.Storage.Storage.SlotFinishTime", default={})
         self.slot_finish_time = {int(k): datetime.fromisoformat(v) for k, v in slot_finish_time.items()}
         self.claim_all_rewards()
-        for slot_id in [9211, 9212, 9213]:
-            if not slot_id in self.slot_finish_time:
-                # Exchange completed fishery output before planning the next dispatch cycle.
-                # This keeps fish-meat accumulation independent of whether a dish recipe is
-                # selected, while the recipe-level exchange remains as a shortage fallback.
-                self.ui_goto_island_shop()
-                self.island_shop_exchange_all_fish_meat()
-                self.ui_back(check_button=page_island.check_button)
-                self.ensure_island_production_page()
         yaml_text = self.config.cross_get("IslandProduction.IslandProduction.DailyBufferItems", "")
         if not yaml_text or yaml_text == "{}":
             logger.critical('No daily buffer items found in config, please run Island Production Planner first')
