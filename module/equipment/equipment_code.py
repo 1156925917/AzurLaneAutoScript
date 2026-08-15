@@ -244,37 +244,22 @@ class EquipmentCodeHandler(StorageHandler):
     def _code_export(self):
         self.handle_info_bar()
         d = self.device.u2
-        clipboard_pending = '__ALAS_EQUIPMENT_CODE_PENDING__'
-        clipboard_primed = False
-        try:
-            d.set_clipboard(clipboard_pending)
-            clipboard_primed = True
-        except Exception as e:
-            logger.warning(f'Unable to clear clipboard before equipment code export: {e}')
-
         export_clicked = False
-        for _ in self.loop(timeout=15):
-            if export_clicked:
-                try:
-                    code = d.clipboard
-                except Exception as e:
-                    logger.warning(f'Unable to read exported equipment code: {e}')
-                    code = None
-                if isinstance(code, str):
-                    code = code.strip()
-                    if code and (not clipboard_primed or code != clipboard_pending):
-                        logger.info('Equipment code export complete')
-                        return code
-
-                continue
-
-            if self.appear_then_click(EQUIPMENT_CODE_EXPORT, offset=(5, 5), interval=3):
+        for _ in self.loop(timeout=10):
+            if self.info_bar_count():
+                break
+            if not export_clicked and self.appear_then_click(EQUIPMENT_CODE_EXPORT, offset=(5, 5), interval=3):
                 export_clicked = True
-                self.device.sleep(1)
                 continue
 
-        logger.warning('Equipment code export failed, clipboard is empty')
-        return None
+        code = d.clipboard
+        if isinstance(code, str):
+            code = code.strip()
+        if code:
+            logger.info('Equipment code export complete')
+        else:
+            logger.warning('Equipment code export failed, clipboard is empty')
+        return code
 
     def code_clear(self, name=None):
         if not self.equipment_code_supported():
