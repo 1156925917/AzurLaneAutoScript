@@ -290,6 +290,7 @@ class EquipmentCodeHandler(StorageHandler):
                 self.set_code(name=name, code=code)
             else:
                 logger.warning(f'Equipment code for {name} was not exported, skip saving')
+                return False
         return self._code_apply(code=None)
 
     def code_apply(self, name=None):
@@ -302,4 +303,7 @@ class EquipmentCodeHandler(StorageHandler):
         code = self.get_code(name=name)
         if code is None:
             code = self.last_code
+        if code is None:
+            logger.warning(f'Equipment code for {name} is empty, skip equipment import')
+            return False
         return self._code_apply(code=code)
