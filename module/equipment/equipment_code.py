@@ -266,6 +266,8 @@ class EquipmentCodeHandler(StorageHandler):
                         logger.info('Equipment code export complete')
                         return code
 
+                continue
+
             if self.appear_then_click(EQUIPMENT_CODE_EXPORT, offset=(5, 5), interval=3):
                 export_clicked = True
                 self.device.sleep(1)
