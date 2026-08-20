@@ -1,6 +1,9 @@
+import cv2
 import yaml
 
+from module.base.button import Button
 from module.base.timer import Timer
+from module.base.utils import color_similarity_2d
 from module.device.method.utils import HierarchyButton
 from module.equipment.assets import *
 from module.logger import logger
@@ -18,6 +21,12 @@ EQUIPMENT_PREVIEW = list([
     EQUIPMENT_CODE_EQUIP_4,
     EQUIPMENT_CODE_EQUIP_5,
 ])
+EQUIPMENT_CODE_INFORMATION_CONFIRM = Button(
+    area=(552, 477, 728, 539),
+    color=(101, 145, 199),
+    button=(552, 477, 728, 539),
+    name='EQUIPMENT_CODE_INFORMATION_CONFIRM',
+)
 
 class EquipmentCodeHandler(StorageHandler):
     last_code: str = None
@@ -227,6 +236,33 @@ class EquipmentCodeHandler(StorageHandler):
         else:
             return False
 
+    def _handle_code_information_popup(self):
+        image = self.image_crop(EQUIPMENT_CODE_INFORMATION_CONFIRM, copy=False)
+        mask = color_similarity_2d(image, color=(100, 145, 205))
+        cv2.inRange(mask, 180, 255, dst=mask)
+        if cv2.countNonZero(mask) < 2000:
+            return False
+        self.device.click(EQUIPMENT_CODE_INFORMATION_CONFIRM)
+        return True
+
+    def _code_apply_settle(self):
+        confirm_timer = Timer(1.5, count=2).start()
+        for _ in self.loop(timeout=5, skip_first=False):
+            if self._handle_code_information_popup():
+                confirm_timer.reset()
+                continue
+            if self.handle_info_bar():
+                confirm_timer.reset()
+                continue
+            if self.handle_popup_single_white():
+                confirm_timer.reset()
+                continue
+            if self.handle_popup_confirm("EQUIPMENT_CODE_SETTLE", interval=1):
+                confirm_timer.reset()
+                continue
+            if confirm_timer.reached():
+                break
+
     def _code_apply(self, code=None):
         for _ in range(5):
             self._code_preview_clear()
@@ -237,6 +273,7 @@ class EquipmentCodeHandler(StorageHandler):
             success = self._code_confirm()
             if success:
                 logger.info("Equipment code apply complete.")
+                self._code_apply_settle()
                 return True
             else:
                 self.handle_storage_full()

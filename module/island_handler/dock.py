@@ -24,6 +24,14 @@ class IslandDock(IslandUI):
     def is_in_island_dock(self):
         return self.appear(ISLAND_DOCK_CHECK, offset=(0, 20))
 
+    @cached_property
+    def _dock_page_swipe_timer(self):
+        return Timer(1.2)
+
+    def _clear_dock_page_swipe_record(self):
+        self.device.click_record_remove('ISLAND_DOCK_NEXT_PAGE_SWIPE')
+        self.device.click_record_remove('ISLAND_DOCK_PREV_PAGE_SWIPE')
+
     def handle_island_dock_loading(self):
         # poor implementation, just wait for a while
         for _ in self.loop(timeout=0.6):
@@ -82,18 +90,32 @@ class IslandDock(IslandUI):
         return grid
 
     def next_dock_page(self, wait_loading=True):
+        if not self._dock_page_swipe_timer.reached():
+            self.device.screenshot()
+            return False
+        self._clear_dock_page_swipe_record()
         p1, p2 = random_rectangle_vector_opted((0, -250), box=ISLAND_DOCK_DETECT_AREA, padding=-10)
         self.device.drag(p1, p2, hold_duration=0.1, name='ISLAND_DOCK_NEXT_PAGE_SWIPE')
+        self._clear_dock_page_swipe_record()
+        self._dock_page_swipe_timer.reset()
         del_cached_property(self, 'dock_grid')
         if wait_loading:
             self.handle_island_dock_loading()
+        return True
 
     def prev_dock_page(self, wait_loading=True):
+        if not self._dock_page_swipe_timer.reached():
+            self.device.screenshot()
+            return False
+        self._clear_dock_page_swipe_record()
         p1, p2 = random_rectangle_vector_opted((0, 250), box=ISLAND_DOCK_DETECT_AREA, padding=-10)
         self.device.drag(p1, p2, hold_duration=0.1, name='ISLAND_DOCK_PREV_PAGE_SWIPE')
+        self._clear_dock_page_swipe_record()
+        self._dock_page_swipe_timer.reset()
         del_cached_property(self, 'dock_grid')
         if wait_loading:
             self.handle_island_dock_loading()
+        return True
 
     def ensure_dock_page_at_top(self):
         ISLAND_DOCK_DETECT.load_color(self.device.image)
@@ -140,6 +162,7 @@ class IslandDock(IslandUI):
                 break
 
             if self.appear_then_click(ISLAND_DOCK_CHARACTER_CONFIRM, offset=(20, 20), interval=2):
+                self.device.sleep((0.8, 1.2))
                 continue
 
     def island_dock_select_manjuu(self):
