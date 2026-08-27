@@ -1866,7 +1866,6 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
-          "event_20260625_cn",
           "event_20260813_cn"
         ],
         "option_cn": [
@@ -1879,10 +1878,9 @@
           "event_20260813_cn"
         ],
         "option_tw": [
-          "event_20260625_cn"
+          "event_20260813_cn"
         ],
         "option_bold": [
-          "event_20260625_cn",
           "event_20260813_cn"
         ]
       },
@@ -2273,7 +2271,6 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
-          "event_20260625_cn",
           "event_20260813_cn"
         ],
         "option_cn": [
@@ -2286,10 +2283,9 @@
           "event_20260813_cn"
         ],
         "option_tw": [
-          "event_20260625_cn"
+          "event_20260813_cn"
         ],
         "option_bold": [
-          "event_20260625_cn",
           "event_20260813_cn"
         ]
       },
@@ -2670,7 +2666,6 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
-          "event_20260625_cn",
           "event_20260813_cn"
         ],
         "option_cn": [
@@ -2683,10 +2678,9 @@
           "event_20260813_cn"
         ],
         "option_tw": [
-          "event_20260625_cn"
+          "event_20260813_cn"
         ],
         "option_bold": [
-          "event_20260625_cn",
           "event_20260813_cn"
         ]
       },
@@ -4438,7 +4432,6 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
-          "event_20260625_cn",
           "event_20260813_cn"
         ],
         "option_cn": [
@@ -4451,10 +4444,9 @@
           "event_20260813_cn"
         ],
         "option_tw": [
-          "event_20260625_cn"
+          "event_20260813_cn"
         ],
         "option_bold": [
-          "event_20260625_cn",
           "event_20260813_cn"
         ]
       },
@@ -4852,7 +4844,6 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
-          "event_20260625_cn",
           "event_20260813_cn"
         ],
         "option_cn": [
@@ -4865,10 +4856,9 @@
           "event_20260813_cn"
         ],
         "option_tw": [
-          "event_20260625_cn"
+          "event_20260813_cn"
         ],
         "option_bold": [
-          "event_20260625_cn",
           "event_20260813_cn"
         ]
       },
@@ -5266,7 +5256,6 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
-          "event_20260625_cn",
           "event_20260813_cn"
         ],
         "option_cn": [
@@ -5279,10 +5268,9 @@
           "event_20260813_cn"
         ],
         "option_tw": [
-          "event_20260625_cn"
+          "event_20260813_cn"
         ],
         "option_bold": [
-          "event_20260625_cn",
           "event_20260813_cn"
         ]
       },
@@ -5680,7 +5668,6 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
-          "event_20260625_cn",
           "event_20260813_cn"
         ],
         "option_cn": [
@@ -5693,10 +5680,9 @@
           "event_20260813_cn"
         ],
         "option_tw": [
-          "event_20260625_cn"
+          "event_20260813_cn"
         ],
         "option_bold": [
-          "event_20260625_cn",
           "event_20260813_cn"
         ]
       },
@@ -6084,7 +6070,6 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
-          "event_20260625_cn",
           "event_20260813_cn"
         ],
         "option_cn": [
@@ -6097,10 +6082,9 @@
           "event_20260813_cn"
         ],
         "option_tw": [
-          "event_20260625_cn"
+          "event_20260813_cn"
         ],
         "option_bold": [
-          "event_20260625_cn",
           "event_20260813_cn"
         ]
       },
@@ -9650,11 +9634,11 @@
         "type": "textarea",
         "value": "{}"
       },
-      "ReserveItems": {
+      "DailyBufferItems": {
         "type": "textarea",
         "value": "{}"
       },
-      "DailyBufferItems": {
+      "ManualBufferItems": {
         "type": "textarea",
         "value": "{}"
       },
