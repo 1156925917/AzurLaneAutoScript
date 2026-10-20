@@ -97,11 +97,11 @@ class IslandShop(IslandShopUI):
     def island_shop_get_item_ids(self):
         for _ in self.loop(timeout=5):
             names = self._island_shop_item_name_ocr.ocr(self.device.image)
-            ids = [self.item_name_to_recipe_id(name) for name in names]
-            if any(id is None for id in ids):
-                logger.warning(f"Failed to recognize some item names: {names}, ids: {ids}")
-                continue
-            return ids
+            # 商店网格固定为 6x2，未上架的槽位会被 OCR 识别为空字符串。
+            # 空槽位不是识别失败，过滤后再将有效商品名称转换为配方 ID。
+            ids = [self.item_name_to_recipe_id(name) for name in names if name != '']
+            if ids:
+                return ids
 
     @property
     def _island_currency_grid(self):
