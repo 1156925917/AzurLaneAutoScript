@@ -217,8 +217,9 @@ class IslandExchange(IslandShopUI):
         ocr = Digit([EXCHANGE_FISH_COUNT_GRID.buttons[index]], lang='cnocr', letter=EXCHANGE_FISH_COUNT_OCR.letter,
                     threshold=EXCHANGE_FISH_COUNT_OCR.threshold, name='EXCHANGE_FISH_COUNT')
         try:
+            # 前面的全选或上一张鱼卡操作会改变界面，不能复用操作前保存的截图。
             self.ui_ensure_index(amount, letter=ocr, next_button=EXCHANGE_FISH_GRID.buttons[index],
-                                 prev_button=EXCHANGE_FISH_MINUS_GRID.buttons[index], skip_first_screenshot=True)
+                                 prev_button=EXCHANGE_FISH_MINUS_GRID.buttons[index], skip_first_screenshot=False)
             return True
         except GameTooManyClickError:
             logger.warning(f'Too many clicks when setting fish card {index} to {amount}')
@@ -250,12 +251,18 @@ class IslandExchange(IslandShopUI):
         if expected <= 0:
             return FishMeatExchange(before, before, stock)
 
-        # Start from all fish selected if fewer fish are to be kept than exchanged
+        # 要保留的鱼少于要加工的鱼时，从全选开始可以减少点击次数。
+        selected_all = False
         if sum(stock.values()) - sum(amounts.values()) < sum(amounts.values()):
             if not self._exchange_select_all():
                 self._exchange_clear_selection()
                 return None
-        for index, fish_id, _ in cards:
+            selected_all = True
+        for index, fish_id, card_stock in cards:
+            # 全选后的画面重绘可能晚于点击。数量已经与库存一致时无需再次设置，
+            # 否则 ui_ensure_index 会把尚未显示的选择数量误读为 0。
+            if selected_all and amounts[fish_id] == card_stock:
+                continue
             if not self._exchange_set_count(index, amounts[fish_id]):
                 self._exchange_clear_selection()
                 return None

@@ -79,6 +79,48 @@ class TestExchangeAmounts:
         assert get_fish_exchange_amounts({5107: 2}, keep={5107: -1}) == {5107: 2}
 
 
+class TestExchangeSelection:
+    def test_set_count_uses_fresh_screenshot(self, monkeypatch):
+        """鱼卡数量变化后必须重新截图，避免按旧画面重复点击。"""
+        exchange = object.__new__(IslandExchange)
+        calls = []
+        monkeypatch.setattr(exchange_module, 'Digit', lambda *args, **kwargs: object())
+
+        def ui_ensure_index(*args, **kwargs):
+            calls.append((args, kwargs))
+
+        exchange.ui_ensure_index = ui_ensure_index
+        assert exchange._exchange_set_count(0, 310) is True
+        args, kwargs = calls[0]
+        assert args == (310,)
+        assert kwargs['next_button'] == exchange_module.EXCHANGE_FISH_GRID.buttons[0]
+        assert kwargs['prev_button'] == exchange_module.EXCHANGE_FISH_MINUS_GRID.buttons[0]
+        assert kwargs['skip_first_screenshot'] is False
+
+    def test_select_all_skips_cards_at_stock(self, monkeypatch):
+        """全选后，数量和库存一致的鱼卡不应再次点击。"""
+        exchange = object.__new__(IslandExchange)
+        cards = [(0, 5107, 310)]
+        expected_gain = get_fish_meat_gain({5107: 310})
+        set_count_calls = []
+
+        exchange.device = SimpleNamespace(image=None)
+        exchange.island_shop_side_navbar_ensure = lambda **kwargs: None
+        exchange._exchange_clear_selection = lambda: 51
+        exchange._exchange_read_cards = lambda meat_id: cards
+        exchange._exchange_select_all = lambda: True
+        exchange._exchange_set_count = lambda index, amount: set_count_calls.append((index, amount)) or True
+        exchange._exchange_confirm = lambda meat_id, before, expected: before + expected
+        exchange.loop = lambda timeout=None: iter((None,))
+        monkeypatch.setattr(exchange_module, 'read_fish_counts', lambda image, indices: [310])
+        monkeypatch.setattr(exchange_module, 'read_fish_meat', lambda image: (51, expected_gain))
+
+        result = exchange.island_exchange_fish_meat(2522)
+
+        assert set_count_calls == []
+        assert result == exchange_module.FishMeatExchange(51, 51 + expected_gain, {5107: 310})
+
+
 class TestExchangeConfirm:
     @staticmethod
     def make_exchange(monkeypatch, frames, popup_frames):
