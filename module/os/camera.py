@@ -42,6 +42,35 @@ class OSCamera(OSMapOperation, Camera):
         self.radar.predict(self.device.image)
         self.radar.show()
 
+    def _load_view_at_center(self):
+        """地图网格识别失败时，使用已知中心位置加载当前 OS 视图。"""
+        def empty(*args, **kwargs):
+            pass
+
+        backend = self.view.backend
+        backup = backend.load
+        backend.load = empty
+        backend.homo_loca = (53, 60)
+        backend.left_edge = False
+        backend.right_edge = False
+        backend.lower_edge = False
+        backend.upper_edge = False
+        try:
+            self.view.load(self.device.image)
+        finally:
+            backend.load = backup
+
+    def _update_view(self):
+        """更新 OS 地图视图，并容忍一次临时的透视识别失败。"""
+        try:
+            return super()._update_view()
+        except MapDetectionError as error:
+            if str(error) != 'Failed to find a free tile':
+                raise
+            logger.warning('OS map grid detection failed, assuming camera is focused on grid center')
+            self._load_view_at_center()
+            return True
+
     def grid_is_in_sight(self, grid, camera=None, sight=None):
         location = location_ensure(grid)
         camera = location_ensure(camera) if camera is not None else self.camera
@@ -101,18 +130,7 @@ class OSCamera(OSMapOperation, Camera):
         except (MapDetectionError, AttributeError) as e:
             logger.warning(e)
             logger.warning('Assuming camera is focused on grid center')
-
-            def empty(*args, **kwargs):
-                pass
-
-            backup, self.view.backend.load = self.view.backend.load, empty
-            self.view.backend.homo_loca = (53, 60)
-            self.view.backend.left_edge = False
-            self.view.backend.right_edge = False
-            self.view.backend.lower_edge = False
-            self.view.backend.upper_edge = False
-            self.view.load(self.device.image)
-            self.view.backend.load = backup
+            self._load_view_at_center()
 
     def convert_radar_to_local(self, location):
         """
